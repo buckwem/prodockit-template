@@ -419,14 +419,13 @@ pdf_header_footer_divider_color = "#e2e8f0"
 # text `copyright` has, plus one extra line crediting the PDF pipeline
 # itself, matching the same "Made with Zensical and prodockit" line the
 # live website's own footer already shows (see overrides/partials/
-# copyright.html) - kept as its own distinct line (the "\A " forces a line
-# break; requires white-space: pre-line on the footer box, which
-# prodockit.pdf.css already sets), so removing just this one line back to
-# a plain `copyright`-only footer never touches the license text itself.
-# Requires prodockit>=0.8.0.
-pdf_copyright = '''
-Author: Mark Buckwell and contributors. Licensed under the MIT License.\A Made with Zensical and prodockit.
-'''
+# copyright.html). A real HTML fragment - a real <br> forces the line
+# break, and the two <a> links render as real, clickable links in the
+# PDF, not flattened to plain text - see prodockit-extensions' pdf.md
+# "Copyright text" docs. Removing just this one line falls back to a
+# plain `copyright`-only footer without touching the license text
+# itself. Requires prodockit>=0.9.0.
+pdf_copyright = 'Author: Mark Buckwell and contributors. Licensed under the MIT License.<br>Made with <a href="https://zensical.org/">Zensical</a> and <a href="https://buckwem.github.io/prodockit-extensions/">prodockit</a>.'
 
 
 # Generate a PDF bundle of the source files (Markdown, images, etc.) in addition to the PDF of the rendered site. This is useful for archiving or sharing the source content. PDF-only, has no effect on the live site.
