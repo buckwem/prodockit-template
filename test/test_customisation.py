@@ -401,7 +401,7 @@ def test_reference_acronym_glossary_spacing_matches_between_website_and_pdf():
     # branch and the "global" branch, not a stray hardcoded literal or the
     # wrong variable copy-pasted into the acronym/glossary block.
     css_kwargs = dict(
-        main_font="Inter", mono_font="JetBrains Mono", copyright_text="", site_name="",
+        main_font="Inter", mono_font="JetBrains Mono", site_name="",
         reference_spacing_european="-0.8em", reference_indent_global="1.27cm", reference_spacing_global="2em",
     )
     european_css = build_css(reference_style_global=False, **css_kwargs)
@@ -563,7 +563,7 @@ def test_screenshot_class_styling_matches_between_website_and_pdf():
     "no .md-typeset wrapper in Pandoc's HTML" reason as the reference/
     acronym/glossary spacing above) - checks the two stay in sync."""
     extra_css = _read(EXTRA_CSS_PATH)
-    pdf_css = build_css(main_font="Inter", mono_font="JetBrains Mono", copyright_text="", site_name="")
+    pdf_css = build_css(main_font="Inter", mono_font="JetBrains Mono", site_name="")
     for prop in ("border", "border-radius", "box-shadow"):
         website_value = _css_rule_value(extra_css, ".md-typeset img.screenshot", prop)
         pdf_value = _css_rule_value(pdf_css, "img.screenshot", prop)
