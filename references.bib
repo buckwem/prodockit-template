@@ -1,12 +1,23 @@
 % Copyright (c) 2025-2026 Mark Buckwell and contributors
 % SPDX-License-Identifier: MIT
 %
-% BibTeX source for prodockit.bibliography (see zensical.toml's
-% [project.markdown_extensions."prodockit.bibliography"]) - every entry
-% here appears on docs/references.md's \bibliography list, whether or not
-% it's actually \citebib{}-cited anywhere (matching this template's own
-% previous hand-authored reference list, which included several sources
-% never individually cited inline either).
+% BibTeX source for prodockit.bibliography's References section (see
+% zensical.toml's [project.markdown_extensions."prodockit.bibliography"]
+% and docs/references.md's \bibliography{}{true}). Deliberately contains
+% one entry (shotts2019) that's never \citebib{}-cited anywhere, alongside
+% three that are (skou2023, chacon2014, pythonmarkdown2023) - so the
+% References page's {true} filter has something real to demonstrate:
+% only the three actually-cited entries appear there, not all four in
+% this file. See bibliography.bib for further-reading sources never
+% individually cited, shown in full instead.
+
+@book{skou2023,
+  author    = {Skoulikari, Anna},
+  title     = {Learning Git: A Hands-On and Visual Guide to the Basics of Git},
+  year      = {2023},
+  publisher = {O'Reilly Media},
+  address   = {Sebastopol, CA}
+}
 
 @book{chacon2014,
   author    = {Chacon, Scott and Straub, Ben},
@@ -19,34 +30,6 @@
   urldate   = {2026-07-11}
 }
 
-@misc{markdownguidend,
-  author  = {{Markdown Guide}},
-  title   = {Markdown Guide},
-  url     = {https://www.markdownguide.org/},
-  urldate = {2026-07-11}
-}
-
-@misc{mathjaxnd,
-  author  = {{MathJax}},
-  title   = {MathJax documentation},
-  url     = {https://www.mathjax.org/},
-  urldate = {2026-07-11}
-}
-
-@misc{mermaidnd,
-  author  = {{Mermaid}},
-  title   = {Mermaid documentation},
-  url     = {https://mermaid.js.org/},
-  urldate = {2026-07-11}
-}
-
-@misc{microsoftnd,
-  author  = {{Microsoft}},
-  title   = {Visual Studio Code documentation},
-  url     = {https://code.visualstudio.com/docs},
-  urldate = {2026-07-11}
-}
-
 @misc{pythonmarkdown2023,
   author  = {{Python-Markdown}},
   title   = {Python-Markdown documentation},
@@ -55,6 +38,7 @@
   urldate = {2026-07-11}
 }
 
+% Deliberately uncited - see this file's own header comment above.
 @book{shotts2019,
   author    = {Shotts, William},
   title     = {The Linux Command Line: A Complete Introduction},
@@ -64,26 +48,4 @@
   address   = {San Francisco},
   url       = {https://linuxcommand.org/tlcl.php},
   urldate   = {2026-07-11}
-}
-
-@book{skou2023,
-  author    = {Skoulikari, Anna},
-  title     = {Learning Git: A Hands-On and Visual Guide to the Basics of Git},
-  year      = {2023},
-  publisher = {O'Reilly Media},
-  address   = {Sebastopol, CA}
-}
-
-@misc{valend,
-  author  = {{Vale}},
-  title   = {Vale documentation},
-  url     = {https://vale.sh/},
-  urldate = {2026-07-11}
-}
-
-@misc{zensicalnd,
-  author  = {{Zensical}},
-  title   = {Zensical documentation},
-  url     = {https://zensical.org/docs/},
-  urldate = {2026-07-11}
 }

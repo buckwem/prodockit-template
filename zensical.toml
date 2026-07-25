@@ -71,7 +71,8 @@ nav = [
   {"Appendixes" = [
     {"Appendix A. Acronyms" = "acronyms.md"},
     {"Appendix B. Glossary" = "glossary.md"},
-    {"Appendix C. References" = "references.md"}
+    {"Appendix C. References" = "references.md"},
+    {"Appendix D. Bibliography" = "bibliography.md"}
   ]}
 ]
 
@@ -484,9 +485,14 @@ custom_checkbox = true
 # that resolve to the target's current number; prodockit.bibliography adds
 # \citebib{id} citations, resolved against references.bib (see below) and
 # formatted via Pandoc's own --citeproc, plus a \bibliography marker that
-# generates the whole reference list (see docs/references.md) - issue #118
-# replaced this template's earlier prodockit.citations-based approach
-# (hand-typed \cite{id} paragraphs) with this one, since editing one .bib
+# generates a reference list - split across two pages/files: docs/
+# references.md's \bibliography{}{true} lists only sources actually
+# \citebib{}-cited (from references.bib, the bib_file configured below),
+# and docs/bibliography.md's \bibliography{bibliography.bib} lists every
+# further-reading source in that separate file regardless of citation
+# status - issue #118 replaced this template's earlier
+# prodockit.citations-based approach (hand-typed \cite{id} paragraphs)
+# with this one, since editing one .bib
 # entry now updates every citation of it, and the CSL style is swappable
 # in one place; prodockit.glossary adds \gls{id} - define a term once via
 # attr_list's data-term attribute (see docs/acronyms.md/docs/glossary.md),
