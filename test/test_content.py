@@ -37,12 +37,15 @@ def _page_starting_with(pdf_full_text, heading_prefix):
 
 
 def test_appendix_pages_have_no_leaked_attr_list_syntax(pdf_full_text):
-    """References/Acronyms/Glossary entries are written as attr_list
-    (paragraph + "{: #id .class }") in their source .md files - resolved by
-    the real attr_list Markdown extension when Zensical renders each page
-    (the same pipeline `prodockit pdf` uses, before Pandoc ever sees the
-    result - see "References and bibliography" in customise.md), identical
-    to how the website itself handles it. If that ever broke, the raw
+    """Acronyms/Glossary entries are written as attr_list (paragraph +
+    "{: #id .class }") in their source .md files - resolved by the real
+    attr_list Markdown extension when Zensical renders each page (the same
+    pipeline `prodockit pdf` uses, before Pandoc ever sees the result - see
+    "References and bibliography" in customise.md), identical to how the
+    website itself handles it. References is generated entirely by
+    prodockit.bibliography's own \\bibliography marker instead (issue
+    #118) - no attr_list there at all, so nothing to leak either way. If
+    attr_list handling ever broke on the other two pages, the raw
     "{: #id ... }" text would leak straight into the PDF as visible body
     text."""
     headings = {
