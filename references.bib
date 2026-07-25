@@ -1,0 +1,51 @@
+% Copyright (c) 2025-2026 Mark Buckwell and contributors
+% SPDX-License-Identifier: MIT
+%
+% BibTeX source for prodockit.bibliography's References section (see
+% zensical.toml's [project.markdown_extensions."prodockit.bibliography"]
+% and docs/references.md's \bibliography{}{true}). Deliberately contains
+% one entry (shotts2019) that's never \citebib{}-cited anywhere, alongside
+% three that are (skou2023, chacon2014, pythonmarkdown2023) - so the
+% References page's {true} filter has something real to demonstrate:
+% only the three actually-cited entries appear there, not all four in
+% this file. See bibliography.bib for further-reading sources never
+% individually cited, shown in full instead.
+
+@book{skou2023,
+  author    = {Skoulikari, Anna},
+  title     = {Learning Git: A Hands-On and Visual Guide to the Basics of Git},
+  year      = {2023},
+  publisher = {O'Reilly Media},
+  address   = {Sebastopol, CA}
+}
+
+@book{chacon2014,
+  author    = {Chacon, Scott and Straub, Ben},
+  title     = {Pro Git},
+  edition   = {2},
+  year      = {2014},
+  publisher = {Apress},
+  address   = {New York},
+  url       = {https://git-scm.com/book},
+  urldate   = {2026-07-11}
+}
+
+@misc{pythonmarkdown2023,
+  author  = {{Python-Markdown}},
+  title   = {Python-Markdown documentation},
+  year    = {2023},
+  url     = {https://python-markdown.github.io/},
+  urldate = {2026-07-11}
+}
+
+% Deliberately uncited - see this file's own header comment above.
+@book{shotts2019,
+  author    = {Shotts, William},
+  title     = {The Linux Command Line: A Complete Introduction},
+  edition   = {2},
+  year      = {2019},
+  publisher = {No Starch Press},
+  address   = {San Francisco},
+  url       = {https://linuxcommand.org/tlcl.php},
+  urldate   = {2026-07-11}
+}

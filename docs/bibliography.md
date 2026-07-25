@@ -12,8 +12,8 @@ is_appendix: true
 {{ heading_counter_reset(page) }}
 {{ reference_style() }}
 
-# References
+# Bibliography
 
-The following sources are cited directly in this document.
+The following sources provide additional context, research, and further reading beyond what's directly cited in this document.
 
-\bibliography{}{true}
+\bibliography{bibliography.bib}
