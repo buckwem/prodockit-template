@@ -481,22 +481,24 @@ custom_checkbox = true
 # prodockit.headings gives every heading an id and a hierarchical section
 # number (reusing the "toc" extension above for the id/permalink, rather
 # than re-deriving it); prodockit.refs adds \ref{id} section cross-references
-# that resolve to the target's current number; prodockit.citations adds
-# \cite{id} citations - define a source once via attr_list's
-# data-cite-text attribute (see docs/references.md), cite it anywhere;
-# prodockit.glossary adds \gls{id} - define a term once via attr_list's
-# data-term attribute (see docs/acronyms.md/docs/glossary.md), insert it
-# anywhere; prodockit.bibliography adds \citebib{id} bibliography-style
-# citations (separate syntax from prodockit.citations' own \cite{id}, so
-# both can be enabled together with no conflict - see prodockit.bibliography's
-# own "Comparing the two approaches"); prodockit.tables adds a width
-# attribute to attr_list-tagged table header cells; prodockit.index adds
-# \index{Term} markers for prodockit.pdf's own PDF-only back-of-book index
-# (opt-in per the pdf_include_index setting below - marking a term here
-# doesn't turn the index page on by itself). Unlike pymdownx/zensical's own
-# namespaces, Zensical doesn't hoist a nested "prodockit.headings" table
-# into that dotted extension name, so these need a quoted key instead - see
-# https://buckwem.github.io/prodockit-extensions/ and prodockit-template#25/#87.
+# that resolve to the target's current number; prodockit.bibliography adds
+# \citebib{id} citations, resolved against references.bib (see below) and
+# formatted via Pandoc's own --citeproc, plus a \bibliography marker that
+# generates the whole reference list (see docs/references.md) - issue #118
+# replaced this template's earlier prodockit.citations-based approach
+# (hand-typed \cite{id} paragraphs) with this one, since editing one .bib
+# entry now updates every citation of it, and the CSL style is swappable
+# in one place; prodockit.glossary adds \gls{id} - define a term once via
+# attr_list's data-term attribute (see docs/acronyms.md/docs/glossary.md),
+# insert it anywhere; prodockit.tables adds a width attribute to
+# attr_list-tagged table header cells; prodockit.index adds \index{Term}
+# markers for prodockit.pdf's own PDF-only back-of-book index (opt-in -
+# unset here, so marking a term doesn't turn the index page on by itself;
+# set pdf_include_index = true under [project.extra] to enable it). Unlike
+# pymdownx/zensical's own namespaces, Zensical doesn't hoist a nested
+# "prodockit.headings" table into that dotted extension name, so these
+# need a quoted key instead - see
+# https://buckwem.github.io/prodockit-extensions/ and prodockit-template#25/#87/#118.
 [project.markdown_extensions."prodockit.headings"]
 # numbering = "continuous" makes h1 numbering carry on across pages in nav
 # order (page two's first h1 continues from wherever page one left off)
@@ -508,9 +510,16 @@ custom_checkbox = true
 # sequence.
 numbering = "continuous"
 [project.markdown_extensions."prodockit.refs"]
-[project.markdown_extensions."prodockit.citations"]
 [project.markdown_extensions."prodockit.glossary"]
 [project.markdown_extensions."prodockit.bibliography"]
+# bib_file/csl_style are both resolved relative to wherever
+# `zensical build`/`zensical serve`/`prodockit pdf` is run from - typically
+# the project root, where references.bib and harvard-cite-them-right.csl
+# both live. Requires Pandoc on PATH - unlike every other prodockit
+# extension, this one needs it even for the live website, not just the
+# PDF (see "Requirements" in prodockit.bibliography's own docs).
+bib_file = "references.bib"
+csl_style = "harvard-cite-them-right.csl"
 [project.markdown_extensions."prodockit.tables"]
 [project.markdown_extensions."prodockit.index"]
 [project.markdown_extensions.pymdownx.snippets]
