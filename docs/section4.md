@@ -19,7 +19,7 @@ prodockit capabilities demonstrated in this document
 
 | Capability | Syntax | Where |
 |---|---|---|
-| Citations | `\citebib{id}` | Section 1 |
+| Citations | `\cite{id}` | Section 1 |
 | Acronyms | `\gls{id}` | Section 1 |
 | Glossary | `\gls{id}` | Section 1 |
 | Cross-references | `\ref{id}` | Section 2 |
