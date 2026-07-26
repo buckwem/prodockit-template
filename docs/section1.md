@@ -13,7 +13,7 @@ icon: lucide/book-open
 
 ## SubSection {: #bibliography-example }
 
-Git is a tool used to manage version control in software development with many developers making changes at the same time.\citebib{skou2023} A more detailed introduction is also available.\citebib{chacon2014}
+Git is a tool used to manage version control in software development with many developers making changes at the same time.\cite{skou2023} A more detailed introduction is also available.\cite{chacon2014}
 
 Above is an example of using references in a document. Each citation is linked to its own entry on the References page, which lists only the sources actually cited here - automatically generated from references.bib.
 
@@ -31,7 +31,7 @@ Above is an example of using acronyms in a document. The acronym is linked to th
 
 ## SubSection {: #glossary-example }
 
-This document is written in \gls{markdown-def}\citebib{pythonmarkdown2023}, then converted into the website and PDF you're reading.
+This document is written in \gls{markdown-def}\cite{pythonmarkdown2023}, then converted into the website and PDF you're reading.
 
 Above is an example of using a glossary in a document. The term is linked to the glossary section of the document, which is automatically generated from the glossary.md file.
 
