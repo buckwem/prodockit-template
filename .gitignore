@@ -13,6 +13,11 @@
 # -----------------------------------------------------------------------------
 tools/mermaid/node_modules
 
+# Intermediate .mmd/.svg files prodockit.pdf.mermaid writes while pre-
+# rendering each ```mermaid fence for the PDF (see docs/section4.md's own
+# diagram) - not build output itself, just scratch space.
+docs/.prodockit-pdf-mermaid/
+
 # -----------------------------------------------------------------------------
 # Node (mathjax-full, used by `prodockit pdf` to pre-render TeX math)
 # -----------------------------------------------------------------------------
