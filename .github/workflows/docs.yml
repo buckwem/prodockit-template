@@ -27,7 +27,14 @@ jobs:
       # the apt-installed Google Chrome below instead of Puppeteer's own
       # bundled download avoids guessing at headless-Chrome shared-library
       # package names.
-      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+      #
+      # PUPPETEER_SKIP_DOWNLOAD, not the older
+      # PUPPETEER_SKIP_CHROMIUM_DOWNLOAD - Puppeteer renamed it, and
+      # mermaid-cli ^11.4.2 resolves to puppeteer 25.x, which only honours
+      # the new name. Under the old name the skip silently does nothing and
+      # a full Chrome build is downloaded on every run before falling back
+      # to the apt one below.
+      PUPPETEER_SKIP_DOWNLOAD: "true"
       PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
       # Ubuntu's own "pandoc" apt package lags several major versions behind
       # upstream (3.1.3 on 24.04 at time of writing) - old enough that some
