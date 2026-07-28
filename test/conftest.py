@@ -15,16 +15,18 @@ from pathlib import Path
 
 import fitz
 import pytest
-import toml
-import zensical.config as zensical_config_module
 from bs4 import BeautifulSoup
 from prodockit.settings import flatten_nav
 from prodockit.zensical_macros import _compute_site_word_count, _front_matter_flag
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-PDF_PATH = REPO_ROOT / "docs" / "site_documentation.pdf"
-PUBLIC_DIR = REPO_ROOT / "public"
 ZENSICAL_TOML_PATH = REPO_ROOT / "zensical.toml"
+
+# The built PDF and site directories are deliberately *not* constants here.
+# Their locations are configurable (`pdf_output`, `site_dir`), so hardcoding
+# them meant this suite silently tested the wrong paths if either changed.
+# prodockit.testing's plugin resolves both from zensical.toml, and the
+# fixtures below delegate to it - see the `pdf_path`/`public_dir` fixtures.
 
 
 def _import_repo_module(name):
@@ -50,25 +52,23 @@ def macros():
 
 
 @pytest.fixture(scope="session")
-def zensical_config():
-    if not ZENSICAL_TOML_PATH.exists():
-        pytest.fail("zensical.toml not found at repo root")
-    return toml.load(ZENSICAL_TOML_PATH)
+def zensical_config(prodockit_config):
+    """zensical.toml as raw parsed TOML. Delegates to prodockit.testing's
+    own fixture; kept under this name because a dozen tests use it."""
+    return prodockit_config
 
 
 @pytest.fixture(scope="session")
-def resolved_zensical_config():
+def resolved_zensical_config(prodockit_resolved_config):
     """zensical.toml, parsed and resolved through Zensical's own loader
-    (`zensical.config.parse_config()`) rather than a raw `toml.load()` -
+    (`zensical.config.parse_config()`) rather than raw TOML -
     `nav` here is Zensical's own already-resolved nav tree (each item
     carrying `url`/`is_index`/`children`), the same shape
     `prodockit.zensical_macros`/`prodockit.pdf.config` work with. Used where a
     test needs that resolved shape specifically (nav walking, or calling
     into `prodockit.zensical_macros`'s own functions directly) - most other
     tests use the `zensical_config` fixture's raw structure instead."""
-    if not ZENSICAL_TOML_PATH.exists():
-        pytest.fail("zensical.toml not found at repo root")
-    return zensical_config_module.parse_config(str(ZENSICAL_TOML_PATH))
+    return prodockit_resolved_config
 
 
 @pytest.fixture(scope="session")
@@ -141,37 +141,35 @@ def count_top_level_headings(path):
 
 
 @pytest.fixture(scope="session")
-def pdf_doc():
-    if not PDF_PATH.exists():
-        pytest.fail(
-            f"{PDF_PATH} not found - run `prodockit pdf` before running the test suite"
-        )
-    doc = fitz.open(PDF_PATH)
-    if doc.page_count == 0:
-        pytest.fail(f"{PDF_PATH} opened but has no pages")
-    yield doc
-    doc.close()
+def pdf_path(prodockit_paths):
+    """Where the built PDF actually is, per zensical.toml's `pdf_output`."""
+    return prodockit_paths.pdf
 
 
 @pytest.fixture(scope="session")
-def pdf_full_text(pdf_doc):
+def pdf_doc(prodockit_pdf):
+    """The built PDF, opened. Delegates to prodockit.testing's own fixture,
+    which resolves the path from the config and fails with a message naming
+    the build step when it is missing."""
+    return prodockit_pdf
+
+
+@pytest.fixture(scope="session")
+def pdf_full_text(prodockit_pdf_page_texts):
     """The whole PDF's text, one string per page, in page order."""
-    return [page.get_text() for page in pdf_doc]
+    return prodockit_pdf_page_texts
 
 
 @pytest.fixture(scope="session")
-def public_dir():
-    if not PUBLIC_DIR.exists() or not (PUBLIC_DIR / "index.html").exists():
-        pytest.fail(
-            f"{PUBLIC_DIR} not found or missing index.html - run `zensical build` before running the test suite"
-        )
-    return PUBLIC_DIR
+def public_dir(prodockit_site_dir):
+    """The built site directory, per zensical.toml's `site_dir`."""
+    return prodockit_site_dir
 
 
 @pytest.fixture(scope="session")
-def public_html_files(public_dir):
-    """Every built HTML page under public/, as a sorted list of Paths."""
-    return sorted(public_dir.rglob("*.html"))
+def public_html_files(prodockit_site_html_files):
+    """Every built HTML page under the site directory, sorted."""
+    return prodockit_site_html_files
 
 
 def soup_for(html_path):
