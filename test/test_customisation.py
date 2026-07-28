@@ -32,6 +32,8 @@ import hashlib
 import inspect
 import re
 
+import fitz
+
 from prodockit.pdf.build import build_pdf
 from prodockit.pdf.css import build_css
 from prodockit.pdf.icons import build_icon_registry, discover_icon_dirs
@@ -88,20 +90,49 @@ def test_built_website_includes_the_active_logo_files(public_dir):
     assert (public_dir / "assets" / "logo_white.png").exists()
 
 
-def test_pdf_cover_page_has_an_embedded_logo_image(pdf_doc):
+def _centred_cover_graphic(page):
+    """Image or vector content that is horizontally centred and narrower than
+    the text column - the shape of this cover's own graphic, and not of the
+    page furniture that surrounds it.
+
+    Measured against the real built PDF: the graphic's shapes sit around the
+    page centre and span roughly a third of its width, while every other
+    drawing in the document is either a full-width content band (tables,
+    rules) or anchored to a margin (header, footer). Both branches of the
+    cover are covered, since the Surrey branch uses a raster PNG and the
+    default branch an SVG that WeasyPrint paints as vector paths.
+    """
+    page_centre = page.rect.width / 2
+    candidates = [fitz.Rect(info["bbox"]) for info in page.get_image_info()]
+    candidates += [d["rect"] for d in page.get_drawings() if d["rect"].get_area() > 500]
+    for rect in candidates:
+        if rect.width > page.rect.width * 0.6:
+            continue  # a full-width band, not the centred graphic
+        if abs((rect.x0 + rect.x1) / 2 - page_centre) > 25:
+            continue  # anchored to a margin, not centred
+        return rect
+    return None
+
+
+def test_pdf_cover_page_has_its_centred_graphic(pdf_doc):
     """The website check above only confirms the right logo *files* exist -
-    this confirms the PDF cover page actually embeds one, using
-    get_image_info() (bounding boxes of images actually drawn on this
-    specific page) rather than get_images() (every image in the PDF's
-    shared resource pool, most of which - e.g. Figure 11.3/11.4's header/
-    footer diagrams - live nowhere near the cover page). Also accepts
-    get_drawings() - the cover page's own hero graphic is an SVG, and
-    WeasyPrint renders an embedded SVG as native vector paths, not a
-    raster image XObject (the same distinction test_zensical_basics.py's
-    icon/emoji tests already rely on)."""
-    page = pdf_doc[0]
-    assert page.get_image_info() or page.get_drawings(), (
-        "No image or vector drawing found on the PDF cover page"
+    this confirms the PDF cover page actually shows its graphic.
+
+    The previous version asserted `page.get_image_info() or
+    page.get_drawings()`, which could not fail: `get_image_info()` is empty
+    on this cover (the default branch's graphic is an SVG, painted as vector
+    paths rather than an embedded raster), so it always fell through to
+    `get_drawings()` - and every page in the document has vector content,
+    header and footer rules included. Removing the graphic entirely would
+    have left it passing.
+
+    Position is what discriminates here, not the mere presence of drawing
+    operations. See `_centred_cover_graphic`.
+    """
+    graphic = _centred_cover_graphic(pdf_doc[0])
+    assert graphic is not None, (
+        "No centred graphic found on the PDF cover page - the cover image "
+        "did not render"
     )
 
 
