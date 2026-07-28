@@ -33,20 +33,36 @@ capabilities table), and these tests check the actual built
 docs/site_documentation.pdf for either one having reached it as raw
 source instead of a rendered image.
 
-The Mermaid detection regex is ported from prodockit-userguide#25, not
-reinvented: a keyword-only check flagged ordinary prose ("a visual commit
-graph and richer history browsing") that happened to wrap so a diagram
-keyword began a PDF line - passing locally and failing in CI purely
-because different fonts wrapped the same sentence differently. Requiring
-Mermaid's own link syntax nearby as well fixes that without weakening the
-check: an unrendered fence dumps the whole block, so the arrows are always
-there, while prose that merely starts a line with "graph" has nothing
-resembling them."""
+The Mermaid and TeX detection itself now comes from `prodockit.testing`
+rather than a copy kept here (issue #128). Two findings this project made
+against its own build live upstream now, so every prodockit project gets
+them:
 
-import re
+- A keyword alone is not enough. Prose wrapping so an ordinary English word
+  like "graph" begins a PDF line was read as an unrendered diagram - passing
+  locally and failing in CI purely because different fonts wrapped the same
+  sentence differently (prodockit-userguide#25).
+- Nor are arrows alone. This project's PDF body font (JetBrains Mono, see
+  zensical.toml's mono_font) has programming ligatures, so "-->" extracts
+  back out of the PDF as "//>" - confirmed against the real built PDF, and
+  confirmed the website's own HTML has the correct unmangled arrows, so it
+  is an extraction artifact of the ligature glyph rather than a difference
+  in what was written. Node-definition brackets survive intact and are
+  checked as an equally valid signal (prodockit-extensions#135, released in
+  0.15.2).
+
+Accepting bracket syntax needed the keywords tightened upstream too, or it
+would have fired on ordinary technical prose - "graph"/"flowchart" now
+require their direction token, and the diagram types that are also plain
+English words accept only arrow or entity-relationship evidence."""
 
 import pytest
 from prodockit.pdf.config import _find_mmdc_bin, _find_tex2svg_script
+from prodockit.testing import (
+    assert_no_unrendered_mermaid,
+    assert_no_unrendered_tex,
+    contains_unrendered_mermaid,
+)
 
 
 def _fence_is_configured(zensical_config, fence_name):
@@ -86,76 +102,12 @@ def test_maths_renderer_is_available_when_arithmatex_is_configured(zensical_conf
     )
 
 
-# A rendered diagram contributes vector drawings, not text, so a Mermaid
-# diagram-type keyword still present as text means the fenced ```mermaid
-# block was passed through as a literal code block.
-#
-# The keyword alone is not enough to conclude that, though (prodockit-
-# userguide#25): line breaks in a PDF fall wherever the text happens to
-# wrap, and several of these words are ordinary English - a false positive
-# there was "graph" starting a line inside an unrelated sentence. So
-# require a diagram-type keyword *and* Mermaid's own syntax shortly after
-# it: an unrendered fence dumps the whole block, so that syntax is always
-# there, while prose that happens to start a line with "graph" has nothing
-# resembling it.
-#
-# Confirmed directly against this project's own real built PDF (with the
-# renderer genuinely absent) that its arrow syntax alone isn't a reliable
-# signal here: this project's PDF body font (JetBrains Mono, see
-# zensical.toml's mono_font) has programming ligatures, and "-->"/"-->|"
-# extract back from the PDF as "//>"/"//>|" instead of literal text -
-# confirmed the website's own HTML has the correct, unmangled "-->", so
-# this is a PDF-text-extraction artifact of the ligature glyph, not a
-# genuine difference in what was written. Node-definition bracket syntax
-# (`id[Label]`/`id{Label}`) isn't part of any ligature substitution and
-# survives extraction intact, so it's checked as an equally-valid signal
-# alongside the arrow syntax rather than in place of it - either one, on
-# its own, still requires the diagram keyword to have matched first.
-_MERMAID_KEYWORD_RE = re.compile(
-    r"^\s*(graph|flowchart|sequenceDiagram|stateDiagram(?:-v2)?|classDiagram|erDiagram|"
-    r"gantt|journey|pie|gitGraph|mindmap|timeline)\b",
-)
-_MERMAID_LINK_RE = re.compile(
-    r"--+>|--+\||-\.->|==+>|->>|--\s*$|\w+\[[^\]\n]+\]|\w+\{[^}\n]+\}"
-)
-# How far after the keyword line to look for that syntax - a diagram's first
-# link is on the very next line in practice; a few lines of slack covers a
-# declaration or comment in between.
-_MERMAID_LOOKAHEAD_LINES = 6
-
-
-def find_literal_mermaid_source(text):
-    """Returns True if `text` (one PDF page) looks like it contains a
-    Mermaid block that was never rendered."""
-    lines = text.splitlines()
-    for i, line in enumerate(lines):
-        if not _MERMAID_KEYWORD_RE.match(line):
-            continue
-        window = lines[i : i + 1 + _MERMAID_LOOKAHEAD_LINES]
-        if any(_MERMAID_LINK_RE.search(candidate) for candidate in window):
-            return True
-    return False
-
-
-# Likewise for maths: rendered output is an image, so a surviving TeX
-# delimiter or command means the formula was never pre-rendered.
-_TEX_SOURCE_RE = re.compile(r"\\\[|\\\]|\\sum_|\\frac\{|\\infty|\\begin\{|\\cos ")
-
-
 def test_no_page_contains_literal_mermaid_source(pdf_full_text):
-    offenders = [i for i, text in enumerate(pdf_full_text) if find_literal_mermaid_source(text)]
-    assert not offenders, (
-        f"Literal Mermaid source found on PDF page(s) {offenders} - the diagram was "
-        "passed through as a code block instead of being pre-rendered to an image"
-    )
+    assert_no_unrendered_mermaid(pdf_full_text)
 
 
 def test_no_page_contains_literal_tex_source(pdf_full_text):
-    offenders = [i for i, text in enumerate(pdf_full_text) if _TEX_SOURCE_RE.search(text)]
-    assert not offenders, (
-        f"Literal TeX source found on PDF page(s) {offenders} - the formula was not "
-        "pre-rendered to an image"
-    )
+    assert_no_unrendered_tex(pdf_full_text)
 
 
 # The paragraph immediately following docs/section4.md's own diagram -
@@ -204,7 +156,7 @@ def test_prose_that_merely_starts_a_line_with_a_diagram_keyword_is_not_flagged()
         "graph and richer history browsing. It's especially useful once\n"
         "you're using the branches and issues workflow.\n"
     )
-    assert not find_literal_mermaid_source(wrapped_prose)
+    assert not contains_unrendered_mermaid(wrapped_prose)
 
 
 def test_a_genuinely_unrendered_block_is_still_flagged():
@@ -216,4 +168,4 @@ def test_a_genuinely_unrendered_block_is_still_flagged():
         "  A[Start] --> B{Error?};\n"
         "  B -->|Yes| C[Hmm...];\n"
     )
-    assert find_literal_mermaid_source(unrendered)
+    assert contains_unrendered_mermaid(unrendered)

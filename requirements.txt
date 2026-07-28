@@ -3,7 +3,12 @@
 
 # File to list prerequisites for the project. This file is used by the CI/CD pipeline to install dependencies before building the documentation.
 zensical
-prodockit>=0.12.0
+# >=0.15.2 covers the pieces this project now relies on rather than
+# carrying its own copy: `prodockit sync-repo` (0.13.0), which replaced
+# sync_repo_icon.py, and prodockit.testing's Mermaid/TeX checks (0.15.2,
+# which added the font-ligature handling this project discovered) - see
+# issue #128.
+prodockit>=0.15.2
 mkdocstrings-python
 pandoc
 toml
