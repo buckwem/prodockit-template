@@ -27,6 +27,29 @@ from pathlib import Path
 from prodockit.zensical_macros import define_env as _prodockit_define_env
 
 
+TARGET_DOMAIN = 'surrey.ac.uk'
+
+
+def _host_is_surrey(host):
+    """True if `host` is the Surrey domain itself or a host beneath it.
+
+    A hostname comparison rather than a substring one, because that is what
+    CI_SERVER_HOST holds. It was previously compared with `==` against
+    'surrey.ac.uk', which could never match: GitLab sets CI_SERVER_HOST to
+    the instance hostname, and Surrey's is 'gitlab.surrey.ac.uk'. The branch
+    silently never ran, and the other two checks in _detect_is_surrey()
+    happened to cover for it - see issue #132.
+
+    Kept as its own function so the comparison can be tested directly. The
+    checks around it read the git remote and Zensical's config, so a test of
+    _detect_is_surrey() as a whole gets a different answer depending on which
+    clone it runs in - which is exactly how the original defect stayed
+    invisible.
+    """
+    host = (host or '').strip().lower().rstrip('.')
+    return host == TARGET_DOMAIN or host.endswith('.' + TARGET_DOMAIN)
+
+
 def _detect_is_surrey(env=None):
     """True if this checkout appears to be building for the University of
     Surrey - checked via the GitLab CI/CD pipeline's own CI_SERVER_HOST env
@@ -40,10 +63,10 @@ def _detect_is_surrey(env=None):
     against - see test_customisation.py's site-logo tests, which run
     unchanged against both this repo's GitHub Actions pipeline (non-Surrey)
     and its Surrey GitLab mirror pipeline (Surrey)."""
-    target_domain = 'surrey.ac.uk'
+    target_domain = TARGET_DOMAIN
 
     # Check 1: GitLab CI/CD Pipeline environment
-    if os.getenv('CI_SERVER_HOST') == target_domain:
+    if _host_is_surrey(os.getenv('CI_SERVER_HOST')):
         return True
 
     # Check 2: Local Git Remote Origin (Perfect for local 'zensical serve' testing)
