@@ -11,7 +11,7 @@ pass/fail.
 Run the builds first - these tests check the *built* output, they don't
 build it themselves:
 
-    python sync_repo_icon.py   # only needed after changing the git remote
+    prodockit sync-repo        # only needed after changing the git remote
     prodockit pdf
     zensical build
     cp source_bundle.pdf public/source_bundle.pdf   # see .github/workflows/docs.yml

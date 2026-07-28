@@ -4,7 +4,7 @@
 """Shared fixtures for the test suite (see issue #44). Tests here check the
 *built output* - the website in public/ and the PDF at
 docs/site_documentation.pdf - not the build process itself; run
-`prodockit pdf` and `zensical build` (or `python sync_repo_icon.py`
+`prodockit pdf` and `zensical build` (or `prodockit sync-repo`
 first, if you've just changed the git remote) before running these tests.
 See test/run_tests.py for the runner and CONTRIBUTING.md for usage."""
 
