@@ -38,7 +38,7 @@ from prodockit.pdf.icons import build_icon_registry, discover_icon_dirs
 from prodockit.settings import reference_style_values
 from prodockit.zensical_macros import _get_repo_url
 
-from conftest import PDF_PATH, REPO_ROOT, soup_for
+from conftest import REPO_ROOT, soup_for
 
 EXTRA_CSS_PATH = REPO_ROOT / "docs" / "stylesheets" / "extra.css"
 

@@ -7,7 +7,7 @@ the artifacts on disk are complete and openable. See conftest.py for the
 pdf_doc/public_dir fixtures, which already fail with a clear message if the
 artifacts are missing entirely."""
 
-from conftest import PDF_PATH, soup_for
+from conftest import soup_for
 
 
 def test_pdf_opens_and_has_pages(pdf_doc):
@@ -22,8 +22,8 @@ def test_pdf_has_a_reasonable_page_count(pdf_doc):
     assert pdf_doc.page_count > 5
 
 
-def test_pdf_file_is_not_suspiciously_small(pdf_doc):
-    assert PDF_PATH.stat().st_size > 50_000
+def test_pdf_file_is_not_suspiciously_small(pdf_path):
+    assert pdf_path.stat().st_size > 50_000
 
 
 def test_website_cover_page_renders(public_dir):
