@@ -24,6 +24,23 @@ pages:
     # rather than silently drifting whenever the base image's own package
     # updates. Keep in sync with .github/workflows/docs.yml's PANDOC_VERSION.
     PANDOC_VERSION: "3.10"
+    # mermaid-cli drives Chrome through Puppeteer to rasterise diagrams.
+    # Point it at the apt-installed Chrome further down rather than letting
+    # Puppeteer download its own, and skip that download entirely.
+    #
+    # PUPPETEER_SKIP_DOWNLOAD, not the older
+    # PUPPETEER_SKIP_CHROMIUM_DOWNLOAD - Puppeteer renamed it, and
+    # mermaid-cli ^11.4.2 resolves to puppeteer 25.x, which honours only the
+    # new name. Under the old one the skip silently does nothing and a full
+    # Chrome build is downloaded on every run before being discarded in
+    # favour of PUPPETEER_EXECUTABLE_PATH anyway.
+    #
+    # Set here rather than as `export` lines in `script:` so they apply to
+    # the whole job regardless of step order - as exports they sat a few
+    # lines above `npm ci`, and reordering the script would have quietly
+    # reintroduced the problem.
+    PUPPETEER_SKIP_DOWNLOAD: "true"
+    PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
   script:
     - apt-get update
     - apt-get install -y curl gnupg ca-certificates
@@ -47,8 +64,6 @@ pages:
     - echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
     - apt-get update
     - apt-get install -y google-chrome-stable
-    - export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    - export PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     - pip install -r requirements.txt -r testrequirements.txt
