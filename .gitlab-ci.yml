@@ -67,7 +67,8 @@ pages:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     - pip install -r requirements.txt -r testrequirements.txt
-    - python sync_repo_icon.py
+    # Was sync_repo_icon.py; now provided by prodockit itself (#128).
+    - prodockit sync-repo
     - prodockit pdf
     - zensical build --clean
     # source_bundle.pdf (from pdf_source_bundle in zensical.toml) is written

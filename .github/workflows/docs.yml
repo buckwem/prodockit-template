@@ -114,7 +114,12 @@ jobs:
       - run: npm ci --prefix tools/mermaid
       - run: npm ci --prefix tools/mathjax
       - run: pip install -r requirements.txt -r testrequirements.txt
-      - run: python sync_repo_icon.py
+      # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
+      # row matching whichever remote this checkout is published from.
+      # Was sync_repo_icon.py; now provided by prodockit itself, which
+      # also detects the default branch rather than assuming "main" -
+      # the case that matters when this template is forked (#128).
+      - run: prodockit sync-repo
       - run: prodockit pdf
       - run: zensical build --clean
       # source_bundle.pdf (from pdf_source_bundle in zensical.toml) is
