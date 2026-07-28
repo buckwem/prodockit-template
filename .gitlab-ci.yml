@@ -6,6 +6,13 @@ pages:
   image: python:latest
   tags:
     - pages
+  # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
+  # only one instance of this job runs at a time, so two pipelines started
+  # close together (a release published shortly after its version-bump push,
+  # or two pushes in quick succession) can't both be publishing at once and
+  # leave the older build live. Nothing fails when that happens, which is
+  # what makes it worth preventing rather than detecting.
+  resource_group: pages
   variables:
     # The base image's own "pandoc" apt package lags several major versions
     # behind upstream - old enough that some markdown edge cases (e.g.

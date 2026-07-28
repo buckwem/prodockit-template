@@ -26,6 +26,26 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+
+# Two deploys can be in flight at once - publishing a release right after
+# merging its version bump triggers one for the push and one for the
+# release - and without a concurrency group they race. The loser is not
+# necessarily the one that started first: on prodockit-extensions' 0.15.1
+# release the *later* run finished later and reported success, yet the
+# earlier run's deployment is the one that stayed live.
+#
+# Nothing fails when this happens, so the only symptom is stale content on
+# the published site. Here that would mean the site and its downloadable
+# PDFs silently coming from different commits.
+#
+# `cancel-in-progress: false` rather than true: a queued deploy should wait
+# and then supersede, not be discarded - discarding the later one is exactly
+# the failure. Same pairing as GitHub's own Pages starter workflow.
+# See prodockit-extensions#134.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 permissions:
   contents: read
   pages: write
