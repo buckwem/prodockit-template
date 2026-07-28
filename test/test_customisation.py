@@ -572,3 +572,69 @@ def test_screenshot_class_styling_matches_between_website_and_pdf():
         assert website_value == pdf_value, (
             f".screenshot {prop} differs: website={website_value!r} vs PDF={pdf_value!r}"
         )
+
+
+# --- Surrey host detection (issue #132) ------------------------------------
+#
+# _detect_is_surrey() combines three checks, two of which read the git remote
+# and Zensical's config - so its overall answer depends on which clone the
+# tests happen to run in. That is deliberate (see
+# test_correct_logo_pair_is_copied_for_this_remote above), but it means a
+# check that silently never fires is invisible to those tests. The
+# CI_SERVER_HOST comparison was exactly that: `== 'surrey.ac.uk'`, which can
+# never match GitLab's own 'gitlab.surrey.ac.uk'.
+#
+# These test the hostname comparison directly, which needs no live pipeline
+# and gives the same answer in every clone.
+
+
+def test_surrey_gitlab_hostname_is_recognised(macros):
+    """The case the original `==` comparison could never match, and the whole
+    reason this check exists."""
+    assert macros._host_is_surrey("gitlab.surrey.ac.uk")
+
+
+def test_bare_surrey_domain_is_still_recognised(macros):
+    """What the original comparison did match - not lost in fixing it."""
+    assert macros._host_is_surrey("surrey.ac.uk")
+
+
+def test_hostname_matching_ignores_case_and_a_trailing_dot(macros):
+    """CI_SERVER_HOST is a hostname, so it may arrive fully qualified or in
+    any case."""
+    assert macros._host_is_surrey("GitLab.Surrey.AC.UK")
+    assert macros._host_is_surrey("gitlab.surrey.ac.uk.")
+
+
+def test_non_surrey_hosts_are_rejected(macros):
+    assert not macros._host_is_surrey("github.com")
+    assert not macros._host_is_surrey("gitlab.com")
+
+
+def test_missing_or_empty_host_is_rejected(macros):
+    """CI_SERVER_HOST is unset outside GitLab CI, so this is the common case
+    on GitHub Actions and locally - and must not raise."""
+    assert not macros._host_is_surrey(None)
+    assert not macros._host_is_surrey("")
+    assert not macros._host_is_surrey("   ")
+
+
+def test_lookalike_hosts_are_rejected(macros):
+    """A plain substring test - the obvious fix - would accept both of these.
+    The first is a different institution that merely ends the same way; the
+    second puts the Surrey domain in a leading label of somebody else's."""
+    assert not macros._host_is_surrey("notsurrey.ac.uk")
+    assert not macros._host_is_surrey("surrey.ac.uk.example.com")
+
+
+def test_ci_server_host_alone_triggers_detection(macros, monkeypatch):
+    """End to end through _detect_is_surrey(): with CI_SERVER_HOST set to the
+    Surrey instance, Check 1 returns True before the git-remote and config
+    checks run - so this passes in any clone, including a GitHub one.
+
+    Only the positive direction is asserted here. A negative case would
+    depend on the other two checks, and so on which repository the tests are
+    running against - which is what the pure tests above exist to avoid.
+    """
+    monkeypatch.setenv("CI_SERVER_HOST", "gitlab.surrey.ac.uk")
+    assert macros._detect_is_surrey()
