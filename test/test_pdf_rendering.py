@@ -110,38 +110,63 @@ def test_no_page_contains_literal_tex_source(pdf_full_text):
     assert_no_unrendered_tex(pdf_full_text)
 
 
-# The paragraph immediately following docs/section4.md's own diagram -
-# unique to that page, so it locates the diagram's page reliably regardless
-# of where page breaks happen to fall.
-_DIAGRAM_CAPTION_TEXT = "Above is an example of a Mermaid diagram"
+# Mermaid's default node fill (#ECECFF). Every node shape in a rendered
+# diagram is painted with it, and nothing else in this document uses it -
+# confirmed by scanning every page of the real built PDF, where it appears
+# on exactly one page, exactly four times, matching the diagram's four
+# nodes. That makes it a signal that is actually specific to the diagram.
+_MERMAID_NODE_FILL = (0.925, 0.925, 1.0)
+_FILL_TOLERANCE = 0.02
 
 
-def test_the_diagrams_section_diagram_is_actually_present(pdf_doc):
+def _mermaid_node_shapes(page):
+    """Vector shapes on `page` painted with Mermaid's node fill."""
+    shapes = []
+    for drawing in page.get_drawings():
+        fill = drawing.get("fill")
+        if fill and all(
+            abs(channel - expected) <= _FILL_TOLERANCE
+            for channel, expected in zip(fill, _MERMAID_NODE_FILL)
+        ):
+            shapes.append(drawing)
+    return shapes
+
+
+def test_the_diagram_is_actually_rendered_into_the_pdf(pdf_doc):
     """Counterpart to the literal-source check above, which on its own would
     still pass if the diagram vanished from the PDF entirely instead of
-    rendering as text - confirms real vector content backs it up, the same
-    signal test_zensical_basics.py's own synthetic mermaid test uses.
+    reaching it as text.
 
-    Not the diagram's own node label text: confirmed directly against this
-    project's real built PDF that WeasyPrint's SVG rendering here converts
-    Mermaid's plain-SVG `<text>` labels to vector path outlines rather than
-    extractable PDF text objects, so `page.get_text()` finds nothing where
-    the diagram is - a different result from prodockit-userguide's own
-    pipeline, not a discrepancy to paper over by asserting label text that
-    doesn't actually appear here. Also deliberately not `page.get_images()`:
-    the one raster image already on this page (this template's own cover/
-    branding asset, not the diagram) would make that check pass even with
-    the diagram missing."""
-    for page in pdf_doc:
-        if _DIAGRAM_CAPTION_TEXT in page.get_text():
-            assert page.get_drawings(), (
-                "The diagram's own caption text is present but the page has no vector "
-                "drawings - its boxes and arrows did not render"
-            )
-            return
-    pytest.fail(
-        f"No PDF page contains {_DIAGRAM_CAPTION_TEXT!r} - docs/section4.md's Mermaid "
-        "example appears to have been removed or moved"
+    Asserts on Mermaid's own node fill, because the obvious signals here all
+    fail to discriminate:
+
+    - Not the node label text. WeasyPrint converts Mermaid's plain-SVG
+      `<text>` labels to vector path outlines in this pipeline, so
+      `page.get_text()` finds nothing where the diagram is - confirmed
+      against the real built PDF. (prodockit-userguide's pipeline keeps them
+      as text, which is why its own equivalent test can search for them.)
+    - Not `page.get_images()`. The single raster image in this PDF's shared
+      resource pool is reported for *every* page, diagram or not.
+    - Not `page.get_drawings()` being non-empty. Every page has vector
+      content - headers, footers, table rules - so that passes anywhere. The
+      previous version of this test asserted exactly that, and located the
+      page by the caption prose below the diagram. Those turn out to be on
+      *different pages*: the diagram ends page 9 and its caption opens page
+      10, so the assertion ran against a page the diagram was never on. It
+      could not have failed.
+    """
+    pages_with_nodes = {
+        number: len(_mermaid_node_shapes(page))
+        for number, page in enumerate(pdf_doc)
+        if _mermaid_node_shapes(page)
+    }
+    assert pages_with_nodes, (
+        "No page of the PDF contains a shape filled with Mermaid's node colour - "
+        "docs/section4.md's diagram did not render, or was removed"
+    )
+    assert sum(pages_with_nodes.values()) >= 4, (
+        f"Found only {sum(pages_with_nodes.values())} Mermaid node shape(s) "
+        f"across {pages_with_nodes} - the diagram rendered only partially"
     )
 
 
