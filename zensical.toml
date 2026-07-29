@@ -292,19 +292,28 @@ features = [
 #
 # Read more:
 # - https://zensical.org/docs/setup/colors/
-# ----------------------------------------------------------------------------
-# Palette toggle for automatic mode
+# Light by default (issue #121: closer to how the document itself looks),
+# not following the visitor's OS/browser dark-mode preference - Zensical's
+# base.html template always server-renders the *first* palette entry
+# (`{% set palette = palette | first %}`) regardless of any `media` query,
+# but each entry's own `media` still drives client-side JS to immediately
+# auto-switch after that first paint if it matches - so with both entries
+# carrying a `prefers-color-scheme` query (the previous config), a visitor
+# whose OS is set to dark saw a light page flash to dark a moment after
+# load. Dropping `media` from both entries here makes the toggle purely
+# manual: the first entry (light) is what loads and what stays, until a
+# visitor clicks to switch - matching a document's own fixed appearance
+# rather than following system preference.
 
-# Palette toggle for light mode
+# Palette toggle for light mode - listed first, so this is what's shown by
+# default (see the note above).
 [[project.theme.palette]]
-media = "(prefers-color-scheme: light)"
 scheme = "default"
 toggle.icon = "lucide/sun"
 toggle.name = "Switch to dark mode"
 
 # Palette toggle for dark mode
 [[project.theme.palette]]
-media = "(prefers-color-scheme: dark)"
 scheme = "slate"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to light mode"
