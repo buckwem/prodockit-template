@@ -238,6 +238,52 @@ def test_light_and_dark_palettes_are_both_configured(zensical_config):
     assert schemes == {"default", "slate"}, f"Expected light+dark palettes, got: {schemes}"
 
 
+def test_light_palette_has_no_media_query(zensical_config):
+    """Regression test (issue #121): Zensical's base.html always server-
+    renders the *first* palette entry (`{% set palette = palette | first %}`)
+    regardless of any `media` query, but each entry's own `media` still
+    drives client-side JS to immediately auto-switch after that first paint
+    if it matches the visitor's OS preference. With a `prefers-color-scheme`
+    query on both entries, a visitor whose OS is set to dark saw a light
+    page flash to dark a moment after load - the opposite of "light by
+    default". Dropping `media` from both entries makes the toggle purely
+    manual, so it must not silently come back on either one."""
+    palettes = zensical_config["project"]["theme"]["palette"]
+    for p in palettes:
+        assert "media" not in p, (
+            f"Palette entry {p!r} sets a media query - this makes the scheme "
+            "follow the visitor's OS/browser preference again, undoing issue "
+            "#121's light-by-default fix"
+        )
+
+
+def test_light_palette_is_listed_first(zensical_config):
+    """The other half of issue #121's fix: Zensical's base.html takes
+    whichever palette entry is *first* in the list as what's server-rendered
+    into the initial page - not "default"/"slate" by name, purely by
+    position. Reordering the list would silently make the site dark by
+    default again."""
+    palettes = zensical_config["project"]["theme"]["palette"]
+    assert palettes[0]["scheme"] == "default", (
+        f"Expected the light ('default') palette listed first, got {palettes[0]['scheme']!r} - "
+        "Zensical's base.html renders whichever entry is first, regardless of name"
+    )
+
+
+def test_built_site_defaults_to_the_light_scheme(public_dir):
+    """Confirms issue #121's fix in the actual built output, not just the
+    config: the real risk was never "is 'default' configured" (it always
+    was) - it's that a `media` query let client-side JS override the
+    server-rendered scheme a moment after load for a visitor with a dark
+    OS preference. This checks what a browser actually receives before any
+    JS runs."""
+    soup = soup_for(public_dir / "index.html")
+    assert soup.body.get("data-md-color-scheme") == "default", (
+        "Expected the built cover page's initial data-md-color-scheme to be "
+        "'default' (light) - issue #121 wants the site light by default"
+    )
+
+
 def test_website_has_a_theme_toggle_for_both_schemes(public_dir):
     soup = soup_for(public_dir / "index.html")
     labels = {el.get("title") or el.get_text(strip=True) for el in soup.find_all(["label", "input"])}
