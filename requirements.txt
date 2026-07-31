@@ -7,16 +7,21 @@
 # bundled Font Awesome/Lucide icon-set bump (redrawn SVG artwork, new
 # asset hashes) and an additive "lang" field in search.json's config.
 zensical>=0.0.52
-# >=0.15.2 covers the pieces this project now relies on rather than
-# carrying its own copy: `prodockit sync-repo` (0.13.0), which replaced
-# sync_repo_icon.py, and prodockit.testing's Mermaid/TeX checks (0.15.2,
-# which added the font-ligature handling this project discovered) - see
-# issue #128.
-prodockit>=0.15.2
+# >=0.17.2 for `prodockit pins` (see .github/workflows/docs.yml's own pin
+# lines, and CONTRIBUTING.md) - manages the exact zensical/weasyprint pins
+# below and in CI together, rather than by hand across several files.
+# Also covers everything the 0.15.2 bump already relied on: `prodockit
+# sync-repo` (0.13.0), which replaced sync_repo_icon.py, and
+# prodockit.testing's Mermaid/TeX checks (0.15.2, which added the
+# font-ligature handling this project discovered) - see issue #128.
+prodockit>=0.17.2
 mkdocstrings-python
 pandoc
 toml
 types-toml
-weasyprint
+# A floor here, same reasoning as zensical above - CI pins it exactly
+# instead (see docs.yml), since layout/pagination is the one thing this
+# project's own published PDF needs to hold still between builds.
+weasyprint>=69.0
 beautifulsoup4
 emoji
