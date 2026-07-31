@@ -2,7 +2,11 @@
 # SPDX-License-Identifier: MIT
 
 # File to list prerequisites for the project. This file is used by the CI/CD pipeline to install dependencies before building the documentation.
-zensical
+# >=0.0.52 confirmed byte-for-byte identical website/PDF output against
+# 0.0.51 for this project's own content - the only differences are a
+# bundled Font Awesome/Lucide icon-set bump (redrawn SVG artwork, new
+# asset hashes) and an additive "lang" field in search.json's config.
+zensical>=0.0.52
 # >=0.15.2 covers the pieces this project now relies on rather than
 # carrying its own copy: `prodockit sync-repo` (0.13.0), which replaced
 # sync_repo_icon.py, and prodockit.testing's Mermaid/TeX checks (0.15.2,
