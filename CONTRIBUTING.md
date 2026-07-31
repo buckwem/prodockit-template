@@ -44,6 +44,20 @@ python test/run_tests.py
 
 Tests are grouped into batches (`build`, `captions`, `content`, `fences`, `links`, `numbering`, `pdf_structure`, `word_count`), each reporting its own pass/fail. Run `python test/run_tests.py --list` to see them, and `python test/run_tests.py --batch <name>` to run just one - useful when you're actively working on a specific capability and don't want to wait on the rest of the suite. Extra arguments after the batch options are passed straight through to `pytest`. See [Testing](https://buckwem.github.io/prodockit-userguide/testing/) in the User Guide for the full guide.
 
+## Version pinning
+
+`.github/workflows/docs.yml` and `.gitlab-ci.yml` both pin `zensical` and `weasyprint` to exact versions, on top of the floors (`zensical>=...`, `weasyprint>=...`) in `requirements.txt` - the published site and PDF are artifacts that should change when someone decides they should, not whenever either package next releases. `weasyprint` matters most: it decides pagination, and those page numbers are resolved into the table of contents.
+
+The same version ends up written in several places at once, so move them together rather than by hand:
+
+```bash
+prodockit pins
+```
+
+Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). `prodockit pins --check` reports drift without writing anything (used by the workflow below); see `prodockit pins --help` for the rest of the options.
+
+To check whether taking the newest release would actually change the published output, run the **Dependency drift** workflow: `.github/workflows/drift.yml` (Actions → Dependency drift → Run workflow) or the `drift` job in `.gitlab-ci.yml` (Run pipeline from the GitLab UI). Both build the docs twice - pinned versus newest - diff byte for byte, and open an issue saying what moved. Neither runs on a schedule; both are on-demand only.
+
 ## Reporting bugs and requesting features
 
 Please use the issue templates when opening an issue - they help make sure we get the information needed to act on it.
