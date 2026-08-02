@@ -7,11 +7,27 @@ on:
     branches:
       - master
       - main
-  # Also redeploy whenever a release is published. This project's cover page
-  # carries a PDF-only `{RELEASE}` marker (docs/index.md), which
-  # `prodockit pdf` resolves from the host's releases API at build time -
-  # so the published PDF keeps showing the *previous* release until
-  # something rebuilds it after the new one exists.
+  # Deliberately *no* `release: [published]` trigger, though the cover
+  # page's PDF-only `{RELEASE}` marker (docs/index.md), resolved by
+  # `prodockit pdf` from the host's releases API at build time, does need
+  # a rebuild once the release exists. That rebuild now comes from
+  # release-redeploy.yml, which re-triggers this workflow against `main`.
+  #
+  # Deploying straight from the release event is what the old trigger did,
+  # and it never worked: a release event runs against refs/tags/<tag>, so
+  # the Pages deployment it created carried a tag ref, and Pages -
+  # configured with `source: {branch: main}` - accepted it, reported
+  # `success`, and carried on serving the previous build. Silently: this
+  # repo shows 0 tag-ref Pages deployments out of 95, and no evidence the
+  # trigger ever actually fired a release-triggered docs.yml run at all
+  # (issue #143) - prodockit-extensions hit the live version of this on
+  # releases 0.17.0-0.17.2 (prodockit-extensions#147, fixed in #148, which
+  # this restructure is adapted from).
+  #
+  # The `tag: *.*.*` entry in the github-pages environment's deployment
+  # branch policies (added for the old trigger) is now redundant, since
+  # nothing here deploys from a tag - harmless to leave, harmless to
+  # remove.
   #
   # Note this is not the same mechanism as prodockit-userguide's, which uses
   # prodockit.zensical_macros' `{{ release }}` (`git describe --tags`) and
@@ -19,32 +35,21 @@ on:
   # reads git tags, which is why the checkout below deliberately keeps the
   # default shallow clone.
   #
-  # A release event runs against refs/tags/<tag> rather than a branch, so
-  # this also needs a matching `tag: *.*.*` entry alongside `branch: main`
-  # in the github-pages environment's deployment branch policies - without
-  # it the run is rejected at the environment gate instead of deploying.
-  # Both entries are in place.
-  #
-  # .gitlab-ci.yml carries the equivalent as an `if: $CI_COMMIT_TAG` rule.
-  release:
-    types: [published]
+  # .gitlab-ci.yml carries the equivalent as an `if: $CI_COMMIT_TAG` rule -
+  # untouched here, since GitLab's own tag-ref Pages deployments are not
+  # known to have this problem.
   workflow_dispatch:
 
-# Two deploys can be in flight at once - publishing a release right after
-# merging its version bump triggers one for the push and one for the
-# release - and without a concurrency group they race. The loser is not
-# necessarily the one that started first: on prodockit-extensions' 0.15.1
-# release the *later* run finished later and reported success, yet the
-# earlier run's deployment is the one that stayed live.
-#
-# Nothing fails when this happens, so the only symptom is stale content on
-# the published site. Here that would mean the site and its downloadable
-# PDFs silently coming from different commits.
+# release-redeploy.yml re-triggering this workflow against `main` can still
+# start close behind an ordinary push - merging a version-bump commit right
+# before publishing its release - so this is still worth keeping even
+# though the specific push-vs-release-event race this was originally
+# written for no longer applies (see prodockit-extensions#134 for that
+# original race, and prodockit-extensions#148 for this comment's update).
 #
 # `cancel-in-progress: false` rather than true: a queued deploy should wait
-# and then supersede, not be discarded - discarding the later one is exactly
-# the failure. Same pairing as GitHub's own Pages starter workflow.
-# See prodockit-extensions#134.
+# and then supersede, not be discarded. Same pairing as GitHub's own Pages
+# starter workflow.
 concurrency:
   group: pages
   cancel-in-progress: false
