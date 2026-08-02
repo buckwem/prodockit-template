@@ -63,7 +63,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Consumed by the verify job below.
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
@@ -179,7 +179,7 @@ jobs:
   # the same way in prodockit-userguide (issue #145).
   verify:
     needs: deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       # Pages serves `cache-control: max-age=600`, so up to ~10 minutes of
       # staleness is normal and expected rather than a fault. 15 minutes of
