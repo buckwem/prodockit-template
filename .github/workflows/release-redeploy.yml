@@ -45,7 +45,7 @@ permissions:
 
 jobs:
   redeploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Rebuild and deploy the docs from main
         env:
