@@ -602,14 +602,19 @@ def test_a_body_page_header_and_footer_show_the_right_content(pdf_full_text, zen
 
 def test_pdf_page_size_and_margins_match_configured_defaults(pdf_doc, zensical_config):
     """project.extra.pdf_page_size/pdf_margin_* (added in #51) default to
-    A4 / 2cm on every side when unset, as they are in this template's own
-    zensical.toml - confirms the configured defaults actually reach the
-    built PDF's real page geometry, not just that build_pdf() has a
-    default value defined somewhere."""
+    A4 / 2cm on every side when unset - confirms the configured defaults
+    actually reach the built PDF's real page geometry, not just that
+    build_pdf() has a default value defined somewhere. pdf_margin_bottom is
+    the one side this template's own zensical.toml overrides: the two-line
+    footer left only 4.0mm of clearance from the paper edge at 2cm, inside
+    what most printers physically cannot print, so it is set deeper on
+    purpose (issue #151) - a real, intentional divergence from the
+    default, not something this test should flag."""
     extra = zensical_config["project"].get("extra", {})
     assert extra.get("pdf_page_size", "A4") == "A4"
-    for side in ("top", "right", "bottom", "left"):
+    for side in ("top", "right", "left"):
         assert extra.get(f"pdf_margin_{side}", "2cm") == "2cm"
+    assert extra.get("pdf_margin_bottom") == "2.75cm"
 
     page = pdf_doc[1]  # skip the cover, which has its own layout
     pt_per_cm = 28.3465
