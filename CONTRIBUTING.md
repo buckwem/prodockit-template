@@ -46,15 +46,17 @@ Tests are grouped into batches (`build`, `captions`, `content`, `fences`, `links
 
 ## Version pinning
 
-`.github/workflows/docs.yml` and `.gitlab-ci.yml` both pin `zensical` and `weasyprint` to exact versions, on top of the floors (`zensical>=...`, `weasyprint>=...`) in `requirements.txt` - the published site and PDF are artifacts that should change when someone decides they should, not whenever either package next releases. `weasyprint` matters most: it decides pagination, and those page numbers are resolved into the table of contents.
+`.github/workflows/docs.yml` and `.gitlab-ci.yml` both pin `zensical`, `weasyprint` and `prodockit` to exact versions, on top of the floors (`zensical>=...`, `weasyprint>=...`, `prodockit>=...`) in `requirements.txt` - the published site and PDF are artifacts that should change when someone decides they should, not whenever any of the three next releases. `weasyprint` decides pagination, and those page numbers are resolved into the table of contents; `prodockit` renders this project's own PDF and generates its index (issue #149).
 
 The same version ends up written in several places at once, so move them together rather than by hand:
 
 ```bash
-prodockit pins
+prodockit pins -p zensical -p weasyprint -p prodockit
 ```
 
-Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). `prodockit pins --check` reports drift without writing anything (used by the workflow below); see `prodockit pins --help` for the rest of the options.
+`-p` is needed for all three here: `prodockit pins`'s own default (`zensical` and `weasyprint`) predates this project pinning itself, so a bare `prodockit pins` or `prodockit pins --check` silently skips the `prodockit` pin.
+
+Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). Add `--check` to report drift without writing anything (used by the workflow below); see `prodockit pins --help` for the rest of the options.
 
 To check whether taking the newest release would actually change the published output, run the **Dependency drift** workflow: `.github/workflows/drift.yml` (Actions → Dependency drift → Run workflow) or the `drift` job in `.gitlab-ci.yml` (Run pipeline from the GitLab UI). Both build the docs twice - pinned versus newest - diff byte for byte, and open an issue saying what moved. Neither runs on a schedule; both are on-demand only.
 

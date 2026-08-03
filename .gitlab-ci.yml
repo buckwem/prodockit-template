@@ -66,11 +66,11 @@ pages:
     - apt-get install -y google-chrome-stable
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
-    # zensical/weasyprint pinned exactly here, on top of requirements.txt's
-    # own floors - see the identical line and its comment in
-    # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0"
+    # zensical/weasyprint/prodockit pinned exactly here, on top of
+    # requirements.txt's own floors - see the identical line and its comment
+    # in .github/workflows/docs.yml. Keep both in step; managed together
+    # with `prodockit pins` (see CONTRIBUTING.md).
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.17.5"
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
     - prodockit pdf
@@ -102,10 +102,10 @@ pages:
     # this project actually tags - and a redundant rebuild is harmless.
     - if: '$CI_COMMIT_TAG'
 
-# The pages job above pins zensical/weasyprint exactly, so the published
-# site and PDF only change when someone decides they should. The cost of
-# pinning is going quietly stale: nothing says a newer release exists, or
-# what it would do to the output.
+# The pages job above pins zensical/weasyprint/prodockit exactly, so the
+# published site and PDF only change when someone decides they should. The
+# cost of pinning is going quietly stale: nothing says a newer release
+# exists, or what it would do to the output.
 #
 # This closes that, on demand rather than on a schedule (see
 # .github/workflows/drift.yml's own comment, and prodockit-extensions#145
@@ -148,28 +148,30 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.17.5"
     - prodockit pdf
     - zensical build --clean
     - cp source_bundle.pdf public/source_bundle.pdf
     - mkdir -p /tmp/pinned && cp -R public /tmp/pinned/public && cp docs/site_documentation.pdf /tmp/pinned/doc.pdf
     - PINNED_ZENSICAL=$(pip show zensical | awk '/^Version:/{print $2}')
     - PINNED_WEASYPRINT=$(pip show weasyprint | awk '/^Version:/{print $2}')
-    - pip install -qU zensical weasyprint
+    - PINNED_PRODOCKIT=$(pip show prodockit | awk '/^Version:/{print $2}')
+    - pip install -qU zensical weasyprint prodockit
     - rm -rf public source_bundle.pdf docs/site_documentation.pdf
     - prodockit pdf
     - zensical build --clean
     - cp source_bundle.pdf public/source_bundle.pdf
     - LATEST_ZENSICAL=$(pip show zensical | awk '/^Version:/{print $2}')
     - LATEST_WEASYPRINT=$(pip show weasyprint | awk '/^Version:/{print $2}')
+    - LATEST_PRODOCKIT=$(pip show prodockit | awk '/^Version:/{print $2}')
     # Run against the *newest* build, so a release that breaks the real
     # rendering checks is caught here rather than on the day someone
     # raises the pin. `|| true` - never fails the job, the result is
     # reported below instead.
     - TESTS_OUTCOME=$(python test/run_tests.py > /tmp/test-output.txt 2>&1 && echo "passed" || echo "failed") || true
     - |
-      if [ "$PINNED_ZENSICAL" = "$LATEST_ZENSICAL" ] && [ "$PINNED_WEASYPRINT" = "$LATEST_WEASYPRINT" ]; then
-        echo "Pins are current: zensical $PINNED_ZENSICAL, weasyprint $PINNED_WEASYPRINT. Nothing to report."
+      if [ "$PINNED_ZENSICAL" = "$LATEST_ZENSICAL" ] && [ "$PINNED_WEASYPRINT" = "$LATEST_WEASYPRINT" ] && [ "$PINNED_PRODOCKIT" = "$LATEST_PRODOCKIT" ]; then
+        echo "Pins are current: zensical $PINNED_ZENSICAL, weasyprint $PINNED_WEASYPRINT, prodockit $PINNED_PRODOCKIT. Nothing to report."
         exit 0
       fi
       cmp -s /tmp/pinned/doc.pdf docs/site_documentation.pdf && PDF_STATE=identical || PDF_STATE="**differs**"
@@ -179,7 +181,7 @@ drift:
       EXISTING=$(curl -sf --header "PRIVATE-TOKEN: $DRIFT_TOKEN" \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/issues?state=opened&search=Dependency+drift" \
         | jq -r '.[0].iid // empty')
-      BODY="A newer zensical or weasyprint is available than the docs build pins.\n\n| | Pinned | Newest |\n|---|---|---|\n| zensical | $PINNED_ZENSICAL | $LATEST_ZENSICAL |\n| weasyprint | $PINNED_WEASYPRINT | $LATEST_WEASYPRINT |\n\nBuilt the docs with each, in the same job, and compared byte for byte:\n\n- PDF: $PDF_STATE\n- Website: $SITE_CHANGED files differ\n- Built-output checks against the newest build: $TESTS_OUTCOME\n\nTo take the upgrade: run \`prodockit pins\` (see CONTRIBUTING.md) to move every declaration together, then rebuild and diff before committing.\n\n_Opened by the drift job (run on demand from the GitLab UI). Updated in place rather than reopened while this stays open._"
+      BODY="A newer zensical, weasyprint or prodockit is available than the docs build pins.\n\n| | Pinned | Newest |\n|---|---|---|\n| zensical | $PINNED_ZENSICAL | $LATEST_ZENSICAL |\n| weasyprint | $PINNED_WEASYPRINT | $LATEST_WEASYPRINT |\n| prodockit | $PINNED_PRODOCKIT | $LATEST_PRODOCKIT |\n\nBuilt the docs with each, in the same job, and compared byte for byte:\n\n- PDF: $PDF_STATE\n- Website: $SITE_CHANGED files differ\n- Built-output checks against the newest build: $TESTS_OUTCOME\n\nTo take the upgrade: run \`prodockit pins\` (see CONTRIBUTING.md) to move every declaration together, then rebuild and diff before committing.\n\n_Opened by the drift job (run on demand from the GitLab UI). Updated in place rather than reopened while this stays open._"
       if [ -n "$EXISTING" ]; then
         curl -sf --request POST --header "PRIVATE-TOKEN: $DRIFT_TOKEN" \
           --data-urlencode "body=$BODY" \
@@ -187,7 +189,7 @@ drift:
         echo "Updated existing issue !$EXISTING"
       else
         curl -sf --request POST --header "PRIVATE-TOKEN: $DRIFT_TOKEN" \
-          --data-urlencode "title=Dependency drift: newer zensical/weasyprint than the docs build pins" \
+          --data-urlencode "title=Dependency drift: newer zensical/weasyprint/prodockit than the docs build pins" \
           --data-urlencode "description=$BODY" \
           "$CI_API_V4_URL/projects/$CI_PROJECT_ID/issues" > /dev/null
         echo "Opened a new issue"
