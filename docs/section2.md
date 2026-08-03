@@ -13,9 +13,11 @@ icon: lucide/book-open
 
 ## SubSection {: #cross-reference-example }
 
-Sections can be cross-referenced by number using `\ref{id}` - see \ref{section2-subsection-2} below, which stays correct even if you reorder or add pages.
+Sections can be cross-referenced with `\ref{id}` - see \ref{section2-subsection-2} below, which stays correct even if you reorder or add pages.
 
-Above is an example of using `\ref{id}` to cross-reference another section by number. Unlike a hand-typed "see Section 2.2", it updates automatically if the target section moves.
+Where the reader may be holding a printout, use `\autoref{id}` instead - see \autoref{section2-subsection-2}, which renders the same text and adds the target's page number in the PDF.
+
+Both render the target's current number and name, so unlike a hand-typed "see Section 2.2 SubSection" they update themselves if the target moves - and `\autoref{id}` gives a printed reader somewhere to turn to, which a section number alone does not.
 
 ### SubSubSection {: #section2-subsubsection-1 }
 

@@ -19,7 +19,7 @@ zensical>=0.0.52
 # .github/workflows/docs.yml's own pin lines, and CONTRIBUTING.md), which
 # manages the exact zensical/weasyprint/prodockit pins below and in CI
 # together, rather than by hand across several files.
-prodockit>=0.17.5
+prodockit>=0.18.0
 mkdocstrings-python
 pandoc
 toml
