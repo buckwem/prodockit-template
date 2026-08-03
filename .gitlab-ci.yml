@@ -70,7 +70,7 @@ pages:
     # requirements.txt's own floors - see the identical line and its comment
     # in .github/workflows/docs.yml. Keep both in step; managed together
     # with `prodockit pins` (see CONTRIBUTING.md).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.17.5"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.18.0"
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
     - prodockit pdf
@@ -148,7 +148,7 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.17.5"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.18.0"
     - prodockit pdf
     - zensical build --clean
     - cp source_bundle.pdf public/source_bundle.pdf
