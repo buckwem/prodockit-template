@@ -25,6 +25,27 @@ def test_table_of_contents_exists(pdf_full_text):
     assert any("Table of Contents" in text for text in pdf_full_text)
 
 
+def test_footer_clearance_survives_a_printers_unprintable_margin(pdf_doc):
+    """Regression test (issue #151): the two-line footer (copyright +
+    "Made with" credit) is top-aligned in pdf_margin_bottom and grows
+    downward, so whatever the margin doesn't use is what's left before the
+    paper edge. At the un-overridden 2cm default that left only 4.0mm -
+    inside what most consumer/office printers physically cannot print
+    (commonly 5-6.4mm) - so the second line would be clipped on an actual
+    print even though the PDF itself renders correctly on screen. Checks a
+    body page's lowest text block leaves at least 8mm, comfortably past
+    that floor, rather than trusting zensical.toml's margin value in
+    isolation - a change to the footer's font size or line count could
+    erode the same clearance without touching the margin at all."""
+    page = pdf_doc[min(5, len(pdf_doc) - 1)]
+    lowest_y = max(block[3] for block in page.get_text("blocks"))
+    clearance_mm = (page.rect.height - lowest_y) / 72 * 25.4
+    assert clearance_mm >= 8.0, (
+        f"Footer clearance is only {clearance_mm:.1f}mm - the second footer "
+        "line risks being clipped on a physical print"
+    )
+
+
 _BOLD_FLAG = 1 << 4
 
 
