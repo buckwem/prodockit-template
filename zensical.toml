@@ -411,9 +411,22 @@ pdf_page_size = "A4"
 # so shrinking a side also narrows the space available to them there. See
 # "Page size and margins" in customise.md. PDF-only, has no effect on the
 # live site.
+#
+# pdf_margin_bottom is deeper than the others: the two-line footer
+# (copyright + "Made with" credit) is top-aligned in this margin and grows
+# downward, so whatever the margin doesn't use is what's left before the
+# paper edge. At 2cm that left only 4.0mm - inside what most consumer/office
+# printers physically cannot print (commonly 5-6.4mm) - so the second line
+# would be clipped on paper even though the PDF itself is correct (issue
+# #151). 2.75cm measured at 11.5mm clearance here, comfortably past that
+# floor; prodockit-extensions' own default is 2.5cm (extensions#139), but
+# this project's footer text starts from a tighter baseline, so it needs
+# more than the same absolute bump to land in the same comfortable range.
+# If the footer ever gains a third line, re-measure - this doesn't scale
+# automatically.
 pdf_margin_top = "2cm"
 pdf_margin_right = "2cm"
-pdf_margin_bottom = "2cm"
+pdf_margin_bottom = "2.75cm"
 pdf_margin_left = "2cm"
 
 # The PDF's running header/footer text style (see "Page header"/"Page
