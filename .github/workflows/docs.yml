@@ -122,16 +122,18 @@ jobs:
       - run: sudo apt install -y google-chrome-stable
       - run: npm ci --prefix tools/mermaid
       - run: npm ci --prefix tools/mathjax
-      # zensical/weasyprint pinned exactly here, on top of requirements.txt's
-      # own floors: this is the project's own published build, an artifact
-      # that should change when someone decides it should, not whenever
-      # either package next releases. weasyprint matters most - it decides
-      # pagination, and those page numbers are resolved into the table of
-      # contents. Managed together with `prodockit pins` (see
-      # CONTRIBUTING.md) rather than by hand - keep this in step with
-      # requirements.txt's own floors, and with the identical line in
+      # zensical/weasyprint/prodockit pinned exactly here, on top of
+      # requirements.txt's own floors: this is the project's own published
+      # build, an artifact that should change when someone decides it
+      # should, not whenever any of the three next releases. weasyprint
+      # matters most for layout - it decides pagination, and those page
+      # numbers are resolved into the table of contents; prodockit matters
+      # just as much for content - it renders this project's PDF and
+      # generates its index (issue #149). Managed together with `prodockit
+      # pins` (see CONTRIBUTING.md) rather than by hand - keep this in step
+      # with requirements.txt's own floors, and with the identical line in
       # .gitlab-ci.yml.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.17.5"
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which
