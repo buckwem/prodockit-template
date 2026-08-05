@@ -63,7 +63,7 @@ jobs:
       # Keep these in step with docs.yml's own install line.
       - name: Build with the pinned versions
         run: |
-          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.52" "weasyprint==69.0" "prodockit==0.18.0"
+          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.18.0"
           prodockit pdf
           zensical build --clean
           cp source_bundle.pdf public/source_bundle.pdf

@@ -2,11 +2,14 @@
 # SPDX-License-Identifier: MIT
 
 # File to list prerequisites for the project. This file is used by the CI/CD pipeline to install dependencies before building the documentation.
-# >=0.0.52 confirmed byte-for-byte identical website/PDF output against
-# 0.0.51 for this project's own content - the only differences are a
-# bundled Font Awesome/Lucide icon-set bump (redrawn SVG artwork, new
-# asset hashes) and an additive "lang" field in search.json's config.
-zensical>=0.0.52
+# >=0.0.53 confirmed byte-for-byte identical PDF, and identical search.json,
+# against 0.0.52 for this project's own content - the only differences are
+# the generator meta tag and rehashed asset filenames from a rebuilt
+# bundle/CSS. >=0.0.52 itself was confirmed the same way against 0.0.51 -
+# the only differences there were a bundled Font Awesome/Lucide icon-set
+# bump (redrawn SVG artwork, new asset hashes) and an additive "lang" field
+# in search.json's config.
+zensical>=0.0.53
 # A floor here, same reasoning as zensical and weasyprint below - CI pins it
 # exactly instead (see docs.yml), since prodockit is what renders this
 # project's own PDF and generates its index (issue #149). Kept at the same
