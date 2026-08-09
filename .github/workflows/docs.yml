@@ -94,7 +94,7 @@ jobs:
       # against. Installing a specific upstream .deb release below instead of
       # "apt install pandoc" keeps CI and local dev on the same version,
       # rather than silently drifting whenever Ubuntu's own package updates.
-      PANDOC_VERSION: "3.10"
+      PANDOC_VERSION: "3.10.1"
     steps:
       - uses: actions/configure-pages@v5
       - uses: actions/checkout@v5
@@ -133,7 +133,7 @@ jobs:
       # pins` (see CONTRIBUTING.md) rather than by hand - keep this in step
       # with requirements.txt's own floors, and with the identical line in
       # .gitlab-ci.yml.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.18.0"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which

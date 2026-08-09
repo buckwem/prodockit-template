@@ -170,6 +170,58 @@ def test_the_diagram_is_actually_rendered_into_the_pdf(pdf_doc):
     )
 
 
+def test_the_code_listing_kept_its_preformatted_layout(pdf_doc):
+    """docs/section4.md's ` ```bash ` listing must reach the PDF as a code
+    block, not as reflowed prose.
+
+    Pandoc's HTML reader only accepts `<pre><code>` as a code block when the
+    `<code>` holds nothing but text, and Zensical's highlighter fills it
+    with token spans and line anchors. When the reader gives up, the `<pre>`
+    is absent from what WeasyPrint receives: newlines collapse, the listing
+    justifies like a paragraph, and each token gains the inline-code
+    background. The build reports success throughout
+    (prodockit-extensions#207, fixed in prodockit 0.20.1 - which is why
+    requirements.txt floors there).
+
+    The giveaway is a hole between two monospace characters that are
+    adjacent in the text flow: justification padding a word gap that a
+    fixed-pitch font can never have. Measured between successive
+    *characters* rather than between spans, because spans merely near each
+    other on the page have ordinary prose between them and produce false
+    positives.
+    """
+    offenders = []
+    for number, page in enumerate(pdf_doc, start=1):
+        for block in page.get_text("rawdict")["blocks"]:
+            for line in block.get("lines", []):
+                chars = [(c, s) for s in line["spans"] for c in s["chars"]]
+                for (c1, s1), (c2, s2) in zip(chars, chars[1:]):
+                    if "Mono" not in s1["font"] or "Mono" not in s2["font"]:
+                        continue
+                    if s1["size"] != s2["size"]:
+                        continue
+                    gap = c2["bbox"][0] - c1["bbox"][2]
+                    if gap > s1["size"] * 0.6 * 0.5:
+                        text = "".join(c["c"] for c, _ in chars)
+                        offenders.append(f"page {number}: {gap:.1f}pt after {c1['c']!r} in {text[:60]!r}")
+    assert not offenders, (
+        "Monospace runs with justification holes - a code block lost its "
+        "preformatting:\n" + "\n".join(offenders[:10])
+    )
+
+
+def test_the_code_listing_reached_the_pdf_at_all(pdf_full_text):
+    """Counterpart to the check above, which would pass trivially if the
+    listing were removed from docs/section4.md - there is then nothing left
+    to reflow. Guards the fixture the other test depends on."""
+    # pdf_full_text is one string *per page*, so this has to look inside
+    # each rather than testing membership of the list itself.
+    assert any("python -m venv .venv" in page for page in pdf_full_text), (
+        "docs/section4.md's code listing is not in the PDF - if it was "
+        "removed, the preformatting check above no longer tests anything"
+    )
+
+
 def test_prose_that_merely_starts_a_line_with_a_diagram_keyword_is_not_flagged():
     """Regression test (prodockit-userguide#25) for the false positive that
     a keyword-only check produced: prose wrapping so an ordinary English

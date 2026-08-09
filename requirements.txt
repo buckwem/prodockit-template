@@ -22,7 +22,15 @@ zensical>=0.0.53
 # .github/workflows/docs.yml's own pin lines, and CONTRIBUTING.md), which
 # manages the exact zensical/weasyprint/prodockit pins below and in CI
 # together, rather than by hand across several files.
-prodockit>=0.18.0
+#
+# 0.20.1 is different from those: it is a genuine functional minimum for
+# *this* template rather than a floor tracking the exact pin. The pipelines
+# here pin PANDOC_VERSION 3.10.1, and on that pandoc every prodockit before
+# 0.20.1 loses the `<pre>` around each fenced code block - the block then
+# reflows as justified prose in the PDF while the build reports success
+# (prodockit-extensions#207). A project generated from this template
+# inherits the pandoc pin, so it inherits that floor with it.
+prodockit>=0.20.1
 mkdocstrings-python
 pandoc
 toml

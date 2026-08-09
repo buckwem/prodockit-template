@@ -53,6 +53,18 @@ $$
 
 Above is an example of a TeX equation, written with the same `$$...$$` syntax as Zensical's own MathJax support. The PDF pre-renders it to a static image the same way it does the diagram above, rather than showing the raw LaTeX source.
 
+## SubSection {: #code-example }
+
+``` bash
+git clone https://gitlab.com/your-group/your-project
+cd your-project
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Above is an example of a code listing, written as a ` ```bash ` fenced code block. Unlike the diagram and the equation, nothing pre-renders it - the same text reaches both outputs directly. It is here so that both the website and the PDF are exercised on a *multi-line* listing: a code block that loses its preformatting reflows into a paragraph, and a single line has no line breaks to lose (prodockit-extensions#207).
+
 ### SubSubSection {: #section4-subsubsection-3 }
 
 ## SubSection {: #section4-subsection-3 }
