@@ -30,7 +30,7 @@ site_author = "Mark Buckwell"
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
 # Read more: https://zensical.org/docs/setup/basics/#site_url
-site_url = "https://github.com/buckwem/prodockit-template/"
+site_url = "https://buckwem.github.io/prodockit-template/"
 site_dir = "public"
 
 repo_url = "https://github.com/buckwem/prodockit-template"
