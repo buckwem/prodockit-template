@@ -38,7 +38,7 @@ jobs:
     env:
       PUPPETEER_SKIP_DOWNLOAD: "true"
       PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
-      PANDOC_VERSION: "3.10"
+      PANDOC_VERSION: "3.10.1"
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
@@ -63,7 +63,7 @@ jobs:
       # Keep these in step with docs.yml's own install line.
       - name: Build with the pinned versions
         run: |
-          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.18.0"
+          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
           prodockit pdf
           zensical build --clean
           cp source_bundle.pdf public/source_bundle.pdf

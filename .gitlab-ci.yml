@@ -23,7 +23,7 @@ pages:
     # "apt-get install pandoc" keeps CI and local dev on the same version,
     # rather than silently drifting whenever the base image's own package
     # updates. Keep in sync with .github/workflows/docs.yml's PANDOC_VERSION.
-    PANDOC_VERSION: "3.10"
+    PANDOC_VERSION: "3.10.1"
     # mermaid-cli drives Chrome through Puppeteer to rasterise diagrams.
     # Point it at the apt-installed Chrome further down rather than letting
     # Puppeteer download its own, and skip that download entirely.
@@ -70,7 +70,7 @@ pages:
     # requirements.txt's own floors - see the identical line and its comment
     # in .github/workflows/docs.yml. Keep both in step; managed together
     # with `prodockit pins` (see CONTRIBUTING.md).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.18.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
     - prodockit pdf
@@ -130,7 +130,7 @@ drift:
     - if: '$CI_PIPELINE_SOURCE == "web"'
   allow_failure: true
   variables:
-    PANDOC_VERSION: "3.10"
+    PANDOC_VERSION: "3.10.1"
     PUPPETEER_SKIP_DOWNLOAD: "true"
     PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
   script:
@@ -148,7 +148,7 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.18.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
     - prodockit pdf
     - zensical build --clean
     - cp source_bundle.pdf public/source_bundle.pdf
