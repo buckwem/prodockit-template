@@ -46,6 +46,10 @@ pages:
     - apt-get install -y curl gnupg ca-certificates
     - curl -fsSL -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
     - apt-get install -y /tmp/pandoc.deb
+    # prodockit.bibliography's citation style - not vendored (see
+    # CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97) - so
+    # every build, including this one, fetches it fresh.
+    - curl -fsSL -o harvard-cite-them-right.csl "https://www.zotero.org/styles/harvard-cite-them-right"
     # fonts-inter/fonts-jetbrains-mono: this template's default fonts (see
     # "Fonts" in the User Guide's customise.md) - the website loads them from Google Fonts at
     # view time, but WeasyPrint has no such fallback for the PDF; it needs
@@ -137,6 +141,9 @@ drift:
     - apt-get install -y curl gnupg ca-certificates jq
     - curl -fsSL -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
     - apt-get install -y /tmp/pandoc.deb
+    # prodockit.bibliography's citation style - not vendored (see
+    # CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97).
+    - curl -fsSL -o harvard-cite-them-right.csl "https://www.zotero.org/styles/harvard-cite-them-right"
     - apt-get install -y texlive-xetex texlive-fonts-recommended texlive-plain-generic texlive-latex-extra fonts-inter fonts-jetbrains-mono
     - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
     - apt-get install -y nodejs
