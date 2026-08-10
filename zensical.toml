@@ -544,8 +544,9 @@ numbering = "continuous"
 [project.markdown_extensions."prodockit.bibliography"]
 # bib_file/csl_style are both resolved relative to wherever
 # `zensical build`/`zensical serve`/`prodockit pdf` is run from - typically
-# the project root, where references.bib and harvard-cite-them-right.csl
-# both live. Requires Pandoc on PATH - unlike every other prodockit
+# the project root, where references.bib lives. harvard-cite-them-right.csl
+# isn't committed (see CONTRIBUTING.md's "Getting set up") - fetch it before
+# building. Requires Pandoc on PATH - unlike every other prodockit
 # extension, this one needs it even for the live website, not just the
 # PDF (see "Requirements" in prodockit.bibliography's own docs).
 bib_file = "references.bib"

@@ -34,6 +34,18 @@ __pycache__
 trace.json
 
 # -----------------------------------------------------------------------------
+# Vale (fetched by `vale sync`, using the `Packages =` line in .vale.ini -
+# not vendored, see prodockit-userguide#97)
+# -----------------------------------------------------------------------------
+styles/
+
+# -----------------------------------------------------------------------------
+# Citation style for prodockit.bibliography - fetched, not vendored (see
+# CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97)
+# -----------------------------------------------------------------------------
+/harvard-cite-them-right.csl
+
+# -----------------------------------------------------------------------------
 # General
 # -----------------------------------------------------------------------------
 

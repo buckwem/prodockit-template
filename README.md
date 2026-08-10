@@ -58,7 +58,7 @@ This produces `docs/site_documentation.pdf`. Building Mermaid diagrams and maths
 
 * `docs/` - your report's Markdown source (`index.md` cover page, `originality.md`, `section1.md`-`section4.md`, `acronyms.md`, `glossary.md`, `references.md`).
 * `docs/stylesheets/` - `extra.css` (website) and `print.css` (PDF) appearance.
-* `references.bib` / `harvard-cite-them-right.csl` - your bibliography source and citation style for `prodockit.bibliography` (see `docs/references.md`).
+* `references.bib` - your bibliography source for `prodockit.bibliography` (see `docs/references.md`). Its citation style, `harvard-cite-them-right.csl`, isn't committed - fetch it with `curl -fsSL -o harvard-cite-them-right.csl "https://www.zotero.org/styles/harvard-cite-them-right"` before building (CI does this automatically).
 * `zensical.toml` - site configuration and navigation.
 * `macros.py` - build-time logic (Surrey detection, word count, repository link, heading numbering).
 * `tools/` - Node.js tooling used only by the PDF build (Mermaid, MathJax rendering).
