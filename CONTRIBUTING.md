@@ -16,8 +16,13 @@ For anything beyond a small fix (typos, broken links), please open an issue firs
 1. Fork the repository and clone your fork.
 2. Install the Python prerequisites: `pip install -r requirements.txt`.
 3. Install [Pandoc](https://pandoc.org/installing.html) (e.g. `brew install pandoc`) - required even to preview the site locally, not just to build the PDF: `prodockit.bibliography`'s citations/references (see `docs/references.md`) are formatted via `pandoc --citeproc` on every build.
-4. Preview the site locally: `zensical serve`.
-5. If your change touches PDF generation, Mermaid diagrams, or MathJax equations, also install the Node tooling (`npm ci` in `tools/mermaid/` and `tools/mathjax/`) and build the PDF with `prodockit pdf`. See [Install tooling](https://buckwem.github.io/prodockit-userguide/installtooling/) in the User Guide for the full setup.
+4. Fetch the citation style `prodockit.bibliography` formats references with - not vendored in the repo, so every build (including `zensical serve`) needs it present locally:
+
+   ```bash
+   curl -fsSL -o harvard-cite-them-right.csl "https://www.zotero.org/styles/harvard-cite-them-right"
+   ```
+5. Preview the site locally: `zensical serve`.
+6. If your change touches PDF generation, Mermaid diagrams, or MathJax equations, also install the Node tooling (`npm ci` in `tools/mermaid/` and `tools/mathjax/`) and build the PDF with `prodockit pdf`. See [Install tooling](https://buckwem.github.io/prodockit-userguide/installtooling/) in the User Guide for the full setup.
 
 ## Making a change
 
