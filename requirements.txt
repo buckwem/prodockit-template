@@ -23,14 +23,21 @@ zensical>=0.0.53
 # manages the exact zensical/weasyprint/prodockit pins below and in CI
 # together, rather than by hand across several files.
 #
-# 0.20.1 is different from those: it is a genuine functional minimum for
-# *this* template rather than a floor tracking the exact pin. The pipelines
-# here pin PANDOC_VERSION 3.10.1, and on that pandoc every prodockit before
-# 0.20.1 loses the `<pre>` around each fenced code block - the block then
-# reflows as justified prose in the PDF while the build reports success
+# 0.20.1 was a genuine functional minimum for *this* template rather than
+# a floor tracking the exact pin: the pipelines here pin PANDOC_VERSION
+# 3.10.1, and on that pandoc every prodockit before 0.20.1 loses the
+# `<pre>` around each fenced code block - the block then reflows as
+# justified prose in the PDF while the build reports success
 # (prodockit-extensions#207). A project generated from this template
 # inherits the pandoc pin, so it inherits that floor with it.
-prodockit>=0.20.1
+#
+# >=0.21.0 raises it again for the same reason as >=0.13.0/>=0.17.2 above:
+# `prodockit source-bundle` (this template's own Source PDF, see
+# CONTRIBUTING.md and the CI workflow files) does not exist before it -
+# `pdf_source_bundle`, the setting this template used to set in
+# zensical.toml, was removed the same release the command was added
+# (prodockit-extensions#212, prodockit-template#160).
+prodockit>=0.21.0
 mkdocstrings-python
 pandoc
 toml

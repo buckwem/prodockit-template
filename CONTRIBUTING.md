@@ -37,8 +37,8 @@ The test suite in `test/` checks the *built output*, not the build process itsel
 ```bash
 pip install -r requirements.txt -r testrequirements.txt
 prodockit pdf
+prodockit source-bundle
 zensical build
-cp source_bundle.pdf public/source_bundle.pdf
 python test/run_tests.py
 ```
 

@@ -451,8 +451,10 @@ pdf_header_footer_divider_color = "#e2e8f0"
 pdf_copyright = 'Author: Mark Buckwell and contributors. Licensed under the MIT License.<br>Made with <a href="https://zensical.org/">Zensical</a> and <a href="https://buckwem.github.io/prodockit-extensions/">prodockit</a>.'
 
 
-# Generate a PDF bundle of the source files (Markdown, images, etc.) in addition to the PDF of the rendered site. This is useful for archiving or sharing the source content. PDF-only, has no effect on the live site.
-pdf_source_bundle = true
+# Generating a PDF bundle of the source (Markdown + zensical.toml) is now a
+# separate command, `prodockit source-bundle`, run alongside `prodockit pdf`
+# rather than a setting here - see CONTRIBUTING.md and the CI workflow
+# files. Requires prodockit>=0.21.0.
 
 # ----------------------------------------------------------------------------
 # Python Extensions
