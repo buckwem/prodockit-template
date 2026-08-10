@@ -133,7 +133,7 @@ jobs:
       # pins` (see CONTRIBUTING.md) rather than by hand - keep this in step
       # with requirements.txt's own floors, and with the identical line in
       # .gitlab-ci.yml.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which
@@ -141,15 +141,14 @@ jobs:
       # the case that matters when this template is forked (#128).
       - run: prodockit sync-repo
       - run: prodockit pdf
+      # Writes docs/source_bundle.pdf - inside docs_dir, so the next step
+      # copies it into public/ the same way it already does for
+      # docs/site_documentation.pdf, with no separate copy step needed
+      # (prodockit-extensions#212, prodockit-template#160). Run before
+      # `zensical build`, not after, or the file wouldn't exist yet when
+      # that step decides what to copy.
+      - run: prodockit source-bundle
       - run: zensical build --clean
-      # source_bundle.pdf (from pdf_source_bundle in zensical.toml) is
-      # written to the project root by prodockit.pdf.config, not docs_dir -
-      # it bundles the whole repo's own source, not just docs_dir's content,
-      # so it isn't one of the files `zensical build` copies into public/ on
-      # its own. Copied in explicitly, before the test suite runs, since
-      # test_links.py checks that the cover page's "Source" button actually
-      # resolves inside public/.
-      - run: cp source_bundle.pdf public/source_bundle.pdf
       - run: python test/run_tests.py
       # Fingerprint what we are about to publish, so the verify job below can
       # tell whether the live site is actually serving *this* build. Taken

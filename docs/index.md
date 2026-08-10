@@ -10,10 +10,11 @@ hide:
 # SPDX-License-Identifier: MIT
 -->
 
-<!-- The "Source" button links to source_bundle.pdf, only built when
-     pdf_source_bundle = true under [project.extra] in zensical.toml (on
-     by default in this template) - remove this button if you turn that
-     setting off, since the link would otherwise 404. -->
+<!-- The "Source" button links to source_bundle.pdf, built by running
+     `prodockit source-bundle` alongside `prodockit pdf` (see
+     CONTRIBUTING.md and the CI workflow files) - remove this button if
+     your project stops running that command, since the link would
+     otherwise 404. -->
 <div style="float: right; display: flex; gap: 15px; margin-left: 15px;" class="web-only" markdown="1">
 [:material-archive: Source](source_bundle.pdf){ .md-button target="_blank" }
 [:material-file-pdf-box: PDF](site_documentation.pdf){ .md-button target="_blank" }

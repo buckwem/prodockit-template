@@ -70,19 +70,18 @@ pages:
     # requirements.txt's own floors - see the identical line and its comment
     # in .github/workflows/docs.yml. Keep both in step; managed together
     # with `prodockit pins` (see CONTRIBUTING.md).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
     - prodockit pdf
+    # Writes docs/source_bundle.pdf - inside docs_dir, so zensical build
+    # copies it into public/ the same way it already does for
+    # docs/site_documentation.pdf, with no separate copy step needed
+    # (prodockit-extensions#212, prodockit-template#160). Run before
+    # zensical build, not after, or the file wouldn't exist yet when that
+    # step decides what to copy.
+    - prodockit source-bundle
     - zensical build --clean
-    # source_bundle.pdf (from pdf_source_bundle in zensical.toml) is written
-    # to the project root by prodockit.pdf.config, not docs_dir - it bundles
-    # the whole repo's own source, not just docs_dir's content, so it isn't
-    # one of the files `zensical build` copies into public/ on its own.
-    # Copied in explicitly, before the test suite runs, since test_links.py
-    # checks that the cover page's "Source" button actually resolves inside
-    # public/.
-    - cp source_bundle.pdf public/source_bundle.pdf
     - python test/run_tests.py
   pages:
     publish: public
@@ -148,19 +147,23 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
     - prodockit pdf
+    # Writes docs/source_bundle.pdf - inside docs_dir, so zensical build
+    # copies it into public/ the same way it already does for
+    # docs/site_documentation.pdf. Run before zensical build, not after
+    # (prodockit-extensions#212, prodockit-template#160).
+    - prodockit source-bundle
     - zensical build --clean
-    - cp source_bundle.pdf public/source_bundle.pdf
     - mkdir -p /tmp/pinned && cp -R public /tmp/pinned/public && cp docs/site_documentation.pdf /tmp/pinned/doc.pdf
     - PINNED_ZENSICAL=$(pip show zensical | awk '/^Version:/{print $2}')
     - PINNED_WEASYPRINT=$(pip show weasyprint | awk '/^Version:/{print $2}')
     - PINNED_PRODOCKIT=$(pip show prodockit | awk '/^Version:/{print $2}')
     - pip install -qU zensical weasyprint prodockit
-    - rm -rf public source_bundle.pdf docs/site_documentation.pdf
+    - rm -rf public docs/source_bundle.pdf docs/site_documentation.pdf
     - prodockit pdf
+    - prodockit source-bundle
     - zensical build --clean
-    - cp source_bundle.pdf public/source_bundle.pdf
     - LATEST_ZENSICAL=$(pip show zensical | awk '/^Version:/{print $2}')
     - LATEST_WEASYPRINT=$(pip show weasyprint | awk '/^Version:/{print $2}')
     - LATEST_PRODOCKIT=$(pip show prodockit | awk '/^Version:/{print $2}')

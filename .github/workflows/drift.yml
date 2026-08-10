@@ -63,10 +63,10 @@ jobs:
       # Keep these in step with docs.yml's own install line.
       - name: Build with the pinned versions
         run: |
-          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.20.1"
+          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
           prodockit pdf
+          prodockit source-bundle
           zensical build --clean
-          cp source_bundle.pdf public/source_bundle.pdf
           mkdir -p /tmp/pinned
           cp -R public /tmp/pinned/public
           cp docs/site_documentation.pdf /tmp/pinned/doc.pdf
@@ -79,10 +79,10 @@ jobs:
       - name: Build with the newest versions
         run: |
           pip install -qU zensical weasyprint prodockit
-          rm -rf public source_bundle.pdf docs/site_documentation.pdf
+          rm -rf public docs/source_bundle.pdf docs/site_documentation.pdf
           prodockit pdf
+          prodockit source-bundle
           zensical build --clean
-          cp source_bundle.pdf public/source_bundle.pdf
           {
             echo "latest_zensical=$(pip show zensical | awk '/^Version:/{print $2}')"
             echo "latest_weasyprint=$(pip show weasyprint | awk '/^Version:/{print $2}')"
