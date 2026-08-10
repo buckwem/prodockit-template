@@ -13,8 +13,8 @@ build it themselves:
 
     prodockit sync-repo        # only needed after changing the git remote
     prodockit pdf
+    prodockit source-bundle    # before zensical build - see .github/workflows/docs.yml
     zensical build
-    cp source_bundle.pdf public/source_bundle.pdf   # see .github/workflows/docs.yml
 
 Usage:
     python test/run_tests.py                  # run every batch
