@@ -126,6 +126,35 @@ jobs:
       - run: sudo apt install -y google-chrome-stable
       - run: npm ci --prefix tools/mermaid
       - run: npm ci --prefix tools/mathjax
+      # MathJax for the *website*, from the very install above. Neither
+      # file is committed - the bundle is third-party code, and both are
+      # written by `prodockit bootstrap` on a developer's machine
+      # (prodockit-extensions#263) - so CI has to install them the same
+      # way, exactly as it already fetches the CSL style above. Without
+      # this the site builds with a dangling script reference and shows
+      # raw TeX where an equation should be.
+      - name: Install MathJax for the website
+        run: |
+          mkdir -p docs/javascripts/vendor/mathjax
+          cp tools/mathjax/node_modules/mathjax-full/es5/tex-svg-full.js \
+             docs/javascripts/vendor/mathjax/
+          cat > docs/javascripts/mathjax.js <<'MATHJAX'
+          // Written by CI, matching what `prodockit bootstrap` writes. Loaded
+          // *before* the MathJax bundle: MathJax reads `window.MathJax` once at
+          // startup, so a config arriving afterwards is ignored.
+          window.MathJax = {
+            tex: {
+              inlineMath: [["\\(", "\\)"]],
+              displayMath: [["\\[", "\\]"]],
+              processEscapes: true,
+              processEnvironments: true,
+            },
+            options: {
+              ignoreHtmlClass: ".*|",
+              processHtmlClass: "arithmatex",
+            },
+          };
+          MATHJAX
       # zensical/weasyprint/prodockit pinned exactly here, on top of
       # requirements.txt's own floors: this is the project's own published
       # build, an artifact that should change when someone decides it
