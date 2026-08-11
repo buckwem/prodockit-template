@@ -31,13 +31,18 @@ zensical>=0.0.53
 # (prodockit-extensions#207). A project generated from this template
 # inherits the pandoc pin, so it inherits that floor with it.
 #
-# >=0.21.0 raises it again for the same reason as >=0.13.0/>=0.17.2 above:
+# >=0.21.0 raised it again for the same reason as >=0.13.0/>=0.17.2 above:
 # `prodockit source-bundle` (this template's own Source PDF, see
 # CONTRIBUTING.md and the CI workflow files) does not exist before it -
 # `pdf_source_bundle`, the setting this template used to set in
 # zensical.toml, was removed the same release the command was added
 # (prodockit-extensions#212, prodockit-template#160).
-prodockit>=0.21.0
+#
+# >=0.26.2 raises it once more: `prodockit init-mathjax` (issue #167)
+# replaces a heredoc in docs.yml/drift.yml that duplicated bootstrap's own
+# MathJax install - two copies of a config whose failure mode is being
+# subtly wrong rather than broken outright (prodockit-extensions#276).
+prodockit>=0.26.2
 mkdocstrings-python
 pandoc
 toml

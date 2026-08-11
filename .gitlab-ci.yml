@@ -73,8 +73,17 @@ pages:
     # zensical/weasyprint/prodockit pinned exactly here, on top of
     # requirements.txt's own floors - see the identical line and its comment
     # in .github/workflows/docs.yml. Keep both in step; managed together
-    # with `prodockit pins` (see CONTRIBUTING.md).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
+    # with `prodockit pins` (see CONTRIBUTING.md). >=0.26.2 for `prodockit
+    # init-mathjax` below (issue #167).
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.26.2"
+    # MathJax for the website, from the npm install above - see the
+    # identical step's comment in .github/workflows/docs.yml. This job
+    # never had this step at all until now (issue #167 found it missing
+    # while replacing docs.yml's own version): zensical.toml's
+    # extra_javascript unconditionally references
+    # javascripts/mathjax.js/vendor/mathjax/tex-svg-full.js, so every page
+    # built here had a dangling script reference and showed raw TeX.
+    - prodockit init-mathjax
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
     - prodockit pdf
@@ -154,7 +163,12 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.26.2"
+    # See the identical step's comment in the pages job above. Not repeated
+    # after the "newest versions" pip install below: the bundle comes from
+    # tools/mathjax, not from whichever prodockit gets installed, so one
+    # write here covers both builds.
+    - prodockit init-mathjax
     - prodockit pdf
     # Writes docs/source_bundle.pdf - inside docs_dir, so zensical build
     # copies it into public/ the same way it already does for

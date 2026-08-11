@@ -59,40 +59,18 @@ jobs:
       - run: sudo apt install -y google-chrome-stable
       - run: npm ci --prefix tools/mermaid
       - run: npm ci --prefix tools/mathjax
-      # MathJax for the *website*, from the very install above. Neither
-      # file is committed - the bundle is third-party code, and both are
-      # written by `prodockit bootstrap` on a developer's machine
-      # (prodockit-extensions#263) - so CI has to install them the same
-      # way, exactly as it already fetches the CSL style above. Without
-      # this the site builds with a dangling script reference and shows
-      # raw TeX where an equation should be.
-      - name: Install MathJax for the website
-        run: |
-          mkdir -p docs/javascripts/vendor/mathjax
-          cp tools/mathjax/node_modules/mathjax-full/es5/tex-svg-full.js \
-             docs/javascripts/vendor/mathjax/
-          cat > docs/javascripts/mathjax.js <<'MATHJAX'
-          // Written by CI, matching what `prodockit bootstrap` writes. Loaded
-          // *before* the MathJax bundle: MathJax reads `window.MathJax` once at
-          // startup, so a config arriving afterwards is ignored.
-          window.MathJax = {
-            tex: {
-              inlineMath: [["\\(", "\\)"]],
-              displayMath: [["\\[", "\\]"]],
-              processEscapes: true,
-              processEnvironments: true,
-            },
-            options: {
-              ignoreHtmlClass: ".*|",
-              processHtmlClass: "arithmatex",
-            },
-          };
-          MATHJAX
 
       # Keep these in step with docs.yml's own install line.
       - name: Build with the pinned versions
         run: |
-          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.21.0"
+          pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.26.2"
+          # Writes docs/javascripts/mathjax.js and its bundle from the npm
+          # install above (issue #167) - needs `prodockit` on PATH, hence
+          # after this pip install rather than beside the npm ci. Not
+          # repeated in "Build with the newest versions" below: the bundle
+          # comes from tools/mathjax, not from whichever prodockit gets
+          # installed, so one write here covers both builds.
+          prodockit init-mathjax
           prodockit pdf
           prodockit source-bundle
           zensical build --clean
