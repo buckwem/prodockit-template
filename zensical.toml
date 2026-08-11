@@ -92,10 +92,23 @@ extra_css = ["stylesheets/extra.css"]
 # The path provided should be relative to the "docs_dir".
 #
 # Read more: https://zensical.org/docs/customization/#additional-javascript
-#extra_javascript = ["javascript/extra.js"]
+#extra_javascript = ["javascripts/extra.js"]
+#
+# Order is load-bearing. MathJax reads `window.MathJax` once at startup, so
+# its configuration has to be listed *before* the bundle - a config that
+# arrives afterwards is ignored, and the page shows raw TeX rather than an
+# equation (prodockit-extensions#263).
+#
+# Both MathJax entries are installed by `prodockit bootstrap` and ignored
+# by git: the bundle is third-party code and does not belong in your
+# repository, and it is copied out of tools/mathjax's own pinned install so
+# the website and the PDF typeset through byte-identical MathJax. Run
+# `prodockit bootstrap --apply` (or see the User Guide) before building the
+# site for the first time.
 extra_javascript = [
-  "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js",
-  "javascript/extra.js"
+  "javascripts/mathjax.js",
+  "javascripts/vendor/mathjax/tex-svg-full.js",
+  "javascripts/extra.js"
 ]
 
 # ----------------------------------------------------------------------------

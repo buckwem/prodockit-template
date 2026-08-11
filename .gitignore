@@ -64,3 +64,10 @@ docs/*.pdf
 
 # Local Claude Code config (dev-preview launch config, personal permissions)
 .claude/
+
+# Installed by `prodockit bootstrap` - third-party code and generated
+# configuration, neither of which belongs in your repository. Copied from
+# tools/mathjax's pinned install so the site and the PDF typeset through
+# the same MathJax (prodockit-extensions#263).
+docs/javascripts/vendor/
+docs/javascripts/mathjax.js
