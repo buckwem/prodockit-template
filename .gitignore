@@ -71,3 +71,10 @@ docs/*.pdf
 # the same MathJax (prodockit-extensions#263).
 docs/javascripts/vendor/
 docs/javascripts/mathjax.js
+
+# Font files, if you keep any here. Inter and JetBrains Mono - the two the
+# PDF embeds - are installed on the machine rather than carried in the
+# repository, the same as the MathJax bundle above: they are somebody
+# else's files, often under licences that govern redistribution, and a
+# repository is redistribution (prodockit-template#164).
+fonts/
