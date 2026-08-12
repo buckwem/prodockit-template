@@ -75,7 +75,7 @@ pages:
     # in .github/workflows/docs.yml. Keep both in step; managed together
     # with `prodockit pins` (see CONTRIBUTING.md). >=0.26.2 for `prodockit
     # init-mathjax` below (issue #167).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.30.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.30.1"
     # MathJax for the website, from the npm install above - see the
     # identical step's comment in .github/workflows/docs.yml. This job
     # never had this step at all until now (issue #167 found it missing
@@ -163,7 +163,7 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.30.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.30.1"
     # See the identical step's comment in the pages job above. Not repeated
     # after the "newest versions" pip install below: the bundle comes from
     # tools/mathjax, not from whichever prodockit gets installed, so one
