@@ -96,7 +96,17 @@ jobs:
       # rather than silently drifting whenever Ubuntu's own package updates.
       PANDOC_VERSION: "3.10.1"
     steps:
+      # `enablement: true` creates the Pages site if it does not exist,
+      # instead of failing with "Get Pages site failed" and leaving the
+      # reader to find Settings > Pages themselves. That manual step is
+      # easy to rush past while setting a project up, and the error names
+      # the site rather than the setting that is missing, so nothing
+      # points at the fix (prodockit-extensions#333).
+      #
+      # `permissions: pages: write` above is what allows it.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
