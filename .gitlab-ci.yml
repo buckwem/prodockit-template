@@ -44,7 +44,7 @@ pages:
   script:
     - apt-get update
     - apt-get install -y curl gnupg ca-certificates
-    - curl -fsSL -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+    - curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 --connect-timeout 20 -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
     - apt-get install -y /tmp/pandoc.deb
     # prodockit.bibliography's citation style - not vendored (see
     # CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97) - so
@@ -148,7 +148,7 @@ drift:
   script:
     - apt-get update
     - apt-get install -y curl gnupg ca-certificates jq
-    - curl -fsSL -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+    - curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 --connect-timeout 20 -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
     - apt-get install -y /tmp/pandoc.deb
     # prodockit.bibliography's citation style - not vendored (see
     # CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97).
