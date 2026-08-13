@@ -3,7 +3,7 @@
 
 pages:
   stage: deploy
-  image: python:latest
+  image: python:3.13
   tags:
     - pages
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
@@ -134,7 +134,7 @@ pages:
 # running this job.
 drift:
   stage: deploy
-  image: python:latest
+  image: python:3.13
   # Only created when someone starts a pipeline manually from the GitLab
   # UI ("Run pipeline") - never on an ordinary push or tag pipeline, and
   # with no pipeline schedule involved at all.
