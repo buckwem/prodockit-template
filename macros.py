@@ -119,16 +119,20 @@ def define_env(env):
         # Ensure the destination folder exists
         dest_white.parent.mkdir(parents=True, exist_ok=True)
 
+        # Silent when it works. Copying two files is what this macro is
+        # for, so saying it worked is a line on every build and every CI
+        # job that nobody can act on - and it now sits in the middle of
+        # `prodockit pdf`'s own stage-by-stage output. The failure below
+        # still speaks up, because that one cannot be seen any other way
+        # (prodockit-template#176).
         if final_result:
             # If Surrey environment, copy Surrey logos
             shutil.copy2('docs/assets/logo_surrey_white.png', dest_white)
             shutil.copy2('docs/assets/logo_surrey_black.png', dest_black)
-            print("[Zensical Startup] Applied Surrey branding logos.")
         else:
             # Otherwise, copy Eagle logos
             shutil.copy2('docs/assets/logo_default_white.png', dest_white)
             shutil.copy2('docs/assets/logo_default_black.png', dest_black)
-            print("[Zensical Startup] Applied default branding logos.")
 
     except FileNotFoundError as e:
         print(f"[Zensical Startup Warning] Could not copy logos: {e}")
