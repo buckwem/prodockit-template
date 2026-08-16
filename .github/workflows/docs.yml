@@ -152,7 +152,7 @@ jobs:
       # with requirements.txt's own floors, and with the identical line in
       # .gitlab-ci.yml. >=0.26.2 for `prodockit init-mathjax` below (issue
       # #167).
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.30.1"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.53" "weasyprint==69.0" "prodockit==0.32.1"
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
