@@ -32,8 +32,9 @@ For anything beyond a small fix (typos, broken links), please open an issue firs
    - PDF-affecting changes (`zensical.toml`, `macros.py`, `docs/stylesheets/print.css`): run `prodockit pdf` and check `docs/site_documentation.pdf`.
    - Prose changes: optionally run `vale docs/` if you have [Vale](https://vale.sh/) installed (see [Additional tooling](https://buckwem.github.io/prodockit-userguide/additionaltooling/#install-vale-to-check-for-grammar-spelling-and-style-issues) in the User Guide); it's not enforced in CI.
    - Run the test suite (see below) - it checks the built website and PDF for regressions in this template's own prodockit-specific features (numbering, word count, links, and so on), and runs in CI on every push.
-3. Open a pull request against `main`. `main` is protected, so all changes - including from maintainers - go through a PR.
-4. Reference the issue your PR addresses (e.g. `Fixes #123`) where applicable.
+3. Record it in [`CHANGELOG.md`](CHANGELOG.md) if a holder of an older clone would want to know - a pin move, a change to the structure of `docs/`, anything that alters what CI publishes, or anything they would have to redo by hand. Note where that file is: `docs/` *is* the report in this repository, so a changelog placed there would be published into every document built from this template.
+4. Open a pull request against `main`. `main` is protected, so all changes - including from maintainers - go through a PR.
+5. Reference the issue your PR addresses (e.g. `Fixes #123`) where applicable.
 
 ## Running the test suite
 
