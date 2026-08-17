@@ -9,7 +9,7 @@
 # the only differences there were a bundled Font Awesome/Lucide icon-set
 # bump (redrawn SVG artwork, new asset hashes) and an additive "lang" field
 # in search.json's config.
-zensical>=0.0.53
+zensical>=0.0.55
 # A floor here, same reasoning as zensical and weasyprint below - CI pins it
 # exactly instead (see docs.yml), since prodockit is what renders this
 # project's own PDF and generates its index (issue #149). Kept at the same
@@ -42,7 +42,7 @@ zensical>=0.0.53
 # replaces a heredoc in docs.yml/drift.yml that duplicated bootstrap's own
 # MathJax install - two copies of a config whose failure mode is being
 # subtly wrong rather than broken outright (prodockit-extensions#276).
-prodockit>=0.35.0
+prodockit>=0.36.1
 mkdocstrings-python
 pandoc
 toml
