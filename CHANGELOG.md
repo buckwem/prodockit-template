@@ -1,17 +1,11 @@
 # Changelog
 
-What has changed in this template, for whoever maintains it.
+What has changed in this template. A clone does not pull, so this is
+what someone who cloned earlier has not got.
 
-Deliberately at the repository root rather than under `docs/`. In this
-repository `docs/` *is* the report - `section1.md`, `originality.md`,
-`references.md` - so anything put there is published into every document
-built from the template, and would land inside a student's assessed
-submission (issue #184).
-
-A student clones this once, at the start of a module, and never pulls
-again. So this is not a curiosity: it is the record of how two cohorts'
-copies came to differ, and what someone who cloned early would have to
-redo by hand.
+At the repository root rather than under `docs/`, because `docs/` is the
+report here - anything put there is published into every document built
+from the template (issue #184).
 
 Newest first.
 
