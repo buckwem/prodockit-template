@@ -73,6 +73,12 @@ See [Directory structure](https://buckwem.github.io/prodockit-userguide/customis
 
 Before you submit, update this README to describe your own report.
 
+## Changes to the template
+
+What has changed, and when - see [`CHANGELOG.md`](CHANGELOG.md). Worth a
+look if you cloned a while ago: a clone does not pull, so anything landing
+after yours is not in your copy.
+
 ## Contributing
 
 Contributions to the template itself are welcome - see [`CONTRIBUTING.md`](CONTRIBUTING.md).
