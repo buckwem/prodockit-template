@@ -63,6 +63,16 @@ jobs:
       - run: sudo apt install -y google-chrome-stable
       - run: npm ci --prefix tools/mermaid
       - run: npm ci --prefix tools/mathjax
+      # prodockit.bibliography's citation style, which is not vendored -
+      # docs.yml fetches it the same way, and without it *both* builds
+      # here die before anything is compared:
+      #
+      #   BibliographyError: pandoc exited with status 99 ... File
+      #   'harvard-cite-them-right.csl' not found in resource path
+      #
+      # So this job could never report drift; it only ever reported its
+      # own missing file (prodockit-template#180).
+      - run: curl -fsSL -o harvard-cite-them-right.csl "https://www.zotero.org/styles/harvard-cite-them-right"
 
       # Keep these in step with docs.yml's own install line.
       - name: Build with the pinned versions
