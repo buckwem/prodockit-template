@@ -46,6 +46,8 @@ permissions:
 jobs:
   redeploy:
     runs-on: ubuntu-24.04
+    # Seconds in every run measured.
+    timeout-minutes: 10
     steps:
       - name: Rebuild and deploy the docs from main
         env:
