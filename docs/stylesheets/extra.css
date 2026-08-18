@@ -59,6 +59,18 @@ SPDX-License-Identifier: MIT
 .md-typeset table.prodockit-table-sized th {
   font-weight: 700;
 }
+/* Row rules, not a grid: the theme divides rows and leaves columns to
+   the whitespace, and a header cell carries no rule of its own. */
+.md-typeset table.prodockit-table-sized td {
+  border-top: 0.05rem solid var(--md-typeset-table-color);
+}
+.md-typeset table.prodockit-table-sized tbody tr {
+  transition: background-color 125ms;
+}
+.md-typeset table.prodockit-table-sized tbody tr:hover {
+  background-color: var(--md-typeset-table-color--light);
+  box-shadow: 0 0.05rem 0 var(--md-default-bg-color) inset;
+}
 
 /* ============================================================= */
 /* ============ Makes the top-level menu tabs bold ============= */
