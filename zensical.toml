@@ -566,6 +566,27 @@ bib_file = "references.bib"
 csl_style = "harvard-cite-them-right.csl"
 [project.markdown_extensions."prodockit.tables"]
 [project.markdown_extensions."prodockit.index"]
+# A directory listing that reads as one: indentation is the structure, a
+# trailing / marks a directory, and the icons come from this project's own
+# set. Enabled because the alternative is what a report otherwise gets - a
+# fenced block of box-drawing characters, hand-aligned, that breaks the
+# moment a name changes and carries no meaning into the PDF.
+[project.markdown_extensions."prodockit.tree"]
+# Numbered steps a reader works through in order - a number to find your
+# place by, room for a command and its explanation, and a line joining one
+# step to the next. Useful anywhere a method has to be repeatable by
+# somebody else, which is most of a methodology section.
+[project.markdown_extensions."prodockit.steps"]
+# `prodockit.citations` is deliberately *not* enabled, though it exists and
+# is registered. It and prodockit.bibliography above cover the same job two
+# ways: citations wants a hand-written reference paragraph carrying its own
+# display text, bibliography resolves against references.bib and formats
+# both the citation and the entry from a CSL style. This template has
+# committed to the second - references.bib and harvard-cite-them-right.csl
+# are configured above, and the starter document cites with \cite{}
+# throughout. Enabling both would offer a reader two competing ways to cite
+# in a document demonstrating one of them, which is worse than offering
+# fewer features (prodockit-template#204).
 [project.markdown_extensions.pymdownx.snippets]
 [project.markdown_extensions.pymdownx.blocks.caption]
 # "caption" (no prefix) is kept for a plain, unnumbered caption - e.g. a

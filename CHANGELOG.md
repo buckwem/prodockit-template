@@ -9,6 +9,30 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- `prodockit.tree` and `prodockit.steps` are enabled, and demonstrated in
+  the starter document
+  ([#204](https://github.com/buckwem/prodockit-template/issues/204)).
+
+    Both were registered extensions this template had never turned on, so
+    a directory listing had to be hand-drawn as box-drawing characters -
+    which has to be redrawn whenever a name changes, and carries no
+    structure into the PDF - and a sequence of instructions was an
+    ordinary numbered list.
+
+    They are in Section 4's capability table too. An extension nobody
+    knows about is not much better than one that is switched off.
+
+- `prodockit.citations` is deliberately still **not** enabled, and
+  `zensical.toml` now says why.
+
+    It and `prodockit.bibliography` cover the same job two ways, and this
+    template has committed to the second: `references.bib` and a CSL style
+    are configured, and the starter document cites with `\cite{}`
+    throughout. Enabling both would offer two competing ways to cite in a
+    document demonstrating one.
+
 ## 0.0.27 (2026-08-19)
 
 - prodockit pinned to **0.39.0** (from 0.38.0), which brings
