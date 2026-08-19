@@ -20,7 +20,8 @@ zensical>=0.0.55
 # Mermaid/TeX checks' font-ligature handling this project discovered (issue
 # #128); >=0.17.2 added `prodockit pins` itself (see
 # .github/workflows/docs.yml's own pin lines, and CONTRIBUTING.md), which
-# manages the exact zensical/weasyprint/prodockit pins below and in CI
+# manages the exact zensical/weasyprint pins and prodockit's floor below
+# and in CI
 # together, rather than by hand across several files.
 #
 # 0.20.1 was a genuine functional minimum for *this* template rather than
@@ -42,7 +43,7 @@ zensical>=0.0.55
 # replaces a heredoc in docs.yml/drift.yml that duplicated bootstrap's own
 # MathJax install - two copies of a config whose failure mode is being
 # subtly wrong rather than broken outright (prodockit-extensions#276).
-prodockit>=0.39.0
+prodockit>=0.40.0
 mkdocstrings-python
 pandoc
 toml

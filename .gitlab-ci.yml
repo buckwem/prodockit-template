@@ -70,12 +70,21 @@ pages:
     - apt-get install -y google-chrome-stable
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
-    # zensical/weasyprint/prodockit pinned exactly here, on top of
-    # requirements.txt's own floors - see the identical line and its comment
-    # in .github/workflows/docs.yml. Keep both in step; managed together
-    # with `prodockit pins` (see CONTRIBUTING.md). >=0.26.2 for `prodockit
-    # init-mathjax` below (issue #167).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit==0.39.0"
+    # zensical and weasyprint pinned exactly here; prodockit to a floor.
+    #
+    # The two that decide *rendering* stay exact - a new weasyprint
+    # repaginates and a new zensical redraws, and the site and PDF are
+    # artifacts that should change when somebody decides they should.
+    # prodockit is this project's own tooling, and a document generated from
+    # this template should pick up its fixes without waiting for the
+    # template to be updated and re-synced.
+    #
+    # See the identical line and its fuller comment in
+    # .github/workflows/docs.yml. Keep both in step; managed together with
+    # `prodockit pins` (see CONTRIBUTING.md). The floor is 0.40.0 for
+    # cross-references to figures and tables; 0.26.2 was the previous one,
+    # for `prodockit init-mathjax` below (issue #167).
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.40.0"
     # MathJax for the website, from the npm install above - see the
     # identical step's comment in .github/workflows/docs.yml. This job
     # never had this step at all until now (issue #167 found it missing
@@ -129,7 +138,8 @@ pages:
     # this project actually tags - and a redundant rebuild is harmless.
     - if: '$CI_COMMIT_TAG'
 
-# The pages job above pins zensical/weasyprint/prodockit exactly, so the
+# The pages job above pins zensical and weasyprint exactly (prodockit
+# floats - see its comment), so the
 # published site and PDF only change when someone decides they should. The
 # cost of pinning is going quietly stale: nothing says a newer release
 # exists, or what it would do to the output.
@@ -178,7 +188,7 @@ drift:
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # Keep in step with the pages job's own install line above.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit==0.39.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.40.0"
     # See the identical step's comment in the pages job above. Not repeated
     # after the "newest versions" pip install below: the bundle comes from
     # tools/mathjax, not from whichever prodockit gets installed, so one

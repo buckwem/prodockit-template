@@ -172,19 +172,33 @@ jobs:
       - run: sudo apt install -y google-chrome-stable
       - run: npm ci --prefix tools/mermaid
       - run: npm ci --prefix tools/mathjax
-      # zensical/weasyprint/prodockit pinned exactly here, on top of
-      # requirements.txt's own floors: this is the project's own published
-      # build, an artifact that should change when someone decides it
-      # should, not whenever any of the three next releases. weasyprint
-      # matters most for layout - it decides pagination, and those page
-      # numbers are resolved into the table of contents; prodockit matters
-      # just as much for content - it renders this project's PDF and
-      # generates its index (issue #149). Managed together with `prodockit
-      # pins` (see CONTRIBUTING.md) rather than by hand - keep this in step
-      # with requirements.txt's own floors, and with the identical line in
-      # .gitlab-ci.yml. >=0.26.2 for `prodockit init-mathjax` below (issue
-      # #167).
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit==0.39.0"
+        # zensical and weasyprint pinned exactly here; prodockit to a floor.
+        #
+        # The two that decide *rendering* stay exact, because the site and the
+        # PDF are artifacts and should change when somebody decides they should:
+        # a new weasyprint repaginates, and those page numbers are resolved into
+        # the table of contents and the index; a new zensical redraws the site.
+        #
+        # prodockit is different. It is this project's own tooling rather than a
+        # third-party renderer, and a document generated from this template
+        # should pick up its fixes without waiting for the template to be
+        # updated and re-synced - a student writing over a term would otherwise
+        # sit on whatever release the template happened to name on the day they
+        # generated it. The floor guarantees the features this template uses
+        # exist; anything newer is welcome.
+        #
+        # The drift job keeps an *exact* prodockit pin deliberately: it compares
+        # a baseline build against one made with the newest of everything, and a
+        # floor on both sides would compare the newest with the newest and never
+        # report anything.
+        #
+        # On top of requirements.txt's own floors. Managed together with
+        # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
+        # in step with requirements.txt, and with the identical line in
+        # .gitlab-ci.yml. The floor is 0.40.0 for cross-references to figures
+        # and tables; 0.26.2 was the previous one, for `prodockit init-mathjax`
+        # below (issue #167).
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.40.0"
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
