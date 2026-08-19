@@ -11,6 +11,29 @@ Newest first.
 
 ## Unreleased
 
+- prodockit pinned to **0.39.0** (from 0.38.0), which brings
+  `prodockit template-sync`
+  ([#498](https://github.com/buckwem/prodockit-extensions/pull/498)).
+
+    This is the release that lets a project generated from this template
+    catch up with it afterwards. A clone does not pull, which is what this
+    changelog exists to work around; from now on there is a command that
+    does the pulling:
+
+    ```bash
+    prodockit template-sync          # report; writes no project file
+    prodockit template-sync --apply  # branch, write, stage - the commit is yours
+    ```
+
+    What it will and will not write is decided by `.prodockit-template.toml`
+    in this repository, so the answer travels with the template rather than
+    with the tool. The report, its figures and its bibliography are never
+    written and never even read.
+
+    Nothing needs to be installed for it: the template is fetched into a
+    per-user cache. A project on Surrey's GitLab tracks the Surrey mirror
+    and everything else this GitHub copy.
+
 - Zensical pinned to **0.0.55** (from 0.0.53) and prodockit to
   **0.36.1** (from 0.35.0) ([#183](https://github.com/buckwem/prodockit-template/pull/183)).
 
