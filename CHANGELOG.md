@@ -9,7 +9,7 @@ from the template (issue #184).
 
 Newest first.
 
-## Unreleased
+## 0.0.27 (2026-08-19)
 
 - prodockit pinned to **0.39.0** (from 0.38.0), which brings
   `prodockit template-sync`
