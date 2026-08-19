@@ -1,0 +1,103 @@
+# .prodockit-template.toml - what an update may touch, and what it may not.
+#
+# Shipped with the template and read from the *new* version, so a file
+# added here arrives with the commit that adds the file. Applied against
+# the template at a tag, never a working copy: untracked local artefacts
+# are not part of a release and must not be delivered as though they were.
+
+version = 1
+
+[template]
+# Ours. Replaced wholesale where the project has not edited them.
+owns = [
+  ".github/workflows/**",
+  ".gitlab-ci.yml",
+  ".vale.ini",
+  ".python-version",
+  "docs/javascripts/**",
+  "docs/stylesheets/**",
+  "macros.py",
+  "overrides/**",
+  "tools/**",
+]
+
+[project]
+# Theirs. Never written after generation, never read for comparison.
+owns = [
+  "docs/*.md",
+  "docs/**/*.md",
+  "docs/assets/**",
+  "*.bib",
+  "LICENSE.md",
+  "sample.md",
+  ".vscode/**",
+]
+
+# Project-owned, but written once at generation rather than left to the
+# reader to invent. Never updated afterwards.
+seed = ["LICENSE.md"]
+
+# Ignored, and not shipped at all: `prodockit bootstrap` writes
+# `.vscode/settings.json` itself at stage 19, merging into whatever the
+# reader already has, once the extensions it configures are installed.
+# The template holding a copy as well would be a second source for one
+# file, and the editor rewrites it whenever a setting is changed in the UI.
+ignore = [".vscode/"]
+
+[shared]
+# Neither, wholly. Each needs its own rule below.
+files = ["zensical.toml", "requirements.txt", "testrequirements.txt", ".gitignore", "README.md"]
+
+[shared.zensical_toml]
+# Key-level merge against the working tree, not HEAD - a project's copy is
+# routinely modified and uncommitted. Add and update; never remove, because
+# a reader who switched an extension off has made a choice.
+take = ['project.markdown_extensions."prodockit.*"', "project.extra.pdf_*"]
+
+[shared.requirements]
+# Delegated: `prodockit pins` already owns every version declaration here
+# and knows each site's operator. Two tools writing the same lines fight.
+delegate = "prodockit pins"
+
+[shared.gitignore]
+# Append-only: add lines the template has and the project lacks; remove
+# nothing, because a project's own ignores are its own.
+merge = "append-missing"
+
+[shared.readme]
+# Delegated: `prodockit sync-repo` maintains the badge block, and the rest
+# of a README is the project's from its first commit.
+delegate = "prodockit sync-repo"
+
+[renames]
+# Applied before comparing, so a project that predates a move is updated
+# rather than given a second copy. Any config value naming the old path
+# moves with it.
+"docs/javascript" = "docs/javascripts"
+# Projects generated before the licence was renamed still have `LICENSE`.
+# The template ships `LICENSE.md` now, so this maps the new name back to
+# what those projects call it - the same direction as the entry above.
+"LICENSE" = "LICENSE.md"
+
+[excluded]
+# Present in the template, deliberately not delivered. CONTRIBUTING.md and
+# the community-health files describe contributing to the template; a
+# report is not the template, and CODEOWNERS in a student's repository
+# routes their reviews to somebody who is not on their course.
+paths = [
+  "CHANGELOG.md",
+  # The template's own regression suite. It tests the template's sample
+  # document - a Mermaid diagram in section4.md, a word count of its
+  # prose - so it cannot pass once that content is replaced by a real
+  # report, which is what it is for. The reusable half already ships in
+  # `prodockit.testing`, which is what prodockit-userguide consumes
+  # instead of vendoring a copy (prodockit-template#194).
+  "test/**",
+  "CONTRIBUTING.md",
+  ".github/CODEOWNERS",
+  ".github/ISSUE_TEMPLATE/**",
+  ".github/pull_request_template.md",
+  "spike/**",
+  "build_pdf.py",
+  "sync_repo_icon.py",
+]

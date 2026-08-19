@@ -85,4 +85,4 @@ Contributions to the template itself are welcome - see [`CONTRIBUTING.md`](CONTR
 
 ## License
 
-MIT - see [`LICENSE`](LICENSE).
+MIT - see [`LICENSE.md`](LICENSE.md).

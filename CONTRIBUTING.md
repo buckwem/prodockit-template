@@ -71,4 +71,4 @@ Please use the issue templates when opening an issue - they help make sure we ge
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
+By contributing, you agree that your contributions will be licensed under the project's [MIT License](LICENSE.md).
