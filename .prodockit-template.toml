@@ -12,7 +12,6 @@ version = 1
 owns = [
   ".github/workflows/**",
   ".gitlab-ci.yml",
-  ".vale.ini",
   ".python-version",
   "docs/javascripts/**",
   "docs/stylesheets/**",
@@ -31,11 +30,17 @@ owns = [
   "LICENSE.md",
   "sample.md",
   ".vscode/**",
+  # Prose linting is the writer's own: which rules apply, whether the
+  # passive voice is flagged, what counts as a spelling. It also points at
+  # `StylesPath = styles`, a vocabulary directory this template does not
+  # ship - so replacing the config could enable rules against words the
+  # project has deliberately allowed.
+  ".vale.ini",
 ]
 
 # Project-owned, but written once at generation rather than left to the
 # reader to invent. Never updated afterwards.
-seed = ["LICENSE.md"]
+seed = ["LICENSE.md", ".vale.ini"]
 
 # Ignored, and not shipped at all: `prodockit bootstrap` writes
 # `.vscode/settings.json` itself at stage 19, merging into whatever the
