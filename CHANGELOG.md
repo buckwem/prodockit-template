@@ -33,6 +33,31 @@ Newest first.
     throughout. Enabling both would offer two competing ways to cite in a
     document demonstrating one.
 
+## Unreleased
+
+- prodockit is now a **floor** in CI, not an exact pin, and moves to
+  **0.40.0**.
+
+    A document generated from this template used to sit on whatever
+    prodockit release the template happened to name on the day it was
+    generated, until somebody updated the template and the project synced
+    from it. Its CI now installs `prodockit>=0.40.0`, so a project picks
+    up fixes as they are released.
+
+    `zensical` and `weasyprint` stay pinned exactly. Those two decide
+    *rendering* - a new weasyprint repaginates, and those page numbers are
+    resolved into the table of contents and the index - and the site and
+    PDF are artifacts that should change when somebody decides they
+    should.
+
+    The drift job keeps an exact prodockit pin on purpose: it compares a
+    baseline build against one made with the newest of everything, and a
+    floor on both sides would compare the newest with the newest and never
+    report anything.
+
+    0.40.0 is the floor because it is the release where `\ref{}` resolves
+    figures and tables.
+
 ## 0.0.27 (2026-08-19)
 
 - prodockit pinned to **0.39.0** (from 0.38.0), which brings
