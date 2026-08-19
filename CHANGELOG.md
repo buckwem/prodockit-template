@@ -9,7 +9,7 @@ from the template (issue #184).
 
 Newest first.
 
-## Unreleased
+## 0.0.28 (2026-08-19)
 
 - `prodockit.tree` and `prodockit.steps` are enabled, and demonstrated in
   the starter document
@@ -32,8 +32,6 @@ Newest first.
     are configured, and the starter document cites with `\cite{}`
     throughout. Enabling both would offer two competing ways to cite in a
     document demonstrating one.
-
-## Unreleased
 
 - prodockit is now a **floor** in CI, not an exact pin, and moves to
   **0.40.0**.
