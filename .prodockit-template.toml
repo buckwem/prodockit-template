@@ -53,6 +53,14 @@ files = ["zensical.toml", "requirements.txt", "testrequirements.txt", ".gitignor
 # routinely modified and uncommitted. Add and update; never remove, because
 # a reader who switched an extension off has made a choice.
 take = ['project.markdown_extensions."prodockit.*"', "project.extra.pdf_*"]
+# Caught by `take` and deliberately excluded: these hold the project's own
+# content rather than its settings. `pdf_copyright` on a real assignment
+# reads "Author: 123456" against this template's "Author: Mark Buckwell and
+# contributors" - taking it would put the template author's name on
+# somebody else's report, which is the failure this whole tool exists to
+# prevent. Every other pdf_* key is a genuine setting: margins, page size,
+# header colours.
+never = ["project.extra.pdf_copyright"]
 
 [shared.requirements]
 # Delegated: `prodockit pins` already owns every version declaration here
