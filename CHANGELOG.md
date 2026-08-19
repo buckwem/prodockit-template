@@ -34,6 +34,43 @@ Newest first.
     per-user cache. A project on Surrey's GitLab tracks the Surrey mirror
     and everything else this GitHub copy.
 
+- The editor's own settings are no longer shipped ([#195](https://github.com/buckwem/prodockit-template/pull/195)).
+
+    `.vscode/settings.json` and `.vscode/ltex.dictionary.en-US.txt` came
+    from the template, and then fought whatever the extensions and
+    Zensical Studio wrote there. They are `.gitignore`d now and set up on
+    the machine instead. If you have them committed, they are yours to
+    keep - nothing removes them.
+
+- `LICENSE` is now `LICENSE.md`, and the template carries a manifest
+  ([#197](https://github.com/buckwem/prodockit-template/pull/197), [#198](https://github.com/buckwem/prodockit-template/pull/198), [#199](https://github.com/buckwem/prodockit-template/pull/199), [#200](https://github.com/buckwem/prodockit-template/pull/200)).
+
+    The rename follows Zensical, which declares `License-File: LICENSE.md`.
+
+    `.prodockit-template.toml` is new, and is what `prodockit
+    template-sync` reads to decide which files belong to the template and
+    which are yours. Every file the template ships is classified in it, so
+    nothing is guessed at. Your `zensical.toml` `pdf_copyright` and your
+    `.vale.ini` are explicitly yours: a sync will not put this template's
+    author on your report, nor replace your prose rules.
+
+- Sized tables look like ordinary ones again, and dense tables have
+  `{: .compact }` ([#186](https://github.com/buckwem/prodockit-template/pull/186), [#187](https://github.com/buckwem/prodockit-template/pull/187), [#191](https://github.com/buckwem/prodockit-template/pull/191)).
+
+    Giving a table a column width used to restyle it - the theme scopes
+    its own table rules to `table:not([class])`, and a width attribute put
+    a class on it. Sized tables lost their row rules with it. Both are
+    restored, and a table of many short columns can now ask for tighter
+    padding rather than being left with the default.
+
+- CI fails a hung job in minutes rather than hours, and the built-output
+  checks report instead of gating ([#190](https://github.com/buckwem/prodockit-template/pull/190), [#196](https://github.com/buckwem/prodockit-template/pull/196)).
+
+    A job that hung used to run until the platform's own six-hour limit.
+    The checks on the built site and PDF now tell you what they found
+    without failing the run: they are advice about a document, and a
+    document that is merely unusual should still publish.
+
 - Zensical pinned to **0.0.55** (from 0.0.53) and prodockit to
   **0.36.1** (from 0.35.0) ([#183](https://github.com/buckwem/prodockit-template/pull/183)).
 
