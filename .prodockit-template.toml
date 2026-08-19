@@ -86,6 +86,10 @@ delegate = "prodockit sync-repo"
 # routes their reviews to somebody who is not on their course.
 paths = [
   "CHANGELOG.md",
+  # This file. It is read from the template at a tag, never from the
+  # project, so a copy in a generated project would be stale by
+  # definition and used by nothing.
+  ".prodockit-template.toml",
   # The template's own regression suite. It tests the template's sample
   # document - a Mermaid diagram in section4.md, a word count of its
   # prose - so it cannot pass once that content is replaced by a real
