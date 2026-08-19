@@ -54,6 +54,14 @@ styles/
 
 # macOS internals
 .DS_Store
+# The editor's own settings for this project. `prodockit bootstrap` writes
+# .vscode/settings.json itself once the extensions it configures are
+# installed, merging into whatever is already there rather than replacing
+# it - and VS Code rewrites the file whenever a setting is changed in the
+# UI. Tracking it would make every reader's own preferences show up as
+# changes to the project (prodockit-template#188).
+.vscode/
+
 
 # Temporary files
 tmp
