@@ -213,7 +213,13 @@ jobs:
       # that step decides what to copy.
       - run: prodockit source-bundle
       - run: zensical build --clean
-      - run: python test/run_tests.py
+      # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
+      # These checks assert on this document's own content, which a generated
+      # project replaces, and a generated project inherits this file
+      # (prodockit-template#194).
+      - name: Built-output checks (reported, not enforced)
+        continue-on-error: true
+        run: python test/run_tests.py
       # Fingerprint what we are about to publish, so the verify job below can
       # tell whether the live site is actually serving *this* build. Taken
       # from the same directory upload-pages-artifact packs, immediately
