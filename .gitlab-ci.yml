@@ -95,7 +95,22 @@ pages:
     # step decides what to copy.
     - prodockit source-bundle
     - zensical build --clean
-    - python test/run_tests.py
+    # Reported, not enforced - for now, and deliberately for a generated
+    # project as much as for this one.
+    #
+    # These checks assert on *this* document: that section4.md's Mermaid
+    # diagram rendered, that the word count matches this prose. A report
+    # generated from this template replaces that content, so the assertions
+    # cannot hold there - and they failed a real assignment's pipeline for
+    # having no Mermaid diagram, which is not a fault in the report
+    # (prodockit-template#194).
+    #
+    # A generated project inherits this file, so making it non-blocking here
+    # is what stops that happening again while #194 decides which checks a
+    # project should carry at all. The cost is that this template loses its
+    # own gate meanwhile: a regression shows in the log rather than stopping
+    # the build. The drift job below already runs the same command this way.
+    - python test/run_tests.py || true
   pages:
     publish: public
   rules:
