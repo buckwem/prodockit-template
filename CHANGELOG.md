@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.29 (2026-08-20)
+
+- prodockit raised to **0.41.0** (from 0.40.0).
+
 ## 0.0.28 (2026-08-19)
 
 - `prodockit.tree` and `prodockit.steps` are enabled, and demonstrated in
