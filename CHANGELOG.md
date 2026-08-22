@@ -9,7 +9,7 @@ from the template (issue #184).
 
 Newest first.
 
-## Unreleased
+## 0.0.30 (2026-08-22)
 
 - prodockit raised to a **0.42.0 floor** (from 0.41.0) everywhere, including
   both publishing and drift workflows, bringing forward cross-page references
