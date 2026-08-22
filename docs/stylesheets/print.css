@@ -9,7 +9,7 @@ SPDX-License-Identifier: MIT
 html body {
     font-family: "Inter", "Segoe UI", Roboto, sans-serif;
     font-size: 11pt !important; /* Base text size layout */
-    line-height: 1.6;
+    line-height: 1.4;
     color: #111;
 }
 

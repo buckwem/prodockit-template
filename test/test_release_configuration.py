@@ -48,6 +48,7 @@ def test_pdf_code_is_one_point_smaller_than_body_text() -> None:
     assert "html body {" in print_css
     assert "html body pre, html body code {" in print_css
     assert "font-size: 11pt !important; /* Base text size layout */" in print_css
+    assert "line-height: 1.4;" in print_css
     assert "font-size: 10pt !important;" in print_css
 
 
