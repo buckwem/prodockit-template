@@ -11,14 +11,7 @@ icon: lucide/book-open
 
 # Section {: #section3 }
 
-## SubSection {: #figure-caption-example }
-
-![This template's default logo](assets/logo_black.png){ width="30%" }
-/// figure-caption
-This template's own default logo, used throughout its branding - swap it for your own (see "Institution branding" in the User Guide's customise.md).
-///
-
-Above is an example of a captioned figure. The caption is automatically numbered and prefixed with the current chapter number, in both the website and the PDF.
+## SubSection {: #section3-subsection-1 }
 
 ### SubSubSection {: #section3-subsubsection-1 }
 
@@ -31,4 +24,3 @@ Above is an example of a captioned figure. The caption is automatically numbered
 ## SubSection {: #section3-subsection-3 }
 
 ### SubSubSection {: #section3-subsubsection-4 }
-

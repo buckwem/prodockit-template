@@ -59,6 +59,31 @@ def test_section_five_uses_the_prodockit_tree_extension() -> None:
     assert "## SubSection {: #tree-example }\n\n/// tree\n" in example
 
 
+def test_all_capability_examples_are_in_section_five() -> None:
+    section_five = _text("docs/section4.md")
+    earlier_sections = "\n".join(
+        _text(path) for path in ("docs/section1.md", "docs/section2.md", "docs/section3.md")
+    )
+    example_ids = (
+        "bibliography-example",
+        "acronyms-example",
+        "glossary-example",
+        "cross-reference-example",
+        "figure-caption-example",
+        "table-caption-example",
+        "diagrams-example",
+        "maths-example",
+        "tree-example",
+        "steps-example",
+        "code-example",
+    )
+
+    for example_id in example_ids:
+        marker = f"{{: #{example_id} }}"
+        assert marker not in earlier_sections
+        assert marker in section_five
+
+
 def test_custom_domain_is_applied_only_to_the_upstream_build() -> None:
     config = _text("zensical.toml")
     workflow = _text(".github/workflows/docs.yml")

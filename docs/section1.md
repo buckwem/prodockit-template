@@ -11,29 +11,16 @@ icon: lucide/book-open
 
 # Section {: #section1 }
 
-## SubSection {: #bibliography-example }
-
-Git is a tool used to manage version control in software development with many developers making changes at the same time.\cite{skou2023} A more detailed introduction is also available.\cite{chacon2014}
-
-Above is an example of using references in a document. Each citation is linked to its own entry on the References page, which lists only the sources actually cited here - automatically generated from references.bib.
+## SubSection {: #section1-subsection-1 }
 
 ### SubSubSection {: #section1-subsubsection-1 }
 
 ### SubSubSection {: #section1-subsubsection-2 }
 
-## SubSection {: #acronyms-example }
-
-This template uses \gls{css} to control the appearance of both the website and the PDF.
-
-Above is an example of using acronyms in a document. The acronym is linked to the acronyms section of the document, which is automatically generated from the acronyms.md file.
+## SubSection {: #section1-subsection-2 }
 
 ### SubSubSection {: #section1-subsubsection-3 }
 
-## SubSection {: #glossary-example }
-
-This document is written in \gls{markdown-def}\cite{pythonmarkdown2023}, then converted into the website and PDF you're reading.
-
-Above is an example of using a glossary in a document. The term is linked to the glossary section of the document, which is automatically generated from the glossary.md file.
+## SubSection {: #section1-subsection-3 }
 
 ### SubSubSection {: #section1-subsubsection-4 }
-

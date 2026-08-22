@@ -11,15 +11,50 @@ icon: lucide/book-open
 
 # Section {: #section4 }
 
+## SubSection {: #bibliography-example }
+
+Git is a tool used to manage version control in software development with many developers making changes at the same time.\cite{skou2023} A more detailed introduction is also available.\cite{chacon2014}
+
+Above is an example of using references in a document. Each citation is linked to its own entry on the References page, which lists only the sources actually cited here - automatically generated from references.bib.
+
+## SubSection {: #acronyms-example }
+
+This template uses \gls{css} to control the appearance of both the website and the PDF.
+
+Above is an example of using acronyms in a document. The acronym is linked to the acronyms section of the document, which is automatically generated from the acronyms.md file.
+
+## SubSection {: #glossary-example }
+
+This document is written in \gls{markdown-def}\cite{pythonmarkdown2023}, then converted into the website and PDF you're reading.
+
+Above is an example of using a glossary in a document. The term is linked to the glossary section of the document, which is automatically generated from the glossary.md file.
+
+## SubSection {: #cross-reference-example }
+
+Sections can be cross-referenced with `\ref{id}` - see \ref{figure-caption-example} below, which stays correct even if you reorder or add content.
+
+Where the reader may be holding a printout, use `\autoref{id}` instead - see \autoref{figure-caption-example}, which renders the same text and adds the target's page number in the PDF.
+
+Both render the target's current number and name, so unlike a hand-typed section number they update themselves if the target moves - and `\autoref{id}` gives a printed reader somewhere to turn to, which a section number alone does not.
+
+## SubSection {: #figure-caption-example }
+
+![This template's default logo](assets/logo_black.png){ width="30%" }
+/// figure-caption
+This template's own default logo, used throughout its branding - swap it for your own (see "Institution branding" in the User Guide's customise.md).
+///
+
+Above is an example of a captioned figure. The caption is automatically numbered and prefixed with the current chapter number, in both the website and the PDF.
+
 ## SubSection {: #table-caption-example }
 
 | Capability | Syntax | Where |
 |---|---|---|
-| Citations | `\cite{id}` | Section 1 |
-| Acronyms | `\gls{id}` | Section 1 |
-| Glossary | `\gls{id}` | Section 1 |
-| Cross-references | `\ref{id}` | Section 2 |
-| Figure captions | `/// figure-caption` | Section 3 |
+| Citations | `\cite{id}` | this section |
+| Acronyms | `\gls{id}` | this section |
+| Glossary | `\gls{id}` | this section |
+| Cross-references | `\ref{id}` | this section |
+| Figure captions | `/// figure-caption` | this section |
 | Table captions | `/// table-caption` | this table |
 | Cell shading {: shade="8%" } | `shade="8%"` or `shade="off"` | this table |
 | Diagrams | ` ```mermaid ` fence | this section |
