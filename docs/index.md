@@ -101,12 +101,3 @@ Date: Submission Date
      `prodockit pdf`. Delete this line if you don't want the repository
      link shown on the cover page. -->
 <p class="pdf-only">Repo: {REPOURL}</p>
-
-<!-- Automated latest release tag (e.g. "v0.0.11"), filled in at PDF build
-     time by `prodockit pdf` from the repo's GitHub/GitLab releases API. Only
-     shown if a release has actually been published - the whole line is
-     dropped otherwise, so most forks of this template (which never publish
-     one) won't show a bare, empty "Release:" label. Delete this line if you
-     don't want a release number shown on the cover page even when one
-     exists. -->
-<p class="pdf-only">Release: {RELEASE}</p>

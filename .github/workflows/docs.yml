@@ -7,46 +7,12 @@ on:
     branches:
       - master
       - main
-  # Deliberately *no* `release: [published]` trigger, though the cover
-  # page's PDF-only `{RELEASE}` marker (docs/index.md), resolved by
-  # `prodockit pdf` from the host's releases API at build time, does need
-  # a rebuild once the release exists. That rebuild now comes from
-  # release-redeploy.yml, which re-triggers this workflow against `main`.
-  #
-  # Deploying straight from the release event is what the old trigger did,
-  # and it never worked: a release event runs against refs/tags/<tag>, so
-  # the Pages deployment it created carried a tag ref, and Pages -
-  # configured with `source: {branch: main}` - accepted it, reported
-  # `success`, and carried on serving the previous build. Silently: this
-  # repo shows 0 tag-ref Pages deployments out of 95, and no evidence the
-  # trigger ever actually fired a release-triggered docs.yml run at all
-  # (issue #143) - prodockit-extensions hit the live version of this on
-  # releases 0.17.0-0.17.2 (prodockit-extensions#147, fixed in #148, which
-  # this restructure is adapted from).
-  #
-  # The `tag: *.*.*` entry in the github-pages environment's deployment
-  # branch policies (added for the old trigger) is now redundant, since
-  # nothing here deploys from a tag - harmless to leave, harmless to
-  # remove.
-  #
-  # Note this is not the same mechanism as prodockit-userguide's, which uses
-  # prodockit.zensical_macros' `{{ release }}` (`git describe --tags`) and
-  # therefore needs `fetch-depth: 0` to see any tags at all. Nothing here
-  # reads git tags, which is why the checkout below deliberately keeps the
-  # default shallow clone.
-  #
-  # .gitlab-ci.yml carries the equivalent as an `if: $CI_COMMIT_TAG` rule -
-  # untouched here, since GitLab's own tag-ref Pages deployments are not
-  # known to have this problem.
+  # The template PDF intentionally has no release marker: its consumers'
+  # documents must not expose the template repository's package version.
+  # A release therefore does not alter generated documentation and does not
+  # need its own deployment trigger.
   workflow_dispatch:
 
-# release-redeploy.yml re-triggering this workflow against `main` can still
-# start close behind an ordinary push - merging a version-bump commit right
-# before publishing its release - so this is still worth keeping even
-# though the specific push-vs-release-event race this was originally
-# written for no longer applies (see prodockit-extensions#134 for that
-# original race, and prodockit-extensions#148 for this comment's update).
-#
 # `cancel-in-progress: false` rather than true: a queued deploy should wait
 # and then supersede, not be discarded. Same pairing as GitHub's own Pages
 # starter workflow.
