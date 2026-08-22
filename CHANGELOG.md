@@ -9,6 +9,20 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.31 (2026-08-22)
+
+- PDF subsection headings are left-aligned without an underline again. Table
+  captions now attach to their table rather than absorbing the preceding
+  heading into a centred figure.
+- All capability demonstrations are consolidated in Section 5, including the
+  `prodockit.tree` example in Section 5.4.
+- PDF typography is aligned with prodockit 0.42.1 at 11pt body text and 10pt
+  code, with the template's body line spacing reduced from 1.6 to 1.4.
+- Website table styles include the current grid, theme-aware 5% header and
+  per-cell shading, and rotated-header rules.
+- The prodockit dependency remains a minimum rather than an exact pin and is
+  raised to `prodockit>=0.42.1` throughout local and hosted builds.
+
 ## 0.0.30 (2026-08-22)
 
 - prodockit raised to a **0.42.0 floor** (from 0.41.0) everywhere, including
