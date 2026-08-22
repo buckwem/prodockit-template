@@ -31,6 +31,7 @@ against."""
 import hashlib
 import inspect
 import re
+from urllib.parse import urlsplit
 
 import fitz
 
@@ -402,10 +403,19 @@ def test_extra_css_and_js_are_built_and_referenced(public_dir, zensical_config):
     for js_path in project.get("extra_javascript", []):
         if js_path.startswith("http"):
             continue
-        assert (public_dir / js_path).exists(), f"{js_path} missing from built site"
+        asset_path = urlsplit(js_path).path
+        assert (public_dir / asset_path).exists(), f"{asset_path} missing from built site"
         assert any(js_path in (script.get("src") or "") for script in soup.find_all("script")), (
             f"{js_path} not referenced by a <script> tag"
         )
+
+
+def test_mathjax_assets_have_explicit_cache_revisions(zensical_config):
+    scripts = zensical_config["project"]["extra_javascript"]
+
+    mathjax = [path for path in scripts if "mathjax" in path]
+    assert len(mathjax) == 2
+    assert all(urlsplit(path).query for path in mathjax)
 
 
 # ---------------------------------------------------------------------------
