@@ -10,7 +10,7 @@ def _text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_prodockit_042_floor_is_consistent() -> None:
+def test_prodockit_0421_floor_is_consistent() -> None:
     declarations = "\n".join(
         _text(path)
         for path in (
@@ -22,10 +22,10 @@ def test_prodockit_042_floor_is_consistent() -> None:
     )
 
     assert "prodockit==" not in declarations
-    assert "prodockit>=0.42.0" in _text("requirements.txt")
-    assert "prodockit>=0.42.0" in _text(".github/workflows/docs.yml")
-    assert "prodockit>=0.42.0" in _text(".github/workflows/drift.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.0") == 2
+    assert "prodockit>=0.42.1" in _text("requirements.txt")
+    assert "prodockit>=0.42.1" in _text(".github/workflows/docs.yml")
+    assert "prodockit>=0.42.1" in _text(".github/workflows/drift.yml")
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.1") == 2
 
 
 def test_website_table_styles_support_grid_and_cell_shading() -> None:
@@ -37,7 +37,63 @@ def test_website_table_styles_support_grid_and_cell_shading() -> None:
     assert "background-color: rgba(var(--prodockit-table-shade-rgb), 0.05)" in css
     assert "table th.prodockit-table-cell-shaded" in css
     assert "table td.prodockit-table-cell-unshaded" in css
+    assert ".md-typeset th.prodockit-rotate" in css
+    assert ".md-typeset span.prodockit-rotate" in css
     assert 'Cell shading {: shade="8%" }' in example
+
+
+def test_pdf_code_is_one_point_smaller_than_body_text() -> None:
+    print_css = _text("docs/stylesheets/print.css")
+
+    assert "html body {" in print_css
+    assert "html body pre, html body code {" in print_css
+    assert "font-size: 11pt !important; /* Base text size layout */" in print_css
+    assert "line-height: 1.4;" in print_css
+    assert "font-size: 10pt !important;" in print_css
+
+
+def test_pdf_subsection_heading_is_not_absorbed_by_the_table_caption() -> None:
+    example = _text("docs/section4.md")
+    print_css = _text("docs/stylesheets/print.css")
+
+    table_end = "| Numbered steps | `/// steps` | this section |"
+    assert f"{table_end}\n/// table-caption | <" in example
+    assert example.index("## SubSection {: #table-caption-example }") < example.index(table_end)
+    assert "h2 { font-size: 18pt; margin-top: 20pt; }" in print_css
+    assert "h2 { font-size: 18pt; margin-top: 20pt; border-bottom:" not in print_css
+
+
+def test_section_five_uses_the_prodockit_tree_extension() -> None:
+    config = _text("zensical.toml")
+    example = _text("docs/section4.md")
+
+    assert '[project.markdown_extensions."prodockit.tree"]' in config
+    assert "## SubSection {: #tree-example }\n\n/// tree\n" in example
+
+
+def test_all_capability_examples_are_in_section_five() -> None:
+    section_five = _text("docs/section4.md")
+    earlier_sections = "\n".join(
+        _text(path) for path in ("docs/section1.md", "docs/section2.md", "docs/section3.md")
+    )
+    example_ids = (
+        "bibliography-example",
+        "acronyms-example",
+        "glossary-example",
+        "cross-reference-example",
+        "figure-caption-example",
+        "table-caption-example",
+        "diagrams-example",
+        "maths-example",
+        "tree-example",
+        "steps-example",
+        "code-example",
+    )
+
+    for example_id in example_ids:
+        marker = f"{{: #{example_id} }}"
+        assert marker not in earlier_sections
+        assert marker in section_five
 
 
 def test_custom_domain_is_applied_only_to_the_upstream_build() -> None:
