@@ -7,11 +7,10 @@ pages:
   tags:
     - pages
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
-  # only one instance of this job runs at a time, so two pipelines started
-  # close together (a release published shortly after its version-bump push,
-  # or two pushes in quick succession) can't both be publishing at once and
-  # leave the older build live. Nothing fails when that happens, which is
-  # what makes it worth preventing rather than detecting.
+  # only one instance of this job runs at a time, so two pushes started close
+  # together can't both be publishing at once and leave the older build live.
+  # Nothing fails when that happens, which is what makes it worth preventing
+  # rather than detecting.
   resource_group: pages
   variables:
     # The base image's own "pandoc" apt package lags several major versions
@@ -124,19 +123,6 @@ pages:
     publish: public
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-    # Also rebuild for a tag pipeline, which is what publishing a release
-    # produces. The cover page's "Release: ..." line is resolved by
-    # `prodockit pdf` from the host's releases API at build time, so without
-    # this the published PDF keeps showing the *previous* release until some
-    # unrelated commit happens to trigger a pipeline.
-    #
-    # Needed because the rule above cannot match a tag pipeline:
-    # $CI_COMMIT_BRANCH is empty there, so the job would not run at all.
-    # This is the counterpart of `release: [published]` in
-    # .github/workflows/docs.yml. It fires for any tag rather than only for
-    # tags with a GitLab release attached, which is the closer match to how
-    # this project actually tags - and a redundant rebuild is harmless.
-    - if: '$CI_COMMIT_TAG'
 
 # The pages job above pins zensical and weasyprint exactly (prodockit
 # floats - see its comment), so the

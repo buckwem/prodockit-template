@@ -188,44 +188,17 @@ def test_repository_link_is_independent_of_cover_page_repourl_marker(zensical_co
 
 
 # ---------------------------------------------------------------------------
-# Release number (issue #60)
+# Release number
 # ---------------------------------------------------------------------------
 
-def test_release_number_looks_like_a_real_tag_when_present(pdf_full_text):
-    """Explicitly PDF-only (see "Word count and repository link" - "there's
-    no website equivalent"), and explicitly allowed to be absent (most
-    forks of this template never publish a release, so the whole line is
-    dropped rather than showing an empty "Release:" - see #60), so this
-    can't assert the line is always present. If it *is* present, it should
-    look like a real tag, not a leaked, un-substituted {RELEASE} marker."""
-    match = re.search(r"Release:\s*(\S*)", pdf_full_text[0])
-    if match is None:
-        return  # no release published for this repo right now - allowed
-    tag = match.group(1)
-    assert tag and tag != "{RELEASE}", f"Release line present but looks unsubstituted: {tag!r}"
-    assert re.match(r"^v?\d+(\.\d+)*", tag), f"Release tag doesn't look like a version: {tag!r}"
+def test_template_pdf_has_no_release_marker(pdf_full_text):
+    """The reusable document template must not expose its own package tag.
 
-
-def test_release_number_never_appears_on_the_website(public_dir):
-    """"Never appears" means "is CSS-hidden", not "absent from the HTML" -
-    .pdf-only content still exists in the markup (see
-    test_pdf_only_class_is_hidden_on_the_website's CSS check for how it's
-    actually hidden), so this confirms any real "Release:"-starting
-    paragraph carries the .pdf-only class, rather than searching the
-    page's whole get_text(). Deliberately checks real <p> tags, not a
-    plain text search - the actual Release <p> sits right after an HTML
-    comment that itself contains the word "Release:" while explaining the
-    marker, which a naive string search would match first instead of the
-    real element."""
-    soup = soup_for(public_dir / "index.html")
-    release_paragraphs = [
-        p for p in soup.find_all("p")
-        if p.get_text(strip=True).startswith("Release:")
-    ]
-    if not release_paragraphs:
-        return  # marker line deleted entirely - also fine, nothing to check
-    for p in release_paragraphs:
-        assert "pdf-only" in (p.get("class") or []), f"'Release:' paragraph found outside .pdf-only: {p}"
+    This assertion is deliberately unconditional: the defect only appeared
+    after a tag had been published, when the previously optional marker was
+    populated during the release-triggered rebuild.
+    """
+    assert not any("Release:" in page for page in pdf_full_text)
 
 
 # ---------------------------------------------------------------------------
