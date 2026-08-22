@@ -40,6 +40,25 @@ def test_website_table_styles_support_grid_and_cell_shading() -> None:
     assert 'Cell shading {: shade="8%" }' in example
 
 
+def test_pdf_subsection_heading_is_not_absorbed_by_the_table_caption() -> None:
+    example = _text("docs/section4.md")
+    print_css = _text("docs/stylesheets/print.css")
+
+    table_end = "| Numbered steps | `/// steps` | this section |"
+    assert f"{table_end}\n/// table-caption | <" in example
+    assert example.index("## SubSection {: #table-caption-example }") < example.index(table_end)
+    assert "h2 { font-size: 18pt; margin-top: 20pt; }" in print_css
+    assert "h2 { font-size: 18pt; margin-top: 20pt; border-bottom:" not in print_css
+
+
+def test_section_five_uses_the_prodockit_tree_extension() -> None:
+    config = _text("zensical.toml")
+    example = _text("docs/section4.md")
+
+    assert '[project.markdown_extensions."prodockit.tree"]' in config
+    assert "## SubSection {: #tree-example }\n\n/// tree\n" in example
+
+
 def test_custom_domain_is_applied_only_to_the_upstream_build() -> None:
     config = _text("zensical.toml")
     workflow = _text(".github/workflows/docs.yml")

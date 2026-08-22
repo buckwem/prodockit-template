@@ -13,10 +13,6 @@ icon: lucide/book-open
 
 ## SubSection {: #table-caption-example }
 
-/// table-caption
-prodockit capabilities demonstrated in this document
-///
-
 | Capability | Syntax | Where |
 |---|---|---|
 | Citations | `\cite{id}` | Section 1 |
@@ -30,6 +26,9 @@ prodockit capabilities demonstrated in this document
 | Maths | `$$...$$` | this section |
 | Directory trees | `/// tree` | this section |
 | Numbered steps | `/// steps` | this section |
+/// table-caption | <
+prodockit capabilities demonstrated in this document
+///
 
 Above is an example of a captioned table. Like a figure caption, it's automatically numbered and prefixed with the current chapter number.
 

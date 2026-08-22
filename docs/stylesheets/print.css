@@ -14,7 +14,7 @@ body {
 }
 
 h1 { font-size: 24pt; margin-top: 0; }
-h2 { font-size: 18pt; margin-top: 20pt; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+h2 { font-size: 18pt; margin-top: 20pt; }
 h3 { font-size: 14pt; }
 
 /* Custom Code Block Layout Adjustments. #dddddd is another 5% darker than
