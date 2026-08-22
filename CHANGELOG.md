@@ -9,6 +9,14 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.32 (2026-08-22)
+
+- The reusable template PDF no longer displays the template repository's own
+  release version on its cover. A regression test now requires the marker to
+  remain absent even after a template release has been published.
+- Release-triggered GitHub documentation redeploys and GitLab tag builds have
+  been removed because they existed only to refresh that unwanted marker.
+
 ## 0.0.31 (2026-08-22)
 
 - PDF subsection headings are left-aligned without an underline again. Table
