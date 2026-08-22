@@ -10,7 +10,7 @@ def _text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_prodockit_042_floor_is_consistent() -> None:
+def test_prodockit_0421_floor_is_consistent() -> None:
     declarations = "\n".join(
         _text(path)
         for path in (
@@ -22,10 +22,10 @@ def test_prodockit_042_floor_is_consistent() -> None:
     )
 
     assert "prodockit==" not in declarations
-    assert "prodockit>=0.42.0" in _text("requirements.txt")
-    assert "prodockit>=0.42.0" in _text(".github/workflows/docs.yml")
-    assert "prodockit>=0.42.0" in _text(".github/workflows/drift.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.0") == 2
+    assert "prodockit>=0.42.1" in _text("requirements.txt")
+    assert "prodockit>=0.42.1" in _text(".github/workflows/docs.yml")
+    assert "prodockit>=0.42.1" in _text(".github/workflows/drift.yml")
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.1") == 2
 
 
 def test_website_table_styles_support_grid_and_cell_shading() -> None:
