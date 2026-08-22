@@ -187,18 +187,17 @@ jobs:
         # generated it. The floor guarantees the features this template uses
         # exist; anything newer is welcome.
         #
-        # The drift job keeps an *exact* prodockit pin deliberately: it compares
-        # a baseline build against one made with the newest of everything, and a
-        # floor on both sides would compare the newest with the newest and never
-        # report anything.
+        # The drift job uses this same floor. It still detects renderer drift
+        # through zensical and weasyprint; prodockit itself is intentionally
+        # allowed to resolve to any compatible release in every build.
         #
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.40.0 introduced cross-references to figures and
-        # tables; 0.26.2 was the previous floor, for `prodockit init-mathjax`
-        # below (issue #167).
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.41.0"
+        # .gitlab-ci.yml. 0.42.0 adds forward cross-page references and table
+        # cell shading; 0.26.2 was the previous floor, for `prodockit
+        # init-mathjax` below (issue #167).
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.42.0"
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
@@ -218,6 +217,14 @@ jobs:
       # also detects the default branch rather than assuming "main" -
       # the case that matters when this template is forked (#128).
       - run: prodockit sync-repo
+      # This repository is the starter *and* a published example. Keep the
+      # committed site_url generic so a newly generated project can replace it
+      # with its own Pages URL; only the upstream build uses the template's
+      # custom domain. Committing docs/CNAME would make every new project try
+      # to publish at template.prodockit.org, so its marker is build-only too.
+      - name: Use the upstream template domain
+        if: github.repository == 'buckwem/prodockit-template'
+        run: sed -i 's|^site_url = ".*"|site_url = "https://template.prodockit.org/"|' zensical.toml
       - run: prodockit pdf
       # Writes docs/source_bundle.pdf - inside docs_dir, so the next step
       # copies it into public/ the same way it already does for
@@ -227,6 +234,9 @@ jobs:
       # that step decides what to copy.
       - run: prodockit source-bundle
       - run: zensical build --clean
+      - name: Add the upstream custom-domain marker
+        if: github.repository == 'buckwem/prodockit-template'
+        run: printf 'template.prodockit.org\n' > public/CNAME
       # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
       # These checks assert on this document's own content, which a generated
       # project replaces, and a generated project inherits this file
