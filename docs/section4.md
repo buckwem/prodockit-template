@@ -25,6 +25,7 @@ prodockit capabilities demonstrated in this document
 | Cross-references | `\ref{id}` | Section 2 |
 | Figure captions | `/// figure-caption` | Section 3 |
 | Table captions | `/// table-caption` | this table |
+| Cell shading {: shade="8%" } | `shade="8%"` or `shade="off"` | this table |
 | Diagrams | ` ```mermaid ` fence | this section |
 | Maths | `$$...$$` | this section |
 | Directory trees | `/// tree` | this section |
@@ -109,4 +110,3 @@ Above is an example of a code listing, written as a ` ```bash ` fenced code bloc
 ## SubSection {: #section4-subsection-3 }
 
 ### SubSubSection {: #section4-subsubsection-4 }
-

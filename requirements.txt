@@ -10,19 +10,15 @@
 # bump (redrawn SVG artwork, new asset hashes) and an additive "lang" field
 # in search.json's config.
 zensical>=0.0.55
-# A floor here, same reasoning as zensical and weasyprint below - CI pins it
-# exactly instead (see docs.yml), since prodockit is what renders this
-# project's own PDF and generates its index (issue #149). Kept at the same
-# version as the exact pin, like the other two - `prodockit pins --check`
-# treats a floor behind the exact pin as drift, not merely a wider
-# allowance. >=0.13.0 would be the true functional minimum (`prodockit
+# A floor here and everywhere in CI: a project should receive compatible
+# prodockit fixes without waiting for the template to be updated and synced.
+# >=0.13.0 would be the true functional minimum (`prodockit
 # sync-repo`, which replaced sync_repo_icon.py); >=0.15.2 added the
 # Mermaid/TeX checks' font-ligature handling this project discovered (issue
 # #128); >=0.17.2 added `prodockit pins` itself (see
 # .github/workflows/docs.yml's own pin lines, and CONTRIBUTING.md), which
-# manages the exact zensical/weasyprint pins and prodockit's floor below
-# and in CI
-# together, rather than by hand across several files.
+# manages the exact zensical/weasyprint pins and prodockit's floor below and
+# in CI together, rather than by hand across several files.
 #
 # 0.20.1 was a genuine functional minimum for *this* template rather than
 # a floor tracking the exact pin: the pipelines here pin PANDOC_VERSION
@@ -43,7 +39,7 @@ zensical>=0.0.55
 # replaces a heredoc in docs.yml/drift.yml that duplicated bootstrap's own
 # MathJax install - two copies of a config whose failure mode is being
 # subtly wrong rather than broken outright (prodockit-extensions#276).
-prodockit>=0.41.0
+prodockit>=0.42.0
 mkdocstrings-python
 pandoc
 toml

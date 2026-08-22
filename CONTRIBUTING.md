@@ -51,7 +51,7 @@ Tests are grouped into batches (`build`, `captions`, `content`, `fences`, `links
 
 ## Version pinning
 
-`.github/workflows/docs.yml` and `.gitlab-ci.yml` both pin `zensical`, `weasyprint` and `prodockit` to exact versions, on top of the floors (`zensical>=...`, `weasyprint>=...`, `prodockit>=...`) in `requirements.txt` - the published site and PDF are artifacts that should change when someone decides they should, not whenever any of the three next releases. `weasyprint` decides pagination, and those page numbers are resolved into the table of contents; `prodockit` renders this project's own PDF and generates its index (issue #149).
+`.github/workflows/docs.yml` and `.gitlab-ci.yml` pin `zensical` and `weasyprint` exactly, on top of their floors in `requirements.txt`. Those renderers decide the published appearance and pagination, so they move only after review. `prodockit` is a floor (`prodockit>=...`) everywhere: a project receives compatible fixes without waiting for a template update and sync.
 
 The same version ends up written in several places at once, so move them together rather than by hand:
 
@@ -59,7 +59,7 @@ The same version ends up written in several places at once, so move them togethe
 prodockit pins -p zensical -p weasyprint -p prodockit
 ```
 
-`-p` is needed for all three here: `prodockit pins`'s own default (`zensical` and `weasyprint`) predates this project pinning itself, so a bare `prodockit pins` or `prodockit pins --check` silently skips the `prodockit` pin.
+`-p` is needed for all three here: `prodockit pins`'s own default is `zensical` and `weasyprint`, so a bare `prodockit pins` or `prodockit pins --check` skips the prodockit floor.
 
 Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). Add `--check` to report drift without writing anything (used by the workflow below); see `prodockit pins --help` for the rest of the options.
 

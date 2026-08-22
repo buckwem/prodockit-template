@@ -9,6 +9,19 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- prodockit raised to a **0.42.0 floor** (from 0.41.0) everywhere, including
+  both publishing and drift workflows, bringing forward cross-page references
+  and configurable table-cell shading without exact-pinning later fixes out.
+- Website tables now use the same complete grid and subtle 5% header shading
+  as the PDF. Individual cells can override the percentage or turn shading
+  off, including across merged cells.
+- The template's own published example uses
+  **https://template.prodockit.org/**. The custom-domain configuration is
+  applied only when this upstream repository builds, so projects created from
+  the template continue to derive and publish to their own Pages URL.
+
 ## 0.0.29 (2026-08-20)
 
 - prodockit raised to **0.41.0** (from 0.40.0).
