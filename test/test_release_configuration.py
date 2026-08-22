@@ -37,7 +37,18 @@ def test_website_table_styles_support_grid_and_cell_shading() -> None:
     assert "background-color: rgba(var(--prodockit-table-shade-rgb), 0.05)" in css
     assert "table th.prodockit-table-cell-shaded" in css
     assert "table td.prodockit-table-cell-unshaded" in css
+    assert ".md-typeset th.prodockit-rotate" in css
+    assert ".md-typeset span.prodockit-rotate" in css
     assert 'Cell shading {: shade="8%" }' in example
+
+
+def test_pdf_code_is_one_point_smaller_than_body_text() -> None:
+    print_css = _text("docs/stylesheets/print.css")
+
+    assert "html body {" in print_css
+    assert "html body pre, html body code {" in print_css
+    assert "font-size: 11pt !important; /* Base text size layout */" in print_css
+    assert "font-size: 10pt !important;" in print_css
 
 
 def test_pdf_subsection_heading_is_not_absorbed_by_the_table_caption() -> None:

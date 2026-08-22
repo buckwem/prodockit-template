@@ -6,9 +6,9 @@ SPDX-License-Identifier: MIT
 /* ==========================================================================
    Typography & Core Elements Customization
    ========================================================================== */
-body {
+html body {
     font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-    font-size: 11pt; /* Base text size layout */
+    font-size: 11pt !important; /* Base text size layout */
     line-height: 1.6;
     color: #111;
 }
@@ -23,10 +23,10 @@ h3 { font-size: 14pt; }
    generated stylesheet repeats this same value with !important, since
    that stylesheet is compiled in after this one - kept in sync here too
    for anyone reading this file directly). */
-pre, code {
+html body pre, html body code {
     font-family: "JetBrains Mono", monospace;
     background-color: #dddddd;
-    font-size: 10pt;
+    font-size: 10pt !important;
 }
 pre {
     padding: 12px;
