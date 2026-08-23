@@ -9,6 +9,12 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- The website's generated MathJax configuration and pinned browser bundle now
+  carry explicit cache revisions. Existing readers receive the corrected
+  maths renderer without having to clear all data for `template.prodockit.org`.
+
 ## 0.0.32 (2026-08-22)
 
 - The reusable template PDF no longer displays the template repository's own

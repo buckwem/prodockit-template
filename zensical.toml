@@ -106,8 +106,13 @@ extra_css = ["stylesheets/extra.css"]
 # `prodockit bootstrap --apply` (or see the User Guide) before building the
 # site for the first time.
 extra_javascript = [
-  "javascripts/mathjax.js",
-  "javascripts/vendor/mathjax/tex-svg-full.js",
+  # Cache keys are intentional. A browser that saw the old config kept
+  # serving raw TeX even after the corrected generated file was deployed;
+  # these revisions make that change visible without asking every reader to
+  # clear all site data. Change the relevant key when either generated file
+  # changes again.
+  "javascripts/mathjax.js?v=config-2",
+  "javascripts/vendor/mathjax/tex-svg-full.js?v=3.2.2",
   "javascripts/extra.js"
 ]
 
@@ -622,4 +627,3 @@ inherited_members = true
 show_source = false
  
 # [project.markdown_extensions."neoteroi.spantable"]
-
