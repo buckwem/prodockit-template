@@ -9,7 +9,7 @@ from the template (issue #184).
 
 Newest first.
 
-## Unreleased
+## 0.0.33 (2026-08-23)
 
 - The website's generated MathJax configuration and pinned browser bundle now
   carry explicit cache revisions. Existing readers receive the corrected
