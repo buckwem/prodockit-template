@@ -9,6 +9,16 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.34 (2026-08-24)
+
+- The template now uses the same complete website extension stylesheet as
+  prodockit itself and the User Guide. Table, tree, numbered-step, heading,
+  caption, screenshot and other shared presentation rules therefore stay in
+  step when an existing project runs `prodockit template-sync`.
+- Template-only cover text and header artwork now live in a separate
+  stylesheet, preserving the template's presentation without allowing its
+  project-specific rules to drift into the shared stylesheet.
+
 ## 0.0.33 (2026-08-23)
 
 - The website's generated MathJax configuration and pinned browser bundle now
