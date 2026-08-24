@@ -9,6 +9,13 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.35 (2026-08-24)
+
+- Dependency-drift automation has been removed from both GitHub Actions and
+  GitLab CI. Routine prodockit release checks now belong to
+  `prodockit template-sync`; maintainers can still compare pinned and upgraded
+  builds manually when considering a broader dependency update.
+
 ## 0.0.34 (2026-08-24)
 
 - The template now uses the same complete website extension stylesheet as

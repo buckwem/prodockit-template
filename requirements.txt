@@ -36,8 +36,8 @@ zensical>=0.0.55
 # (prodockit-extensions#212, prodockit-template#160).
 #
 # >=0.26.2 raises it once more: `prodockit init-mathjax` (issue #167)
-# replaces a heredoc in docs.yml/drift.yml that duplicated bootstrap's own
-# MathJax install - two copies of a config whose failure mode is being
+# replaces the heredoc that previously duplicated bootstrap's own MathJax
+# install in CI - two copies of a config whose failure mode is being
 # subtly wrong rather than broken outright (prodockit-extensions#276).
 prodockit>=0.42.1
 mkdocstrings-python

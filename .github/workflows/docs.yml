@@ -153,9 +153,9 @@ jobs:
         # generated it. The floor guarantees the features this template uses
         # exist; anything newer is welcome.
         #
-        # The drift job uses this same floor. It still detects renderer drift
-        # through zensical and weasyprint; prodockit itself is intentionally
-        # allowed to resolve to any compatible release in every build.
+        # prodockit itself is intentionally allowed to resolve to any
+        # compatible release in every build. `prodockit template-sync` warns
+        # an author when the activated project environment is behind.
         #
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this

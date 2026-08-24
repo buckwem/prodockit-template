@@ -16,7 +16,6 @@ def test_prodockit_0421_floor_is_consistent() -> None:
         for path in (
             "requirements.txt",
             ".github/workflows/docs.yml",
-            ".github/workflows/drift.yml",
             ".gitlab-ci.yml",
         )
     )
@@ -24,8 +23,13 @@ def test_prodockit_0421_floor_is_consistent() -> None:
     assert "prodockit==" not in declarations
     assert "prodockit>=0.42.1" in _text("requirements.txt")
     assert "prodockit>=0.42.1" in _text(".github/workflows/docs.yml")
-    assert "prodockit>=0.42.1" in _text(".github/workflows/drift.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.1") == 2
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.1") == 1
+
+
+def test_dependency_drift_automation_is_not_shipped() -> None:
+    assert not (ROOT / ".github" / "workflows" / "drift.yml").exists()
+    assert "\ndrift:" not in _text(".gitlab-ci.yml")
+    assert "DRIFT_TOKEN" not in _text(".gitlab-ci.yml")
 
 
 def test_website_table_styles_support_grid_and_cell_shading() -> None:
