@@ -1,0 +1,66 @@
+/*
+Copyright (c) 2025-2026 Mark Buckwell, Zensical and contributors
+SPDX-License-Identifier: MIT
+*/
+
+/* Template-only website presentation.
+
+   Shared prodockit extension styles live in extra.css, which is kept
+   identical in prodockit-extensions, prodockit-template and
+   prodockit-userguide. Keep rules here only when they belong specifically
+   to the template's own cover or header. */
+
+/* Make the top-level menu tabs slightly more prominent. */
+.md-tabs__link {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+/* Header artwork, with an overlay that keeps its controls readable. */
+[data-md-color-scheme="default"] .md-header {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url("../assets/header-background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 64px;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../assets/header-background-dark.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 64px;
+}
+
+/* Title text used by the template's editable cover page. */
+.title-ctr-b1 { font-size: 1.5rem; font-weight: bold; text-align: center; display: block; }
+.title-ctr-b2 { font-size: 1.4rem; font-weight: bold; text-align: center; display: block; }
+.title-ctr-b3 { font-size: 1.3rem; font-weight: bold; text-align: center; display: block; }
+.title-ctr-b4 { font-size: 1.2rem; font-weight: bold; text-align: center; display: block; }
+.title-ctr-b5 { font-size: 1.1rem; font-weight: bold; text-align: center; display: block; }
+.title-ctr-b6 { font-size: 1rem; font-weight: bold; text-align: center; display: block; }
+
+.title-ctr-1 { font-size: 1.5rem; font-weight: normal; text-align: center; display: block; }
+.title-ctr-2 { font-size: 1.4rem; font-weight: normal; text-align: center; display: block; }
+.title-ctr-3 { font-size: 1.3rem; font-weight: normal; text-align: center; display: block; }
+.title-ctr-4 { font-size: 1.2rem; font-weight: normal; text-align: center; display: block; }
+.title-ctr-5 { font-size: 1.1rem; font-weight: normal; text-align: center; display: block; }
+.title-ctr-6 { font-size: 1rem; font-weight: normal; text-align: center; display: block; }
+
+.title-left-1 { font-size: 1.5rem; font-weight: normal; text-align: left; display: block; }
+.title-left-2 { font-size: 1.4rem; font-weight: normal; text-align: left; display: block; }
+.title-left-3 { font-size: 1.3rem; font-weight: normal; text-align: left; display: block; }
+.title-left-4 { font-size: 1.2rem; font-weight: normal; text-align: left; display: block; }
+.title-left-5 { font-size: 1.1rem; font-weight: normal; text-align: left; display: block; }
+.title-left-6 { font-size: 1rem; font-weight: normal; text-align: left; display: block; }
+
+/* General alignment helpers documented by the template. */
+.text-center { text-align: center; display: block; }
+.text-right { text-align: right; display: block; }
+.text-justify { text-align: justify; display: block; }
+.text-center-italic { text-align: center; font-style: italic; display: block; }
+.text-right-italic { text-align: right; font-style: italic; display: block; }
+.text-justify-italic { text-align: justify; font-style: italic; display: block; }

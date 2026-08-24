@@ -44,6 +44,7 @@ from prodockit.zensical_macros import _get_repo_url
 from conftest import REPO_ROOT, soup_for
 
 EXTRA_CSS_PATH = REPO_ROOT / "docs" / "stylesheets" / "extra.css"
+TEMPLATE_CSS_PATH = REPO_ROOT / "docs" / "stylesheets" / "template.css"
 
 
 def _read(path):
@@ -266,15 +267,23 @@ def test_website_has_a_theme_toggle_for_both_schemes(public_dir):
 
 
 # ---------------------------------------------------------------------------
-# Page heading (header background image)
+# Shared website extension styling
 # ---------------------------------------------------------------------------
 
-def test_header_background_images_exist_and_are_referenced(docs_dir):
+def test_shared_website_styles_include_numbered_steps():
     css = _read(EXTRA_CSS_PATH)
-    assert "header-background.jpg" in css
-    assert "header-background-dark.jpg" in css
-    assert (docs_dir / "assets" / "header-background.jpg").exists()
-    assert (docs_dir / "assets" / "header-background-dark.jpg").exists()
+    assert ".md-typeset ol.prodockit-steps" in css
+    assert ".md-typeset ol.prodockit-steps > li::before" in css
+    assert ".md-typeset ol.prodockit-steps > li::after" in css
+
+
+def test_template_styles_keep_cover_and_header_presentation_separate():
+    css = _read(TEMPLATE_CSS_PATH)
+    assert 'url("../assets/header-background.jpg")' in css
+    assert 'url("../assets/header-background-dark.jpg")' in css
+    assert ".title-ctr-b4" in css
+    assert ".title-ctr-4" in css
+    assert ".title-left-5" in css
 
 
 # ---------------------------------------------------------------------------
