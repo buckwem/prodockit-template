@@ -61,9 +61,9 @@ prodockit pins -p zensical -p weasyprint -p prodockit
 
 `-p` is needed for all three here: `prodockit pins`'s own default is `zensical` and `weasyprint`, so a bare `prodockit pins` or `prodockit pins --check` skips the prodockit floor.
 
-Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). Add `--check` to report drift without writing anything (used by the workflow below); see `prodockit pins --help` for the rest of the options.
+Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). Add `--check` to compare the declared versions with current releases without writing anything; see `prodockit pins --help` for the rest of the options.
 
-To check whether taking the newest release would actually change the published output, run the **Dependency drift** workflow: `.github/workflows/drift.yml` (Actions → Dependency drift → Run workflow) or the `drift` job in `.gitlab-ci.yml` (Run pipeline from the GitLab UI). Both build the docs twice - pinned versus newest - diff byte for byte, and open an issue saying what moved. Neither runs on a schedule; both are on-demand only.
+Before accepting an upgrade, build the website and PDF, take the upgrade with `prodockit pins`, build both outputs again, and review the differences before committing. This manual comparison is available when needed; routine prodockit release checks are handled by `prodockit template-sync`.
 
 ## Reporting bugs and requesting features
 
