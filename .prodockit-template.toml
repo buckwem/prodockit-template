@@ -12,6 +12,7 @@ version = 1
 owns = [
   ".github/workflows/**",
   ".gitlab-ci.yml",
+  ".prodockit-shared-files.toml",
   ".python-version",
   "docs/javascripts/**",
   "docs/stylesheets/**",
