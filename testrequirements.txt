@@ -11,4 +11,4 @@
 # Brings pytest and pymupdf, plus prodockit.testing - whose Mermaid/TeX
 # checks test/test_pdf_rendering.py now uses instead of its own copy
 # (issue #128).
-prodockit[testing]>=0.15.2
+prodockit[testing]>=0.45.0
