@@ -37,7 +37,7 @@ import fitz
 
 from prodockit.pdf.build import build_pdf
 from prodockit.pdf.css import build_css
-from prodockit.pdf.icons import build_icon_registry, discover_icon_dirs
+from prodockit.pdf.icons import build_site_icon_registry
 from prodockit.settings import reference_style_values
 from prodockit.zensical_macros import _get_repo_url
 
@@ -336,23 +336,24 @@ def test_website_also_uses_the_default_fonts(public_dir):
 # Icons
 # ---------------------------------------------------------------------------
 
-def test_configured_icon_names_resolve_to_real_files(zensical_config):
-    """theme.icon.* and theme.icon.admonition.* (see "Icons") name icons as
-    "set/path" (e.g. "fontawesome/brands/github") - build_icon_registry()
-    is the same lookup prodockit pdf itself uses (via prodockit.pdf.icons - see
-    prodockit-extensions#96) to resolve an icon shortcode to a real .svg file;
-    a typo here would silently 404/break on the website and leak as
-    missing content in the PDF."""
-    docs_dir_name = zensical_config["project"].get("docs_dir", "docs")
-    icon_dirs = discover_icon_dirs(docs_dir_name)
-    registry = build_icon_registry(icon_dirs)
+def test_configured_admonition_icons_reach_the_built_site(public_dir, zensical_config):
+    """Configured admonition icons resolve through the public build output.
 
-    theme_icon = zensical_config["project"]["theme"]["icon"]
-    names = [v for k, v in theme_icon.items() if k != "admonition" and isinstance(v, str)]
-    names += list(theme_icon.get("admonition", {}).values())
-    assert names, "No icon names found in [project.theme.icon] to check"
+    Prodockit 0.45.0 stopped inspecting Zensical's private installed icon
+    directories. The PDF now recovers the compiled SVG data from the completed
+    website, so this test protects the same documented boundary.
+    """
+    names = zensical_config["project"]["theme"]["icon"].get("admonition", {})
+    assert names, (
+        "No admonition icon names found in [project.theme.icon.admonition]"
+    )
+    registry = build_site_icon_registry(public_dir, names)
 
-    missing = [name for name in names if name.replace("/", "-").lower() not in registry]
+    missing = [
+        name
+        for name in names.values()
+        if name.replace("/", "-").lower() not in registry
+    ]
     assert not missing, f"Configured icon(s) not found in the icon registry: {missing}"
 
 

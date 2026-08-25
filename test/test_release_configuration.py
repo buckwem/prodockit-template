@@ -10,7 +10,7 @@ def _text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_prodockit_0421_floor_is_consistent() -> None:
+def test_required_tool_version_floors_are_consistent() -> None:
     declarations = "\n".join(
         _text(path)
         for path in (
@@ -21,9 +21,13 @@ def test_prodockit_0421_floor_is_consistent() -> None:
     )
 
     assert "prodockit==" not in declarations
-    assert "prodockit>=0.42.1" in _text("requirements.txt")
-    assert "prodockit>=0.42.1" in _text(".github/workflows/docs.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.42.1") == 1
+    assert "prodockit>=0.45.0" in _text("requirements.txt")
+    assert "prodockit>=0.45.0" in _text(".github/workflows/docs.yml")
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.45.0") == 1
+    assert "prodockit[testing]>=0.45.0" in _text("testrequirements.txt")
+    assert "zensical>=0.0.57" in _text("requirements.txt")
+    assert '"zensical==0.0.57"' in _text(".github/workflows/docs.yml")
+    assert _text(".gitlab-ci.yml").count('"zensical==0.0.57"') == 1
 
 
 def test_dependency_drift_automation_is_not_shipped() -> None:
