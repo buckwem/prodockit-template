@@ -56,14 +56,27 @@ Tests are grouped into batches (`build`, `captions`, `content`, `fences`, `links
 The same version ends up written in several places at once, so move them together rather than by hand:
 
 ```bash
-prodockit pins -p zensical -p weasyprint -p prodockit
+prodockit pins
 ```
 
-`-p` is needed for all three here: `prodockit pins`'s own default is `zensical` and `weasyprint`, so a bare `prodockit pins` or `prodockit pins --check` skips the prodockit floor.
+Prodockit is managed by default alongside Zensical, WeasyPrint and the other build inputs. The command also finds the compact `testrequirements.txt` name used here, so the testing extra moves with the runtime floor.
 
 Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). Add `--check` to compare the declared versions with current releases without writing anything; see `prodockit pins --help` for the rest of the options.
 
-Before accepting an upgrade, build the website and PDF, take the upgrade with `prodockit pins`, build both outputs again, and review the differences before committing. This manual comparison is available when needed; routine prodockit release checks are handled by `prodockit template-sync`.
+The template also declares files supplied by the installed release in `.prodockit-shared-files.toml`. Check versions and those files together without contacting package indexes:
+
+```bash
+prodockit pins --check --offline
+```
+
+If the shared stylesheet differs, restore the installed release's copy and review it before committing:
+
+```bash
+prodockit shared-files --apply
+git diff -- docs/stylesheets/extra.css
+```
+
+Before accepting an upgrade, build the website and PDF, take the upgrade with `prodockit pins`, build both outputs again, and review the differences before committing. This manual comparison is available when needed; routine Prodockit release checks are handled by `prodockit template-sync`.
 
 ## Reporting bugs and requesting features
 

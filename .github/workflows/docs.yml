@@ -160,9 +160,13 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.45.0 is the coordinated release floor for the
+        # .gitlab-ci.yml. 0.46.0 is the coordinated release floor for the
         # public built-site PDF renderer and current authoring components.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.45.0"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.46.0"
+      # Offline and non-writing: keeps every declaration consistent and also
+      # checks manifest-managed files against this installed Prodockit
+      # release. A failure names the drift and prints its recovery command.
+      - run: prodockit pins --check --offline
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI

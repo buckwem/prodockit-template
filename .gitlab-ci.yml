@@ -3,7 +3,7 @@
 
 pages:
   stage: deploy
-  image: python:3.13
+  image: python:3.14
   tags:
     - pages
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
@@ -80,10 +80,14 @@ pages:
     #
     # See the identical line and its fuller comment in
     # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md). 0.45.0 is the coordinated
+    # `prodockit pins` (see CONTRIBUTING.md). 0.46.0 is the coordinated
     # release floor for the public built-site PDF renderer and current
     # authoring components.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.45.0"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.46.0"
+    # Keep version declarations consistent and manifest-managed files
+    # byte-identical to this installed Prodockit release. The check is local,
+    # offline and non-writing; its failure prints the recovery command.
+    - prodockit pins --check --offline
     # MathJax for the website, from the npm install above - see the
     # identical step's comment in .github/workflows/docs.yml. This job
     # never had this step at all until now (issue #167 found it missing
