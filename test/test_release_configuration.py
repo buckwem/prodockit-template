@@ -21,10 +21,10 @@ def test_required_tool_version_floors_are_consistent() -> None:
     )
 
     assert "prodockit==" not in declarations
-    assert "prodockit>=0.46.0" in _text("requirements.txt")
-    assert "prodockit>=0.46.0" in _text(".github/workflows/docs.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.46.0") == 1
-    assert "prodockit[testing]>=0.46.0" in _text("testrequirements.txt")
+    assert "prodockit>=0.47.0" in _text("requirements.txt")
+    assert "prodockit>=0.47.0" in _text(".github/workflows/docs.yml")
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.47.0") == 1
+    assert "prodockit[testing]>=0.47.0" in _text("testrequirements.txt")
     assert "zensical>=0.0.57" in _text("requirements.txt")
     assert '"zensical==0.0.57"' in _text(".github/workflows/docs.yml")
     assert _text(".gitlab-ci.yml").count('"zensical==0.0.57"') == 1
