@@ -202,7 +202,26 @@ jobs:
       # `zensical build`, not after, or the file wouldn't exist yet when
       # that step decides what to copy.
       - run: prodockit source-bundle
-      - run: zensical build --clean
+      # The reusable configuration remains analytics-free. This runs only
+      # after the PDF and source bundle exist, then injects consent-gated
+      # analytics into a temporary config used solely for this repository's
+      # canonical website. Forks, clones and GitLab never receive the tag.
+      - name: Prepare the canonical website analytics
+        if: github.repository == 'buckwem/prodockit-template'
+        env:
+          GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID }}
+        run: |
+          if [ -z "$GOOGLE_ANALYTICS_ID" ]; then
+            echo "::error::The canonical template site needs the GOOGLE_ANALYTICS_ID repository secret."
+            exit 1
+          fi
+          python tools/canonical_site_config.py zensical.toml .zensical-upstream.toml "$GOOGLE_ANALYTICS_ID"
+      - name: Build the canonical template website
+        if: github.repository == 'buckwem/prodockit-template'
+        run: zensical build --config-file .zensical-upstream.toml --clean
+      - name: Build a fork of the template
+        if: github.repository != 'buckwem/prodockit-template'
+        run: zensical build --clean
       - name: Add the upstream custom-domain marker
         if: github.repository == 'buckwem/prodockit-template'
         run: printf 'template.prodockit.org\n' > public/CNAME
