@@ -54,7 +54,7 @@ def test_cover_page_title_is_bold_and_centered(pdf_doc, macros):
     has no attribute field at all - a <p class="title-ctr-b4"> (the cover
     page's own title lines - see docs/index.md) came out the other end as
     a bare Para with the class silently dropped, losing both the bold
-    weight and the centering extra.css's .title-ctr-b4 rule provides.
+    weight and the centering pdk.css's .title-ctr-b4 rule provides.
     render_page_html() retags any classed/id'd <p> to a <div> (which
     Pandoc's reader does preserve attributes on) to fix this - checks the
     real cover page title line is both bold and horizontally centered.

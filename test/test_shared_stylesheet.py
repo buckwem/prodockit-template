@@ -1,7 +1,7 @@
 # Copyright (c) 2026 Mark Buckwell and contributors
 # SPDX-License-Identifier: MIT
 
-"""The shared website stylesheet follows the installed Prodockit release."""
+"""The shared website and PDF styles follow the installed Prodockit release."""
 
 from pathlib import Path
 
@@ -15,13 +15,15 @@ from prodockit.shared_files import MANIFEST, inspect
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_shared_stylesheet_matches_the_installed_release() -> None:
+def test_shared_stylesheets_match_the_installed_release() -> None:
     states = inspect(ROOT)
 
-    assert len(states) == 1
-    assert states[0].file.source == "extra.css"
-    assert states[0].file.target == "docs/stylesheets/extra.css"
-    assert states[0].status == "current"
+    assert [state.file.source for state in states] == ["pdk.css", "pdk-pdf.css"]
+    assert [state.file.target for state in states] == [
+        "docs/stylesheets/pdk.css",
+        "docs/stylesheets/pdk-pdf.css",
+    ]
+    assert all(state.status == "current" for state in states)
 
 
 @pytest.mark.parametrize("state", ["different", "missing"])
@@ -29,7 +31,7 @@ def test_shared_stylesheet_drift_fails_with_recovery(
     tmp_path: Path, state: str
 ) -> None:
     (tmp_path / MANIFEST).write_bytes((ROOT / MANIFEST).read_bytes())
-    target = tmp_path / "docs" / "stylesheets" / "extra.css"
+    target = tmp_path / "docs" / "stylesheets" / "pdk.css"
     if state == "different":
         target.parent.mkdir(parents=True)
         target.write_text("duplicated or stale rules\n", encoding="utf-8")
@@ -41,7 +43,7 @@ def test_shared_stylesheet_drift_fails_with_recovery(
     assert result.exit_code == 1
     expected_label = "WRONG" if state == "different" else "MISS"
     assert expected_label in result.output
-    assert "docs/stylesheets/extra.css" in result.output
+    assert "docs/stylesheets/pdk.css" in result.output
     assert "prodockit shared-files --apply" in result.output
 
 

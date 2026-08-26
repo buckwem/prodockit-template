@@ -69,11 +69,11 @@ The template also declares files supplied by the installed release in `.prodocki
 prodockit pins --check --offline
 ```
 
-If the shared stylesheet differs, restore the installed release's copy and review it before committing:
+If the shared stylesheets differ, restore the installed release's copies and review them before committing:
 
 ```bash
 prodockit shared-files --apply
-git diff -- docs/stylesheets/extra.css
+git diff -- docs/stylesheets/pdk.css docs/stylesheets/pdk-pdf.css
 ```
 
 Before accepting an upgrade, build the website and PDF, take the upgrade with `prodockit pins`, build both outputs again, and review the differences before committing. This manual comparison is available when needed; routine Prodockit release checks are handled by `prodockit template-sync`.

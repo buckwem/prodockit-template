@@ -21,10 +21,10 @@ def test_required_tool_version_floors_are_consistent() -> None:
     )
 
     assert "prodockit==" not in declarations
-    assert "prodockit>=0.47.0" in _text("requirements.txt")
-    assert "prodockit>=0.47.0" in _text(".github/workflows/docs.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.47.0") == 1
-    assert "prodockit[testing]>=0.47.0" in _text("testrequirements.txt")
+    assert "prodockit>=0.48.0" in _text("requirements.txt")
+    assert "prodockit>=0.48.0" in _text(".github/workflows/docs.yml")
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.48.0") == 1
+    assert "prodockit[testing]>=0.48.0" in _text("testrequirements.txt")
     assert "zensical>=0.0.57" in _text("requirements.txt")
     assert '"zensical==0.0.57"' in _text(".github/workflows/docs.yml")
     assert _text(".gitlab-ci.yml").count('"zensical==0.0.57"') == 1
@@ -44,9 +44,16 @@ def test_shared_file_manifest_is_delivered_by_template_sync() -> None:
     manifest = _text(".prodockit-shared-files.toml")
     template = _text(".prodockit-template.toml")
 
-    assert 'source = "extra.css"' in manifest
-    assert 'target = "docs/stylesheets/extra.css"' in manifest
+    assert 'source = "pdk.css"' in manifest
+    assert 'target = "docs/stylesheets/pdk.css"' in manifest
+    assert 'source = "pdk-pdf.css"' in manifest
+    assert 'target = "docs/stylesheets/pdk-pdf.css"' in manifest
     assert '".prodockit-shared-files.toml"' in template
+    assert '"docs/stylesheets/pdk.css"' in template
+    assert '"docs/stylesheets/pdk-pdf.css"' in template
+    assert '"docs/stylesheets/extra.css"' in template
+    assert '"docs/stylesheets/print.css"' in template
+    assert '"docs/stylesheets/**"' not in template
 
 
 def test_dependency_drift_automation_is_not_shipped() -> None:
@@ -56,7 +63,7 @@ def test_dependency_drift_automation_is_not_shipped() -> None:
 
 
 def test_website_table_styles_support_grid_and_cell_shading() -> None:
-    css = _text("docs/stylesheets/extra.css")
+    css = _text("docs/stylesheets/pdk.css")
     example = _text("docs/section4.md")
 
     assert "border-collapse: collapse" in css

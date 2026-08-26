@@ -21,8 +21,8 @@ h3 { font-size: 14pt; }
    #e9e9e9 (itself 5% darker than --md-code-bg-color, #f5f5f5), the website's
    shading for inline code and code blocks (prodockit.pdf.css's own
    generated stylesheet repeats this same value with !important, since
-   that stylesheet is compiled in after this one - kept in sync here too
-   for anyone reading this file directly). */
+   the managed PDF stylesheet also defines this appearance - kept in sync
+   here so a project can deliberately override it). */
 html body pre, html body code {
     font-family: "JetBrains Mono", monospace;
     background-color: #dddddd;
@@ -42,7 +42,7 @@ pre {
 }
 
 /* Marker for content meant only for the live website (e.g. the "Download
-   PDF" button on the cover page) - mirrors .pdf-only in extra.css.
+   PDF" button on the cover page) - mirrors .pdf-only in pdk.css.
    Shown normally on the website by default (print.css isn't loaded there -
    see extra_css in zensical.toml), hidden here since print.css is only
    ever read by the PDF build (via pdf_extra_css - see zensical.toml). */

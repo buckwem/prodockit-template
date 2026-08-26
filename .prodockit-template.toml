@@ -15,7 +15,9 @@ owns = [
   ".prodockit-shared-files.toml",
   ".python-version",
   "docs/javascripts/**",
-  "docs/stylesheets/**",
+  "docs/stylesheets/pdk.css",
+  "docs/stylesheets/pdk-pdf.css",
+  "docs/stylesheets/template.css",
   "macros.py",
   "overrides/**",
   "tools/**",
@@ -27,6 +29,10 @@ owns = [
   "docs/*.md",
   "docs/**/*.md",
   "docs/assets/**",
+  # Author-owned stylesheet overrides are never replaced by template-sync.
+  # Managed defaults live in the two pdk*.css files above.
+  "docs/stylesheets/extra.css",
+  "docs/stylesheets/print.css",
   "*.bib",
   "LICENSE.md",
   "sample.md",

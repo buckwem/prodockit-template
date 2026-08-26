@@ -169,7 +169,7 @@ def test_website_internal_links_resolve(public_dir, public_html_files):
             if target_file.suffix != ".html":
                 # A real file, but not a page - e.g. glightbox wraps images
                 # in <a href="foo.png#only-light">, where the fragment is a
-                # CSS hook (see extra.css's #only-light/#only-dark rules),
+                    # CSS hook (see pdk.css's #only-light/#only-dark rules),
                 # not a document anchor to look up inside the image itself.
                 continue
 
