@@ -40,7 +40,7 @@ zensical>=0.0.57
 # >=0.46.0 carries the canonical shared stylesheet in the wheel, extends the
 # normal pin check to manifest-managed files and testrequirements.txt, and
 # aligns artifact builds on Python 3.14.
-prodockit>=0.46.0
+prodockit>=0.47.0
 mkdocstrings-python
 pandoc
 toml
