@@ -186,14 +186,6 @@ jobs:
       # also detects the default branch rather than assuming "main" -
       # the case that matters when this template is forked (#128).
       - run: prodockit sync-repo
-      # This repository is the starter *and* a published example. Keep the
-      # committed site_url generic so a newly generated project can replace it
-      # with its own Pages URL; only the upstream build uses the template's
-      # custom domain. Committing docs/CNAME would make every new project try
-      # to publish at template.prodockit.org, so its marker is build-only too.
-      - name: Use the upstream template domain
-        if: github.repository == 'buckwem/prodockit-template'
-        run: sed -i 's|^site_url = ".*"|site_url = "https://template.prodockit.org/"|' zensical.toml
       - run: prodockit pdf
       # Writes docs/source_bundle.pdf - inside docs_dir, so the next step
       # copies it into public/ the same way it already does for
@@ -202,10 +194,25 @@ jobs:
       # `zensical build`, not after, or the file wouldn't exist yet when
       # that step decides what to copy.
       - run: prodockit source-bundle
-      # The reusable configuration remains analytics-free. This runs only
-      # after the PDF and source bundle exist, then injects consent-gated
-      # analytics into a temporary config used solely for this repository's
-      # canonical website. Forks, clones and GitLab never receive the tag.
+      # Build and check the reusable template before applying anything that
+      # belongs only to template.prodockit.org. This is the output inherited
+      # by forks, clones and GitLab projects.
+      - name: Build the reusable template website
+        run: zensical build --clean
+      # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
+      # These checks assert on this document's own content, which a generated
+      # project replaces, and a generated project inherits this file
+      # (prodockit-template#194).
+      - name: Built-output checks (reported, not enforced)
+        continue-on-error: true
+        run: python test/run_tests.py
+      # This repository is both the reusable starter and a published example.
+      # Keep the committed site_url generic and its configuration analytics-
+      # free. Only the upstream GitHub build receives the custom domain and
+      # consent-gated Analytics, through this temporary configuration. Forks,
+      # clones and GitLab never receive the tag. Committing docs/CNAME would
+      # likewise make every new project claim the upstream domain, so that
+      # marker remains build-only.
       - name: Prepare the canonical website analytics
         if: github.repository == 'buckwem/prodockit-template'
         env:
@@ -215,23 +222,13 @@ jobs:
             echo "::error::The canonical template site needs the GOOGLE_ANALYTICS_ID repository secret."
             exit 1
           fi
-          python tools/canonical_site_config.py zensical.toml .zensical-upstream.toml "$GOOGLE_ANALYTICS_ID"
+          python tools/canonical_site_config.py zensical.toml .zensical-upstream.toml "$GOOGLE_ANALYTICS_ID" "https://template.prodockit.org/"
       - name: Build the canonical template website
         if: github.repository == 'buckwem/prodockit-template'
         run: zensical build --config-file .zensical-upstream.toml --clean
-      - name: Build a fork of the template
-        if: github.repository != 'buckwem/prodockit-template'
-        run: zensical build --clean
       - name: Add the upstream custom-domain marker
         if: github.repository == 'buckwem/prodockit-template'
         run: printf 'template.prodockit.org\n' > public/CNAME
-      # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
-      # These checks assert on this document's own content, which a generated
-      # project replaces, and a generated project inherits this file
-      # (prodockit-template#194).
-      - name: Built-output checks (reported, not enforced)
-        continue-on-error: true
-        run: python test/run_tests.py
       # Fingerprint what we are about to publish, so the verify job below can
       # tell whether the live site is actually serving *this* build. Taken
       # from the same directory upload-pages-artifact packs, immediately
