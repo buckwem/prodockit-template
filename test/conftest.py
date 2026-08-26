@@ -239,7 +239,8 @@ def build_synthetic_pdf(tmp_path, docs_dir, resolved_zensical_config):
     Zensical Markdown pipeline and then the real prodockit.pdf Pandoc/
     WeasyPrint pipeline - the same pipeline `prodockit pdf`
     (build_pdf_from_zensical_config()) uses, including this project's real
-    extra.css/print.css (via zensical.toml's extra_css/pdf_extra_css) and
+    pdk.css/extra.css/pdk-pdf.css/print.css (via zensical.toml's
+    extra_css/pdf_extra_css) and
     icon config - into a small, throwaway PDF, and returns it opened as a
     fitz.Document.
 

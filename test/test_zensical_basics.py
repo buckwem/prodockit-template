@@ -322,7 +322,7 @@ def test_image_lazy_loading_attribute(render):
 
 def test_image_light_dark_mode_hash_fragment(render):
     """zensical.org/docs/authoring/images/: appending #only-light/#only-dark
-    to an image URL is what extra.css's own light/dark logo-swap rules key
+    to an image URL is what pdk.css's own light/dark logo-swap rules key
     off (see "Site logo" in customise.md)."""
     html = render('![Logo](logo.png#only-dark)')
     assert 'src="logo.png#only-dark"' in html

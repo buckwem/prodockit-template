@@ -5,10 +5,9 @@ SPDX-License-Identifier: MIT
 
 /* Template-only website presentation.
 
-   Shared prodockit extension styles live in extra.css, which is kept
-   identical in prodockit-extensions, prodockit-template and
-   prodockit-userguide. Keep rules here only when they belong specifically
-   to the template's own cover or header. */
+   Managed prodockit extension styles live in pdk.css. Keep rules here only
+   when they belong specifically to the template's own cover or header;
+   document-specific additions belong in extra.css. */
 
 /* Make the top-level menu tabs slightly more prominent. */
 .md-tabs__link {
