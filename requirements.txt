@@ -37,10 +37,10 @@ zensical>=0.0.57
 # install in CI - two copies of a config whose failure mode is being
 # subtly wrong rather than broken outright (prodockit-extensions#276).
 #
-# >=0.48.0 carries the canonical website and PDF stylesheet pair in the wheel,
+# >=0.48.1 carries the current canonical website and PDF stylesheet pair,
 # checks both managed files alongside dependency pins, and leaves extra.css
 # and print.css available for project-specific overrides.
-prodockit>=0.48.0
+prodockit>=0.48.1
 mkdocstrings-python
 pandoc
 toml
