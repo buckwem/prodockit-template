@@ -138,8 +138,32 @@ def test_custom_domain_is_applied_only_to_the_upstream_build() -> None:
     # A generated project needs this replaceable Pages URL so sync-repo can
     # derive its own; the custom URL and CNAME exist only in the upstream job.
     assert 'site_url = "https://buckwem.github.io/prodockit-template/"' in config
-    assert workflow.count("if: github.repository == 'buckwem/prodockit-template'") == 2
+    assert "name: Use the upstream template domain" in workflow
+    assert "name: Add the upstream custom-domain marker" in workflow
     assert 'site_url = "https://template.prodockit.org/"' in workflow
     assert "printf 'template.prodockit.org\\n' > public/CNAME" in workflow
     assert "https://template.prodockit.org/" in readme
     assert not (ROOT / "docs" / "CNAME").exists()
+
+
+def test_analytics_is_applied_only_to_the_canonical_website_build() -> None:
+    config = _text("zensical.toml")
+    workflow = _text(".github/workflows/docs.yml")
+    copyright = _text("overrides/partials/copyright.html")
+
+    assert 'property = "G-' not in config
+    assert "[project.extra.analytics]" not in config
+    assert "[project.extra.consent]" not in config
+    assert "python tools/canonical_site_config.py zensical.toml" in workflow
+    assert "GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID }}" in workflow
+    assert 'if [ -z "$GOOGLE_ANALYTICS_ID" ]' in workflow
+    assert '.zensical-upstream.toml "$GOOGLE_ANALYTICS_ID"' in workflow
+    assert "zensical build --config-file .zensical-upstream.toml --clean" in workflow
+    assert "name: Prepare the canonical website analytics" in workflow
+    assert "name: Build the canonical template website" in workflow
+    assert workflow.index("run: prodockit source-bundle") < workflow.index(
+        "name: Prepare the canonical website analytics"
+    )
+    assert "if: github.repository != 'buckwem/prodockit-template'" in workflow
+    assert "{% if config.extra.analytics %}" in copyright
+    assert 'href="#__consent"' in copyright
