@@ -160,9 +160,9 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.48.1 is the coordinated release floor for the
+        # .gitlab-ci.yml. 0.49.1 is the coordinated release floor for the
         # current renderer, authoring components and shared stylesheets.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.48.1"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.49.1"
       # Offline and non-writing: keeps every declaration consistent and also
       # checks manifest-managed files against this installed Prodockit
       # release. A failure names the drift and prints its recovery command.

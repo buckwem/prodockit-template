@@ -80,10 +80,10 @@ pages:
     #
     # See the identical line and its fuller comment in
     # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md). 0.48.1 is the coordinated
+    # `prodockit pins` (see CONTRIBUTING.md). 0.49.1 is the coordinated
     # release floor for the current renderer, authoring components and
     # shared stylesheets.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.48.1"
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.49.1"
     # Keep version declarations consistent and manifest-managed files
     # byte-identical to this installed Prodockit release. The check is local,
     # offline and non-writing; its failure prints the recovery command.
