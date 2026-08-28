@@ -13,6 +13,9 @@ pages:
   # rather than detecting.
   resource_group: pages
   variables:
+    # PDF revision dates need the complete history rather than GitLab's
+    # default shallow clone.
+    GIT_DEPTH: "0"
     # The base image's own "pandoc" apt package lags several major versions
     # behind upstream - old enough that some markdown edge cases (e.g.
     # pymdownx.caret's "^^insert^^" syntax) parse differently than on a

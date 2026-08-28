@@ -40,6 +40,14 @@ def test_python_artifact_builds_use_the_version_file() -> None:
     assert f"image: python:{version}" in gitlab
 
 
+def test_pdf_builds_receive_complete_git_history() -> None:
+    github = _text(".github/workflows/docs.yml")
+    gitlab = _text(".gitlab-ci.yml")
+
+    assert "fetch-depth: 0" in github
+    assert 'GIT_DEPTH: "0"' in gitlab
+
+
 def test_shared_file_manifest_is_delivered_by_template_sync() -> None:
     manifest = _text(".prodockit-shared-files.toml")
     template = _text(".prodockit-template.toml")

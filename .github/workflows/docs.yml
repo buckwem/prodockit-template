@@ -78,7 +78,11 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      # PDF revision dates need the complete history rather than GitHub's
+      # default one-commit checkout.
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           # One source of truth for the version a build uses:
