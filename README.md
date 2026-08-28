@@ -45,7 +45,8 @@ Built on [Zensical](https://zensical.org/), a static site generator, with a comp
 2. Clone your fork locally.
 3. Install the prerequisites and preview the site locally with `zensical serve`.
 4. Write your report in `docs/` (`originality.md`, `section1.md`–`section4.md`).
-5. Build the PDF with `prodockit pdf`.
+5. Build the website with `zensical build --clean`, then build the PDF from
+   that completed site with `prodockit pdf`.
 
 Full, step-by-step instructions for all of this - installing tools, editing and previewing locally, Markdown and Zensical syntax, customising the template, and building the PDF - are in the **[prodockit User Guide](https://buckwem.github.io/prodockit-userguide/)**.
 
@@ -53,10 +54,15 @@ Full, step-by-step instructions for all of this - installing tools, editing and 
 
 ```bash
 pip install -r requirements.txt
+zensical build --clean
 prodockit pdf
 ```
 
-This produces `docs/site_documentation.pdf`. Building Mermaid diagrams and maths to images also requires the Node tooling under `tools/mermaid/` and `tools/mathjax/` (`npm ci` in each) - see [Install tooling](https://buckwem.github.io/prodockit-userguide/installtooling/) in the User Guide for the full setup, and `.gitlab-ci.yml` / `.github/workflows/docs.yml` for how the CI pipelines do it.
+This produces `docs/site_documentation.pdf` and atomically adds the same file
+to the completed website. `prodockit pdf` does not run Zensical itself, so the
+website build must come first. Building Mermaid diagrams and maths to images
+also requires the Node tooling under `tools/mermaid/` and `tools/mathjax/`
+(`npm ci` in each) - see [Install tooling](https://buckwem.github.io/prodockit-userguide/installtooling/) in the User Guide for the full setup, and `.gitlab-ci.yml` / `.github/workflows/docs.yml` for how the CI pipelines do it.
 
 ## Directory structure
 

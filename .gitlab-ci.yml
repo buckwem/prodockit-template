@@ -98,15 +98,12 @@ pages:
     - prodockit init-mathjax
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
-    - prodockit pdf
-    # Writes docs/source_bundle.pdf - inside docs_dir, so zensical build
-    # copies it into public/ the same way it already does for
-    # docs/site_documentation.pdf, with no separate copy step needed
-    # (prodockit-extensions#212, prodockit-template#160). Run before
-    # zensical build, not after, or the file wouldn't exist yet when that
-    # step decides what to copy.
+    # Write the separate source download before the clean website build.
     - prodockit source-bundle
     - zensical build --clean
+    # Consume the completed website and atomically add the finished PDF to
+    # public/ without another Zensical build.
+    - prodockit pdf
     # Reported, not enforced - for now, and deliberately for a generated
     # project as much as for this one.
     #

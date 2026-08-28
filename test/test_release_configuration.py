@@ -168,9 +168,24 @@ def test_analytics_is_applied_only_to_the_canonical_website_build() -> None:
     assert workflow.index("run: prodockit source-bundle") < workflow.index(
         "name: Build the reusable template website"
     )
+    assert workflow.index("name: Build the reusable template website") < workflow.index(
+        "run: prodockit pdf"
+    )
     assert workflow.index("name: Built-output checks (reported, not enforced)") < workflow.index(
         "name: Prepare the canonical website analytics"
     )
     assert "if: github.repository != 'buckwem/prodockit-template'" not in workflow
     assert "{% if config.extra.analytics %}" in copyright
     assert 'href="#__consent"' in copyright
+
+
+def test_pdf_consumes_the_completed_site_in_both_pipelines() -> None:
+    github = _text(".github/workflows/docs.yml")
+    gitlab = _text(".gitlab-ci.yml")
+
+    assert github.index("run: prodockit source-bundle") < github.index(
+        "name: Build the reusable template website"
+    ) < github.index("run: prodockit pdf")
+    assert gitlab.index("- prodockit source-bundle") < gitlab.index(
+        "- zensical build --clean"
+    ) < gitlab.index("- prodockit pdf")

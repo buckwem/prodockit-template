@@ -12,9 +12,9 @@ Run the builds first - these tests check the *built* output, they don't
 build it themselves:
 
     prodockit sync-repo        # only needed after changing the git remote
-    prodockit pdf
-    prodockit source-bundle    # before zensical build - see .github/workflows/docs.yml
-    zensical build
+    prodockit source-bundle    # included by the following clean site build
+    zensical build --clean
+    prodockit pdf              # consumes the completed site
 
 Usage:
     python test/run_tests.py                  # run every batch
