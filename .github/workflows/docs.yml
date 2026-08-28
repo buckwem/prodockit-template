@@ -160,9 +160,9 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.48.1 is the coordinated release floor for the
+        # .gitlab-ci.yml. 0.49.1 is the coordinated release floor for the
         # current renderer, authoring components and shared stylesheets.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.48.1"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.49.1"
       # Offline and non-writing: keeps every declaration consistent and also
       # checks manifest-managed files against this installed Prodockit
       # release. A failure names the drift and prints its recovery command.
@@ -186,19 +186,17 @@ jobs:
       # also detects the default branch rather than assuming "main" -
       # the case that matters when this template is forked (#128).
       - run: prodockit sync-repo
-      - run: prodockit pdf
-      # Writes docs/source_bundle.pdf - inside docs_dir, so the next step
-      # copies it into public/ the same way it already does for
-      # docs/site_documentation.pdf, with no separate copy step needed
-      # (prodockit-extensions#212, prodockit-template#160). Run before
-      # `zensical build`, not after, or the file wouldn't exist yet when
-      # that step decides what to copy.
+      # Writes docs/source_bundle.pdf before the clean site build so Zensical
+      # includes this separate download in public/.
       - run: prodockit source-bundle
       # Build and check the reusable template before applying anything that
       # belongs only to template.prodockit.org. This is the output inherited
       # by forks, clones and GitLab projects.
       - name: Build the reusable template website
         run: zensical build --clean
+      # Reads the completed reusable website, then atomically adds the PDF to
+      # public/. It does not invoke Zensical or clean its output.
+      - run: prodockit pdf
       # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
       # These checks assert on this document's own content, which a generated
       # project replaces, and a generated project inherits this file
