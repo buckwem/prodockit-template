@@ -21,13 +21,26 @@ def test_required_tool_version_floors_are_consistent() -> None:
     )
 
     assert "prodockit==" not in declarations
-    assert "prodockit>=0.50.1" in _text("requirements.txt")
-    assert "prodockit>=0.50.1" in _text(".github/workflows/docs.yml")
-    assert _text(".gitlab-ci.yml").count("prodockit>=0.50.1") == 1
-    assert "prodockit[testing]>=0.50.1" in _text("testrequirements.txt")
+    assert "prodockit>=0.51.0" in _text("requirements.txt")
+    assert "prodockit>=0.51.0" in _text(".github/workflows/docs.yml")
+    assert _text(".gitlab-ci.yml").count("prodockit>=0.51.0") == 1
+    assert "prodockit[testing]>=0.51.0" in _text("testrequirements.txt")
     assert "zensical>=0.0.57" in _text("requirements.txt")
     assert '"zensical==0.0.57"' in _text(".github/workflows/docs.yml")
     assert _text(".gitlab-ci.yml").count('"zensical==0.0.57"') == 1
+
+
+def test_site_branding_is_separate_from_managed_component_styles() -> None:
+    shared = _text("docs/stylesheets/pdk.css")
+    template = _text("docs/stylesheets/template.css")
+    config = _text("zensical.toml")
+
+    assert ".md-logo img" not in shared
+    assert "../assets/logo_white.png" in template
+    assert "../assets/logo_black.png" in template
+    assert config.index('"stylesheets/pdk.css"') < config.index(
+        '"stylesheets/template.css"'
+    ) < config.index('"stylesheets/extra.css"')
 
 
 def test_python_artifact_builds_use_the_version_file() -> None:
