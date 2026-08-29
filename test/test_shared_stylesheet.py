@@ -56,6 +56,10 @@ def test_both_publishing_workflows_enforce_the_offline_check() -> None:
     for workflow in (github, gitlab):
         install = "pip install -r requirements.txt -r testrequirements.txt"
         assert "prodockit pins --check --offline" in workflow
+        assert "prodockit config --check" in workflow
         assert workflow.index(install) < workflow.index(
             "prodockit pins --check --offline"
+        )
+        assert workflow.index("prodockit init-mathjax") < workflow.index(
+            "prodockit config --check"
         )

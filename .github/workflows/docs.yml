@@ -164,9 +164,9 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.49.1 is the coordinated release floor for the
+        # .gitlab-ci.yml. 0.50.0 is the coordinated release floor for the
         # current renderer, authoring components and shared stylesheets.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.49.1"
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.50.0"
       # Offline and non-writing: keeps every declaration consistent and also
       # checks manifest-managed files against this installed Prodockit
       # release. A failure names the drift and prints its recovery command.
@@ -184,6 +184,10 @@ jobs:
       # PATH, so this runs after the pip install above, not with the other
       # npm ci step it pairs with.
       - run: prodockit init-mathjax
+      # Validate the resolved Prodockit settings and every local input they
+      # reference before spending time on either published output. Generated
+      # MathJax inputs must exist first.
+      - run: prodockit config --check
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which
