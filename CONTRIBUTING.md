@@ -67,7 +67,11 @@ The template also declares files supplied by the installed release in `.prodocki
 
 ```bash
 prodockit pins --check --offline
+prodockit config --check
 ```
+
+The configuration check also reports missing navigation pages, images,
+citation styles, optional renderers, and disabled extensions before a build.
 
 If the shared stylesheets differ, restore the installed release's copies and review them before committing:
 

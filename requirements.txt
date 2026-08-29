@@ -40,7 +40,7 @@ zensical>=0.0.57
 # >=0.49.1 carries the current canonical website and PDF stylesheet pair,
 # checks both managed files alongside dependency pins, and leaves extra.css
 # and print.css available for project-specific overrides.
-prodockit>=0.49.1
+prodockit>=0.50.0
 mkdocstrings-python
 pandoc
 toml
