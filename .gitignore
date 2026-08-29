@@ -86,3 +86,4 @@ docs/javascripts/mathjax.js
 # else's files, often under licences that govern redistribution, and a
 # repository is redistribution (prodockit-template#164).
 fonts/
+.prodockit-template.log
