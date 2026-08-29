@@ -176,21 +176,6 @@
 }
 
 /* ============================================================= */
-/* ================ Style for slate theme logo ================ */
-/* ============================================================= */
-
-/* Keep these as relative files so projects can replace their active
-   logo_black.png/logo_white.png pair without editing this shared stylesheet.
-   prodockit.pdf inlines local CSS assets while assembling the PDF, so the
-   relative website URLs do not make the PDF build depend on this directory. */
-[data-md-color-scheme="slate"] .md-logo img {
-  content: url("../assets/logo_white.png");
-}
-[data-md-color-scheme="default"] .md-logo img {
-  content: url("../assets/logo_black.png");
-}
-
-/* ============================================================= */
 /* ======= Fix for the bundled theme's #only-light/dark bug ===== */
 /* ============================================================= */
 
@@ -712,4 +697,32 @@
 .prodockit-tree .tree-note::before {
   content: " — ";
   color: var(--md-default-fg-color--lighter, #999);
+}
+
+/* Documentation diagrams use one consistent width on the website and are
+   constrained to the printable area in the PDF. These are shared component
+   defaults, so they belong in this managed stylesheet rather than the
+   author's extra.css override layer. */
+.md-typeset img.documentation-diagram,
+img.documentation-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+@media print {
+  .md-typeset img.documentation-diagram,
+  img.documentation-diagram {
+    width: auto;
+    max-width: 100%;
+    max-height: 18cm;
+    object-fit: contain;
+    break-inside: avoid;
+  }
+
+  .md-typeset img.release-workflow-diagram,
+  img.release-workflow-diagram {
+    max-height: 12.5cm;
+  }
 }
