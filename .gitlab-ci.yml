@@ -17,10 +17,8 @@ pages:
     # default shallow clone.
     GIT_DEPTH: "0"
     # The base image's own "pandoc" apt package lags several major versions
-    # behind upstream - old enough that some markdown edge cases (e.g.
-    # pymdownx.caret's "^^insert^^" syntax) parse differently than on a
-    # contributor's own dev machine, which is exactly what
-    # test/test_zensical_basics.py's leak-detection tests check against.
+    # behind upstream - old enough that Markdown can parse differently than
+    # on a contributor's own dev machine.
     # Installing a specific upstream .deb release below instead of
     # "apt-get install pandoc" keeps CI and local dev on the same version,
     # rather than silently drifting whenever the base image's own package
@@ -105,26 +103,14 @@ pages:
     - prodockit sync-repo
     # Write the separate source download before the clean website build.
     - prodockit source-bundle
-    - zensical build --clean
+    - zensical build --clean --strict
     # Consume the completed website and atomically add the finished PDF to
     # public/ without another Zensical build.
     - prodockit pdf
-    # Reported, not enforced - for now, and deliberately for a generated
-    # project as much as for this one.
-    #
-    # These checks assert on *this* document: that section4.md's Mermaid
-    # diagram rendered, that the word count matches this prose. A report
-    # generated from this template replaces that content, so the assertions
-    # cannot hold there - and they failed a real assignment's pipeline for
-    # having no Mermaid diagram, which is not a fault in the report
-    # (prodockit-template#194).
-    #
-    # A generated project inherits this file, so making it non-blocking here
-    # is what stops that happening again while #194 decides which checks a
-    # project should carry at all. The cost is that this template loses its
-    # own gate meanwhile: a regression shows in the log rather than stopping
-    # the build. Run the same command locally when investigating a failure.
-    - python test/run_tests.py || true
+    # Project-integrity and rendering checks do not depend on report content,
+    # so generated projects can enforce them without inheriting assertions
+    # about the template's disposable examples.
+    - python -m pytest
   pages:
     publish: public
   rules:

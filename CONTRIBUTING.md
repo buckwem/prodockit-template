@@ -31,23 +31,26 @@ For anything beyond a small fix (typos, broken links), please open an issue firs
    - Website changes: `zensical serve` and check the page in a browser.
    - PDF-affecting changes (`zensical.toml`, `macros.py`, `docs/stylesheets/print.css`): run `zensical build --clean`, then `prodockit pdf`, and check `docs/site_documentation.pdf`.
    - Prose changes: optionally run `vale docs/` if you have [Vale](https://vale.sh/) installed (see [Additional tooling](https://buckwem.github.io/prodockit-userguide/additionaltooling/#install-vale-to-check-for-grammar-spelling-and-style-issues) in the User Guide); it's not enforced in CI.
-   - Run the test suite (see below) - it checks the built website and PDF for regressions in this template's own prodockit-specific features (numbering, word count, links, and so on), and runs in CI on every push.
+   - Run the integrity checks (see below). They validate the project configuration and source files, then inspect the built PDF for rendering failures without depending on the report's wording or examples.
 3. Open a pull request against `main`. `main` is protected, so all changes - including from maintainers - go through a PR.
 4. Reference the issue your PR addresses (e.g. `Fixes #123`) where applicable.
 
-## Running the test suite
+## Running the integrity checks
 
-The test suite in `test/` checks the *built output*, not the build process itself - build the website and PDF first, then run the tests against them:
+Testing follows the same order as the build: validate the source project, create a clean website and PDF, then inspect the finished PDF. The checks deliberately avoid assertions about the template's example content, because authors replace that content in their own reports.
 
 ```bash
 pip install -r requirements.txt -r testrequirements.txt
-prodockit source-bundle
-zensical build --clean
+prodockit pins --check --offline
+prodockit config --check
+zensical build --clean --strict
 prodockit pdf
-python test/run_tests.py
+python -m pytest
 ```
 
-Tests are grouped into batches (`build`, `captions`, `content`, `fences`, `links`, `numbering`, `pdf_structure`, `word_count`), each reporting its own pass/fail. Run `python test/run_tests.py --list` to see them, and `python test/run_tests.py --batch <name>` to run just one - useful when you're actively working on a specific capability and don't want to wait on the rest of the suite. Extra arguments after the batch options are passed straight through to `pytest`. See [Testing](https://buckwem.github.io/prodockit-userguide/testing/) in the User Guide for the full guide.
+The offline pins check reports inconsistent dependency declarations and managed shared-file drift without contacting package indexes. `assert_project_integrity()` reports missing local stylesheets, scripts, navigation pages, Markdown images, citation styles and configured renderers. The built-output checks confirm that the PDF exists and contains no raw Mermaid or TeX source left behind by a missing renderer. See [Test the built output](https://prodockit.org/devcons/testing/) for the fixtures, checks and optional pytest configuration.
+
+Run `prodockit template-sync` separately when you want to preview changes from the upstream template. It contacts the template host and reports available updates, so it is a maintenance check rather than a deterministic test-suite assertion.
 
 ## Version pinning
 

@@ -58,11 +58,9 @@ jobs:
       PUPPETEER_SKIP_DOWNLOAD: "true"
       PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
       # Ubuntu's own "pandoc" apt package lags several major versions behind
-      # upstream (3.1.3 on 24.04 at time of writing) - old enough that some
-      # markdown edge cases (e.g. pymdownx.caret's "^^insert^^" syntax) parse
-      # differently than on a contributor's own dev machine, which is exactly
-      # what test/test_zensical_basics.py's leak-detection tests check
-      # against. Installing a specific upstream .deb release below instead of
+      # upstream (3.1.3 on 24.04 at time of writing) - old enough that Markdown
+      # can parse differently than on a contributor's own dev machine.
+      # Installing a specific upstream .deb release below instead of
       # "apt install pandoc" keeps CI and local dev on the same version,
       # rather than silently drifting whenever Ubuntu's own package updates.
       PANDOC_VERSION: "3.10.1"
@@ -201,17 +199,14 @@ jobs:
       # belongs only to template.prodockit.org. This is the output inherited
       # by forks, clones and GitLab projects.
       - name: Build the reusable template website
-        run: zensical build --clean
+        run: zensical build --clean --strict
       # Reads the completed reusable website, then atomically adds the PDF to
       # public/. It does not invoke Zensical or clean its output.
       - run: prodockit pdf
-      # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
-      # These checks assert on this document's own content, which a generated
-      # project replaces, and a generated project inherits this file
-      # (prodockit-template#194).
-      - name: Built-output checks (reported, not enforced)
-        continue-on-error: true
-        run: python test/run_tests.py
+      # These checks cover project integrity and rendering failures without
+      # depending on report content, so generated projects can enforce them.
+      - name: Project integrity and built-output checks
+        run: python -m pytest
       # This repository is both the reusable starter and a published example.
       # Keep the committed site_url generic and its configuration analytics-
       # free. Only the upstream GitHub build receives the custom domain and
