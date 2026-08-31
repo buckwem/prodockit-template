@@ -2,14 +2,11 @@
 # SPDX-License-Identifier: MIT
 
 # File to list prerequisites for the project. This file is used by the CI/CD pipeline to install dependencies before building the documentation.
-# >=0.0.53 confirmed byte-for-byte identical PDF, and identical search.json,
-# against 0.0.52 for this project's own content - the only differences are
-# the generator meta tag and rehashed asset filenames from a rebuilt
-# bundle/CSS. >=0.0.52 itself was confirmed the same way against 0.0.51 -
-# the only differences there were a bundled Font Awesome/Lucide icon-set
-# bump (redrawn SVG artwork, new asset hashes) and an additive "lang" field
-# in search.json's config.
-zensical>=0.0.55
+# >=0.0.57 was regression-tested against 0.0.55 across the template,
+# extensions manual and user guide. Authored HTML, search content and PDF
+# rendering were unchanged; Zensical's bundled assets have their expected
+# new hashes. Earlier floors were checked with the same output comparisons.
+zensical>=0.0.57
 # A floor here and everywhere in CI: a project should receive compatible
 # prodockit fixes without waiting for the template to be updated and synced.
 # >=0.13.0 would be the true functional minimum (`prodockit
@@ -39,7 +36,11 @@ zensical>=0.0.55
 # replaces the heredoc that previously duplicated bootstrap's own MathJax
 # install in CI - two copies of a config whose failure mode is being
 # subtly wrong rather than broken outright (prodockit-extensions#276).
-prodockit>=0.42.1
+#
+# >=0.49.1 carries the current canonical website and PDF stylesheet pair,
+# checks both managed files alongside dependency pins, and leaves extra.css
+# and print.css available for project-specific overrides.
+prodockit>=0.51.0
 mkdocstrings-python
 pandoc
 toml

@@ -1,0 +1,9 @@
+version = 1
+
+[[files]]
+source = "pdk.css"
+target = "docs/stylesheets/pdk.css"
+
+[[files]]
+source = "pdk-pdf.css"
+target = "docs/stylesheets/pdk-pdf.css"

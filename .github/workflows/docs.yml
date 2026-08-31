@@ -78,7 +78,11 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      # PDF revision dates need the complete history rather than GitHub's
+      # default one-commit checkout.
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           # One source of truth for the version a build uses:
@@ -160,11 +164,13 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.42.1 is the coordinated patch floor for forward
-        # cross-page references and table cell shading; 0.26.2 was the
-        # previous floor, for `prodockit
-        # init-mathjax` below (issue #167).
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.42.1"
+        # .gitlab-ci.yml. 0.51.0 is the coordinated release floor for the
+        # current renderer, authoring components and shared stylesheets.
+      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
+      # Offline and non-writing: keeps every declaration consistent and also
+      # checks manifest-managed files against this installed Prodockit
+      # release. A failure names the drift and prints its recovery command.
+      - run: prodockit pins --check --offline
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
@@ -178,32 +184,27 @@ jobs:
       # PATH, so this runs after the pip install above, not with the other
       # npm ci step it pairs with.
       - run: prodockit init-mathjax
+      # Validate the resolved Prodockit settings and every local input they
+      # reference before spending time on either published output. Generated
+      # MathJax inputs must exist first.
+      - run: prodockit config --check
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which
       # also detects the default branch rather than assuming "main" -
       # the case that matters when this template is forked (#128).
       - run: prodockit sync-repo
-      # This repository is the starter *and* a published example. Keep the
-      # committed site_url generic so a newly generated project can replace it
-      # with its own Pages URL; only the upstream build uses the template's
-      # custom domain. Committing docs/CNAME would make every new project try
-      # to publish at template.prodockit.org, so its marker is build-only too.
-      - name: Use the upstream template domain
-        if: github.repository == 'buckwem/prodockit-template'
-        run: sed -i 's|^site_url = ".*"|site_url = "https://template.prodockit.org/"|' zensical.toml
-      - run: prodockit pdf
-      # Writes docs/source_bundle.pdf - inside docs_dir, so the next step
-      # copies it into public/ the same way it already does for
-      # docs/site_documentation.pdf, with no separate copy step needed
-      # (prodockit-extensions#212, prodockit-template#160). Run before
-      # `zensical build`, not after, or the file wouldn't exist yet when
-      # that step decides what to copy.
+      # Writes docs/source_bundle.pdf before the clean site build so Zensical
+      # includes this separate download in public/.
       - run: prodockit source-bundle
-      - run: zensical build --clean
-      - name: Add the upstream custom-domain marker
-        if: github.repository == 'buckwem/prodockit-template'
-        run: printf 'template.prodockit.org\n' > public/CNAME
+      # Build and check the reusable template before applying anything that
+      # belongs only to template.prodockit.org. This is the output inherited
+      # by forks, clones and GitLab projects.
+      - name: Build the reusable template website
+        run: zensical build --clean
+      # Reads the completed reusable website, then atomically adds the PDF to
+      # public/. It does not invoke Zensical or clean its output.
+      - run: prodockit pdf
       # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
       # These checks assert on this document's own content, which a generated
       # project replaces, and a generated project inherits this file
@@ -211,6 +212,29 @@ jobs:
       - name: Built-output checks (reported, not enforced)
         continue-on-error: true
         run: python test/run_tests.py
+      # This repository is both the reusable starter and a published example.
+      # Keep the committed site_url generic and its configuration analytics-
+      # free. Only the upstream GitHub build receives the custom domain and
+      # consent-gated Analytics, through this temporary configuration. Forks,
+      # clones and GitLab never receive the tag. Committing docs/CNAME would
+      # likewise make every new project claim the upstream domain, so that
+      # marker remains build-only.
+      - name: Prepare the canonical website analytics
+        if: github.repository == 'buckwem/prodockit-template'
+        env:
+          GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID }}
+        run: |
+          if [ -z "$GOOGLE_ANALYTICS_ID" ]; then
+            echo "::error::The canonical template site needs the GOOGLE_ANALYTICS_ID repository secret."
+            exit 1
+          fi
+          python tools/canonical_site_config.py zensical.toml .zensical-upstream.toml "$GOOGLE_ANALYTICS_ID" "https://template.prodockit.org/"
+      - name: Build the canonical template website
+        if: github.repository == 'buckwem/prodockit-template'
+        run: zensical build --config-file .zensical-upstream.toml --clean
+      - name: Add the upstream custom-domain marker
+        if: github.repository == 'buckwem/prodockit-template'
+        run: printf 'template.prodockit.org\n' > public/CNAME
       # Fingerprint what we are about to publish, so the verify job below can
       # tell whether the live site is actually serving *this* build. Taken
       # from the same directory upload-pages-artifact packs, immediately

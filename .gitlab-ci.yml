@@ -3,7 +3,7 @@
 
 pages:
   stage: deploy
-  image: python:3.13
+  image: python:3.14
   tags:
     - pages
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
@@ -13,6 +13,9 @@ pages:
   # rather than detecting.
   resource_group: pages
   variables:
+    # PDF revision dates need the complete history rather than GitLab's
+    # default shallow clone.
+    GIT_DEPTH: "0"
     # The base image's own "pandoc" apt package lags several major versions
     # behind upstream - old enough that some markdown edge cases (e.g.
     # pymdownx.caret's "^^insert^^" syntax) parse differently than on a
@@ -80,10 +83,14 @@ pages:
     #
     # See the identical line and its fuller comment in
     # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md). 0.42.1 is the coordinated patch
-    # floor for forward cross-page references and table cell shading; 0.26.2
-    # was the previous floor, for `prodockit init-mathjax` below (issue #167).
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.55" "weasyprint==69.0" "prodockit>=0.42.1"
+    # `prodockit pins` (see CONTRIBUTING.md). 0.51.0 is the coordinated
+    # release floor for the current renderer, authoring components and
+    # shared stylesheets.
+    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
+    # Keep version declarations consistent and manifest-managed files
+    # byte-identical to this installed Prodockit release. The check is local,
+    # offline and non-writing; its failure prints the recovery command.
+    - prodockit pins --check --offline
     # MathJax for the website, from the npm install above - see the
     # identical step's comment in .github/workflows/docs.yml. This job
     # never had this step at all until now (issue #167 found it missing
@@ -92,17 +99,16 @@ pages:
     # javascripts/mathjax.js/vendor/mathjax/tex-svg-full.js, so every page
     # built here had a dangling script reference and showed raw TeX.
     - prodockit init-mathjax
+    # Validate resolved settings after generating their MathJax inputs.
+    - prodockit config --check
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
-    - prodockit pdf
-    # Writes docs/source_bundle.pdf - inside docs_dir, so zensical build
-    # copies it into public/ the same way it already does for
-    # docs/site_documentation.pdf, with no separate copy step needed
-    # (prodockit-extensions#212, prodockit-template#160). Run before
-    # zensical build, not after, or the file wouldn't exist yet when that
-    # step decides what to copy.
+    # Write the separate source download before the clean website build.
     - prodockit source-bundle
     - zensical build --clean
+    # Consume the completed website and atomically add the finished PDF to
+    # public/ without another Zensical build.
+    - prodockit pdf
     # Reported, not enforced - for now, and deliberately for a generated
     # project as much as for this one.
     #

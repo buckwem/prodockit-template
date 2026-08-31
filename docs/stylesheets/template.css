@@ -5,10 +5,9 @@ SPDX-License-Identifier: MIT
 
 /* Template-only website presentation.
 
-   Shared prodockit extension styles live in extra.css, which is kept
-   identical in prodockit-extensions, prodockit-template and
-   prodockit-userguide. Keep rules here only when they belong specifically
-   to the template's own cover or header. */
+   Managed prodockit extension styles live in pdk.css. Keep rules here only
+   when they belong specifically to the template's own cover or header;
+   document-specific additions belong in extra.css. */
 
 /* Make the top-level menu tabs slightly more prominent. */
 .md-tabs__link {
@@ -64,3 +63,13 @@ SPDX-License-Identifier: MIT
 .text-center-italic { text-align: center; font-style: italic; display: block; }
 .text-right-italic { text-align: right; font-style: italic; display: block; }
 .text-justify-italic { text-align: justify; font-style: italic; display: block; }
+
+/* Keep the template's light and dark logos with its site-specific styles.
+   Shared component defaults belong in the managed pdk.css file. */
+[data-md-color-scheme="slate"] .md-logo img {
+  content: url("../assets/logo_white.png");
+}
+
+[data-md-color-scheme="default"] .md-logo img {
+  content: url("../assets/logo_black.png");
+}

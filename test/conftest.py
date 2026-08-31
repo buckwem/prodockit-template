@@ -4,7 +4,7 @@
 """Shared fixtures for the test suite (see issue #44). Tests here check the
 *built output* - the website in public/ and the PDF at
 docs/site_documentation.pdf - not the build process itself; run
-`prodockit pdf` and `zensical build` (or `prodockit sync-repo`
+`zensical build --clean` and then `prodockit pdf` (or `prodockit sync-repo`
 first, if you've just changed the git remote) before running these tests.
 See test/run_tests.py for the runner and CONTRIBUTING.md for usage."""
 
@@ -239,7 +239,8 @@ def build_synthetic_pdf(tmp_path, docs_dir, resolved_zensical_config):
     Zensical Markdown pipeline and then the real prodockit.pdf Pandoc/
     WeasyPrint pipeline - the same pipeline `prodockit pdf`
     (build_pdf_from_zensical_config()) uses, including this project's real
-    extra.css/print.css (via zensical.toml's extra_css/pdf_extra_css) and
+    pdk.css/extra.css/pdk-pdf.css/print.css (via zensical.toml's
+    extra_css/pdf_extra_css) and
     icon config - into a small, throwaway PDF, and returns it opened as a
     fitz.Document.
 
