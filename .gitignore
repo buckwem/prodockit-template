@@ -87,3 +87,6 @@ docs/javascripts/mathjax.js
 # repository is redistribution (prodockit-template#164).
 fonts/
 .prodockit-template.log
+
+# Your own answers to `prodockit bootstrap`.
+.pdk-bootstrap.toml

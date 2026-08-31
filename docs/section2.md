@@ -17,8 +17,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-![System context for Lorem ipsum](https://securityarchitecture.cloud/figures/img/sahc_0507.png){ width="80%" .documentation-diagram .web-only}
-![System context for Lorem ipsum](https://securityarchitecture.cloud/figures/img/sahc_0507.png){ width="90%" .documentation-diagram .pdf-only}
+![System context for Lorem ipsum](https://dummyimage.com/600x400/bbb/fff.jpg){ width="80%" .documentation-diagram .web-only}
+![System context for Lorem ipsum](https://dummyimage.com/600x400/bbb/fff.jpg){ width="90%" .documentation-diagram .pdf-only}
 /// figure-caption
     attrs: {id: fig-system-context}
 
@@ -29,6 +29,8 @@ System context for Lorem ipsum
 | --- | --- |
 | Client | A client looking for dolor sit amet advice. |
 /// table-caption | <
+        attrs: {id: fig-system-context-actors}
+        
 Description of system context actors
 ///
 

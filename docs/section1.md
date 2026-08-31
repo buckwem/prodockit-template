@@ -21,9 +21,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-![Architecture overview for Lorem ipsum](assets/images/Figure-1.1.png){ width="80%" .screenshot .web-only}
-![Architecture overview for Lorem ipsum](assets/images/Figure-1.1.png){ width="80%" .screenshot .pdf-only}
-/// figure-caption {: #fig-architecture-overview }
+The architecture overview for Lorem ipsum below in \ref{fig-architecture-overview} shows the high-level structure and interactions of the system components.
+
+![Architecture overview for Lorem ipsum](https://dummyimage.com/600x400/bbb/fff.jpg){ width="80%" .screenshot .web-only}
+![Architecture overview for Lorem ipsum](https://dummyimage.com/600x400/bbb/fff.jpg){ width="80%" .screenshot .pdf-only}
+/// figure-caption
+    attrs: {id: fig-architecture-overview}
 Architecture overview for Lorem ipsum
 ///
 
