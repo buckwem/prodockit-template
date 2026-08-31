@@ -59,16 +59,12 @@ property = "{measurement_id}"
 
 [project.extra.consent]
 title = "Cookie consent"
-description = """
-    We use optional analytics cookies to understand which parts of the
-    template are useful and improve prodockit. Google Analytics remains
-    disabled unless you choose to accept it.
-"""
-actions = ["accept", "reject", "manage"]
+description = "We use optional analytics cookies to understand which documentation is useful and improve prodockit."
+actions = ["accept", "manage"]
 
 [project.extra.consent.cookies]
 analytics.name = "Google Analytics"
-analytics.checked = false
+analytics.checked = true
 '''
     generated = canonical_source.rstrip() + analytics
 
@@ -76,7 +72,8 @@ analytics.checked = false
     parsed_extra = parsed_project["extra"]
     assert parsed_project["site_url"] == site_url
     assert parsed_extra["analytics"]["property"] == measurement_id
-    assert parsed_extra["consent"]["cookies"]["analytics"]["checked"] is False
+    assert parsed_extra["consent"]["actions"] == ["accept", "manage"]
+    assert parsed_extra["consent"]["cookies"]["analytics"]["checked"] is True
     return generated
 
 

@@ -33,7 +33,14 @@ def test_generated_config_adds_opt_in_analytics(tmp_path: Path) -> None:
     extra = project["extra"]
     assert project["site_url"] == "https://template.prodockit.org/"
     assert extra["analytics"] == {"provider": "google", "property": "G-TEST123"}
-    assert extra["consent"]["cookies"]["analytics"]["checked"] is False
+    assert extra["consent"]["description"] == (
+        "We use optional analytics cookies to understand which documentation is "
+        "useful and improve prodockit."
+    )
+    assert extra["consent"]["actions"] == ["accept", "manage"]
+    assert extra["consent"]["cookies"] == {
+        "analytics": {"name": "Google Analytics", "checked": True}
+    }
     assert generated.count("G-TEST123") == 1
 
 
