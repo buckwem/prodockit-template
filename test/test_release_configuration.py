@@ -85,7 +85,7 @@ def test_dependency_drift_automation_is_not_shipped() -> None:
 
 def test_website_table_styles_support_grid_and_cell_shading() -> None:
     css = _text("docs/stylesheets/pdk.css")
-    example = _text("docs/section4.md")
+    example = _text("docs/section6.md")
 
     assert "border-collapse: collapse" in css
     assert "--prodockit-table-shade-rgb" in css
@@ -108,7 +108,7 @@ def test_pdf_code_is_one_point_smaller_than_body_text() -> None:
 
 
 def test_pdf_subsection_heading_is_not_absorbed_by_the_table_caption() -> None:
-    example = _text("docs/section4.md")
+    example = _text("docs/section6.md")
     print_css = _text("docs/stylesheets/print.css")
 
     table_end = "| Numbered steps | `/// steps` | this section |"
@@ -118,18 +118,25 @@ def test_pdf_subsection_heading_is_not_absorbed_by_the_table_caption() -> None:
     assert "h2 { font-size: 18pt; margin-top: 20pt; border-bottom:" not in print_css
 
 
-def test_section_five_uses_the_prodockit_tree_extension() -> None:
+def test_section_six_uses_the_prodockit_tree_extension() -> None:
     config = _text("zensical.toml")
-    example = _text("docs/section4.md")
+    example = _text("docs/section6.md")
 
     assert '[project.markdown_extensions."prodockit.tree"]' in config
     assert "## SubSection {: #tree-example }\n\n/// tree\n" in example
 
 
-def test_all_capability_examples_are_in_section_five() -> None:
-    section_five = _text("docs/section4.md")
+def test_all_capability_examples_are_in_section_six() -> None:
+    section_six = _text("docs/section6.md")
     earlier_sections = "\n".join(
-        _text(path) for path in ("docs/section1.md", "docs/section2.md", "docs/section3.md")
+        _text(path)
+        for path in (
+            "docs/section1.md",
+            "docs/section2.md",
+            "docs/section3.md",
+            "docs/section4.md",
+            "docs/section5.md",
+        )
     )
     example_ids = (
         "bibliography-example",
@@ -148,7 +155,7 @@ def test_all_capability_examples_are_in_section_five() -> None:
     for example_id in example_ids:
         marker = f"{{: #{example_id} }}"
         assert marker not in earlier_sections
-        assert marker in section_five
+        assert marker in section_six
 
 
 def test_custom_domain_is_applied_only_to_the_upstream_build() -> None:

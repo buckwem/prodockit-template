@@ -63,10 +63,12 @@ nav = [
     {"1. Originality & AI Use" = "originality.md"}
   ]},
   {"Assignment" = [
-    {"2. Section" = "section1.md"},
-    {"3. Section" = "section2.md"},
-    {"4. Section" = "section3.md"},
-    {"5. Section" = "section4.md"}
+    {"2. Executive Summary" = "section1.md"},
+    {"3. Requirements" = "section2.md"},
+    {"4. Solution Architecture" = "section3.md"},
+    {"5. Governance" = "section4.md"},
+    {"5. Operations" = "section5.md"},
+    {"6. Examples DELETE" = "section6.md"}
   ]},
   {"Appendixes" = [
     {"Appendix A. Acronyms" = "acronyms.md"},

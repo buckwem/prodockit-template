@@ -9,18 +9,25 @@ icon: lucide/book-open
 
 {{ heading_counter_reset(page) }}
 
-# Section {: #section1 }
+# Executive Summary {: #executive-summary }
 
-## SubSection {: #section1-subsection-1 }
+This template is used for teaching architecture concepts and best practices in a structured manner using the book [Security Architecture for Hybrid Cloud](https://securityarchitecture.cloud). Content is included in the template to show some of the different capabilities of [prodockit](https://prodockit.com). Have a look to see how to use capabilities like captions, cross-references, landscape pages, and more.
 
-### SubSubSection {: #section1-subsubsection-1 }
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-### SubSubSection {: #section1-subsubsection-2 }
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-## SubSection {: #section1-subsection-2 }
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-### SubSubSection {: #section1-subsubsection-3 }
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-## SubSection {: #section1-subsection-3 }
+The architecture overview for Lorem ipsum below in \ref{fig-architecture-overview} shows the high-level structure and interactions of the system components.
 
-### SubSubSection {: #section1-subsubsection-4 }
+![Architecture overview for Lorem ipsum](https://dummyimage.com/600x400/bbb/fff.jpg){ width="80%" .screenshot .web-only}
+![Architecture overview for Lorem ipsum](https://dummyimage.com/600x400/bbb/fff.jpg){ width="80%" .screenshot .pdf-only}
+/// figure-caption
+    attrs: {id: fig-architecture-overview}
+Architecture overview for Lorem ipsum
+///
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
