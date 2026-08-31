@@ -170,6 +170,7 @@ def test_custom_domain_is_applied_only_to_the_upstream_build() -> None:
 def test_analytics_is_applied_only_to_the_canonical_website_build() -> None:
     config = _text("zensical.toml")
     workflow = _text(".github/workflows/docs.yml")
+    gitlab = _text(".gitlab-ci.yml")
     copyright = _text("overrides/partials/copyright.html")
 
     assert 'property = "G-' not in config
@@ -196,6 +197,10 @@ def test_analytics_is_applied_only_to_the_canonical_website_build() -> None:
         "name: Prepare the canonical website analytics"
     )
     assert "if: github.repository != 'buckwem/prodockit-template'" not in workflow
+    assert workflow.count("if: github.repository == 'buckwem/prodockit-template'") == 3
+    assert "canonical_site_config.py" not in gitlab
+    assert "GOOGLE_ANALYTICS_ID" not in gitlab
+    assert ".zensical-upstream.toml" not in gitlab
     assert "{% if config.extra.analytics %}" in copyright
     assert 'href="#__consent"' in copyright
 
