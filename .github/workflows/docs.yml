@@ -162,9 +162,9 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.51.0 is the coordinated release floor for the
-        # current renderer, authoring components and shared stylesheets.
-      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
+        # .gitlab-ci.yml. 0.54.0 is the coordinated release floor that adds
+        # the read-only `pdk diag` gate used below.
+      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.54.0"
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI

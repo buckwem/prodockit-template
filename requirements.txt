@@ -40,7 +40,9 @@ zensical>=0.0.57
 # >=0.49.1 carries the current canonical website and PDF stylesheet pair,
 # checks both managed files alongside dependency pins, and leaves extra.css
 # and print.css available for project-specific overrides.
-prodockit>=0.51.0
+# >=0.54.0 adds the read-only `pdk diag` environment and project gate used by
+# both publishing workflows instead of a template-owned test suite.
+prodockit>=0.54.0
 mkdocstrings-python
 pandoc
 toml
