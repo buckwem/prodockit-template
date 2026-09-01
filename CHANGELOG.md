@@ -11,6 +11,8 @@ Newest first.
 
 ## Unreleased
 
+- Raised the ProDockit requirement floor from 0.54.0 to 0.54.1 consistently
+  across local installation, GitHub Actions and GitLab CI using `pdk pins`.
 - Cached the pinned Pandoc package and Python downloads used by CI, and allowed
   GitLab runners to reuse their locally held pinned Python image. Routine builds
   no longer depend on fresh Docker Hub, PyPI and Pandoc CDN responses
