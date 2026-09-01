@@ -9,6 +9,25 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.42 (2026-09-01)
+
+- Removed the template's pytest suite and testing-only dependencies. ProDockit
+  now has a 0.54.0 floor, and project, environment, dependency, configuration,
+  renderer and template integrity is checked before each build by the
+  read-only, content-neutral `pdk diag` command. The managed website stylesheet
+  is also aligned with 0.54.0's top, middle and bottom table-cell controls.
+- Declared PyMdown Extensions 11.0.2 as an explicit build-input floor. The
+  template configures its Markdown extensions directly, even though ProDockit
+  also installs the package transitively
+  ([#240](https://github.com/buckwem/prodockit-template/issues/240)).
+- Reworked the starter document into a solution-architecture report structure,
+  with dedicated executive-summary, requirements, solution-architecture,
+  governance and operations sections, plus a separate collection of removable
+  authoring examples ([#237](https://github.com/buckwem/prodockit-template/pull/237)).
+- Simplified the consent dialog used only by the canonical GitHub website while
+  keeping the reusable configuration, forks and GitLab output analytics-free
+  ([#236](https://github.com/buckwem/prodockit-template/pull/236)).
+
 ## 0.0.35 (2026-08-24)
 
 - Dependency-drift automation has been removed from both GitHub Actions and

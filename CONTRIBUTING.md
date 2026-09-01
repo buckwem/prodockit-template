@@ -31,23 +31,24 @@ For anything beyond a small fix (typos, broken links), please open an issue firs
    - Website changes: `zensical serve` and check the page in a browser.
    - PDF-affecting changes (`zensical.toml`, `macros.py`, `docs/stylesheets/print.css`): run `zensical build --clean`, then `prodockit pdf`, and check `docs/site_documentation.pdf`.
    - Prose changes: optionally run `vale docs/` if you have [Vale](https://vale.sh/) installed (see [Additional tooling](https://buckwem.github.io/prodockit-userguide/additionaltooling/#install-vale-to-check-for-grammar-spelling-and-style-issues) in the User Guide); it's not enforced in CI.
-   - Run the test suite (see below) - it checks the built website and PDF for regressions in this template's own prodockit-specific features (numbering, word count, links, and so on), and runs in CI on every push.
+   - Run the project diagnostics (see below). They validate the active environment, dependencies, configuration, source inputs and rendering tools without depending on the report's wording or examples.
 3. Open a pull request against `main`. `main` is protected, so all changes - including from maintainers - go through a PR.
 4. Reference the issue your PR addresses (e.g. `Fixes #123`) where applicable.
 
-## Running the test suite
+## Running the project diagnostics
 
-The test suite in `test/` checks the *built output*, not the build process itself - build the website and PDF first, then run the tests against them:
+Run the read-only, offline diagnostic before building. Its checks remain valid as authors replace the template's sample content with their own report.
 
 ```bash
-pip install -r requirements.txt -r testrequirements.txt
-prodockit source-bundle
-zensical build --clean
+pip install -r requirements.txt
+pdk diag
+zensical build --clean --strict
 prodockit pdf
-python test/run_tests.py
 ```
 
-Tests are grouped into batches (`build`, `captions`, `content`, `fences`, `links`, `numbering`, `pdf_structure`, `word_count`), each reporting its own pass/fail. Run `python test/run_tests.py --list` to see them, and `python test/run_tests.py --batch <name>` to run just one - useful when you're actively working on a specific capability and don't want to wait on the rest of the suite. Extra arguments after the batch options are passed straight through to `pytest`. See [Testing](https://buckwem.github.io/prodockit-userguide/testing/) in the User Guide for the full guide.
+`pdk diag` checks the running Python and selected commands, package metadata and dependency conflicts, resolved project configuration and source inputs, version pins and shared files, configured renderers, Git and template metadata. It changes nothing and exits non-zero only for an actionable failure. Use `pdk diag --verbose` for evidence behind passing checks, `pdk diag --online` to include package and template updates, or `pdk diag --json` when attaching a report to a support issue. See [Diagnose an environment and project](https://prodockit.org/command-line/#diagnose-an-environment-and-project) for the command guide.
+
+Run `prodockit template-sync` when the online diagnostic reports that the upstream template has changed and you want to preview the actual file updates.
 
 ## Version pinning
 
@@ -59,19 +60,19 @@ The same version ends up written in several places at once, so move them togethe
 prodockit pins
 ```
 
-Prodockit is managed by default alongside Zensical, WeasyPrint and the other build inputs. The command also finds the compact `testrequirements.txt` name used here, so the testing extra moves with the runtime floor.
+Prodockit is managed by default alongside Zensical, WeasyPrint and the other build inputs.
 
 Press ++enter++ at each prompt to take the newest release, or type a version - each file keeps its own form (a floor stays a floor, an exact pin stays exact). Add `--check` to compare the declared versions with current releases without writing anything; see `prodockit pins --help` for the rest of the options.
 
 The template also declares files supplied by the installed release in `.prodockit-shared-files.toml`. Check versions and those files together without contacting package indexes:
 
 ```bash
-prodockit pins --check --offline
-prodockit config --check
+pdk diag
 ```
 
-The configuration check also reports missing navigation pages, images,
-citation styles, optional renderers, and disabled extensions before a build.
+The diagnostic includes offline version and shared-file consistency, resolved
+configuration, missing navigation pages, images, citation styles, optional
+renderers and disabled extensions before a build.
 
 If the shared stylesheets differ, restore the installed release's copies and review them before committing:
 

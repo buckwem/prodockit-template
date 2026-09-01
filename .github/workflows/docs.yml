@@ -58,11 +58,9 @@ jobs:
       PUPPETEER_SKIP_DOWNLOAD: "true"
       PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
       # Ubuntu's own "pandoc" apt package lags several major versions behind
-      # upstream (3.1.3 on 24.04 at time of writing) - old enough that some
-      # markdown edge cases (e.g. pymdownx.caret's "^^insert^^" syntax) parse
-      # differently than on a contributor's own dev machine, which is exactly
-      # what test/test_zensical_basics.py's leak-detection tests check
-      # against. Installing a specific upstream .deb release below instead of
+      # upstream (3.1.3 on 24.04 at time of writing) - old enough that Markdown
+      # can parse differently than on a contributor's own dev machine.
+      # Installing a specific upstream .deb release below instead of
       # "apt install pandoc" keeps CI and local dev on the same version,
       # rather than silently drifting whenever Ubuntu's own package updates.
       PANDOC_VERSION: "3.10.1"
@@ -164,13 +162,9 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.51.0 is the coordinated release floor for the
-        # current renderer, authoring components and shared stylesheets.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
-      # Offline and non-writing: keeps every declaration consistent and also
-      # checks manifest-managed files against this installed Prodockit
-      # release. A failure names the drift and prints its recovery command.
-      - run: prodockit pins --check --offline
+        # .gitlab-ci.yml. 0.54.0 is the coordinated release floor that adds
+        # the read-only `pdk diag` gate used below.
+      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.54.0"
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
@@ -184,10 +178,11 @@ jobs:
       # PATH, so this runs after the pip install above, not with the other
       # npm ci step it pairs with.
       - run: prodockit init-mathjax
-      # Validate the resolved Prodockit settings and every local input they
-      # reference before spending time on either published output. Generated
-      # MathJax inputs must exist first.
-      - run: prodockit config --check
+      # Diagnose the active environment, dependencies, resolved settings,
+      # project inputs, managed files and configured renderers before spending
+      # time on either published output. Generated MathJax inputs must exist
+      # first. The default diagnostic is deterministic, offline and read-only.
+      - run: pdk diag
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which
@@ -201,17 +196,10 @@ jobs:
       # belongs only to template.prodockit.org. This is the output inherited
       # by forks, clones and GitLab projects.
       - name: Build the reusable template website
-        run: zensical build --clean
+        run: zensical build --clean --strict
       # Reads the completed reusable website, then atomically adds the PDF to
       # public/. It does not invoke Zensical or clean its output.
       - run: prodockit pdf
-      # Reported, not enforced - see the fuller note in .gitlab-ci.yml.
-      # These checks assert on this document's own content, which a generated
-      # project replaces, and a generated project inherits this file
-      # (prodockit-template#194).
-      - name: Built-output checks (reported, not enforced)
-        continue-on-error: true
-        run: python test/run_tests.py
       # This repository is both the reusable starter and a published example.
       # Keep the committed site_url generic and its configuration analytics-
       # free. Only the upstream GitHub build receives the custom domain and
