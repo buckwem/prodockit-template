@@ -43,6 +43,10 @@ zensical>=0.0.57
 # >=0.54.0 adds the read-only `pdk diag` environment and project gate used by
 # both publishing workflows instead of a template-owned test suite.
 prodockit>=0.54.0
+# PyMdown Extensions is a direct template build input: zensical.toml enables
+# its Markdown extensions. Keep the supported floor explicit even though
+# ProDockit also brings the package in transitively.
+pymdown-extensions>=11.0.2
 mkdocstrings-python
 pandoc
 toml

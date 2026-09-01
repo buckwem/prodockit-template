@@ -16,6 +16,10 @@ Newest first.
   renderer and template integrity is checked before each build by the
   read-only, content-neutral `pdk diag` command. The managed website stylesheet
   is also aligned with 0.54.0's top, middle and bottom table-cell controls.
+- Declared PyMdown Extensions 11.0.2 as an explicit build-input floor. The
+  template configures its Markdown extensions directly, even though ProDockit
+  also installs the package transitively
+  ([#240](https://github.com/buckwem/prodockit-template/issues/240)).
 - Reworked the starter document into a solution-architecture report structure,
   with dedicated executive-summary, requirements, solution-architecture,
   governance and operations sections, plus a separate collection of removable
