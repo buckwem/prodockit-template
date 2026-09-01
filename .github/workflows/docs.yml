@@ -119,9 +119,21 @@ jobs:
       - run: sudo apt update
         timeout-minutes: 8
       - run: sudo apt install -y curl gnupg ca-certificates
-      - run: |
+      # Cache the pinned upstream package because its release CDN is otherwise
+      # on the critical path of every build. A version bump produces a fresh
+      # key; an unchanged pin avoids the network after the first successful
+      # download (issue #174, matching prodockit-extensions).
+      - id: pandoc-cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/pandoc.deb
+          key: pandoc-${{ env.PANDOC_VERSION }}-amd64-deb
+      # The retry remains for the first run on a new key and for an evicted
+      # cache: caching reduces the dependency but is not a guarantee.
+      - if: steps.pandoc-cache.outputs.cache-hit != 'true'
+        run: |
           curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 --connect-timeout 20 -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
-          sudo apt install -y /tmp/pandoc.deb
+      - run: sudo apt install -y /tmp/pandoc.deb
       # prodockit.bibliography's citation style - not vendored (see
       # CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97) - so
       # every build, including this one, fetches it fresh.
