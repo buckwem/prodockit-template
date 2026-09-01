@@ -11,6 +11,10 @@ Newest first.
 
 ## Unreleased
 
+- Cached the pinned Pandoc package and Python downloads used by CI, and allowed
+  GitLab runners to reuse their locally held pinned Python image. Routine builds
+  no longer depend on fresh Docker Hub, PyPI and Pandoc CDN responses
+  ([#174](https://github.com/buckwem/prodockit-template/issues/174)).
 - Documented creation, activation and recovery of the Python 3.14 `.venv`, so
   local builds use the same `.python-version` baseline as CI and a Homebrew
   interpreter upgrade has an explicit recovery path

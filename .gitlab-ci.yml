@@ -3,7 +3,12 @@
 
 pages:
   stage: deploy
-  image: python:3.14
+  image:
+    name: python:3.14
+    # Reuse the pinned image already held by the runner. A missing image is
+    # still pulled normally; an unrelated Docker Hub outage no longer breaks
+    # a build whose exact image is already present (issue #174).
+    pull_policy: if-not-present
   tags:
     - pages
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
@@ -24,6 +29,10 @@ pages:
     # rather than silently drifting whenever the base image's own package
     # updates. Keep in sync with .github/workflows/docs.yml's PANDOC_VERSION.
     PANDOC_VERSION: "3.10.1"
+    # Keep pip downloads inside the project so GitLab's cache can preserve
+    # them between jobs. The cache key below also carries the Pandoc pin, so
+    # moving that pin starts a fresh cache rather than serving stale inputs.
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
     # mermaid-cli drives Chrome through Puppeteer to rasterise diagrams.
     # Point it at the apt-installed Chrome further down rather than letting
     # Puppeteer download its own, and skip that download entirely.
@@ -41,11 +50,21 @@ pages:
     # reintroduced the problem.
     PUPPETEER_SKIP_DOWNLOAD: "true"
     PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
+  cache:
+    # CI_JOB_IMAGE is the resolved image name (`python:3.14` today), so both
+    # managed version pins participate in invalidating this cache.
+    key: "${CI_JOB_IMAGE}-pandoc-${PANDOC_VERSION}"
+    paths:
+      - .cache/pip/
+      - .cache/pandoc/
   script:
     - apt-get update
     - apt-get install -y curl gnupg ca-certificates
-    - curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 --connect-timeout 20 -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
-    - apt-get install -y /tmp/pandoc.deb
+    # GitLab only restores paths below the checkout, so keep the Pandoc .deb
+    # there rather than /tmp. The retry remains for a new or evicted cache.
+    - mkdir -p .cache/pandoc
+    - test -f .cache/pandoc/pandoc.deb || curl -fsSL --retry 5 --retry-all-errors --retry-delay 5 --connect-timeout 20 -o .cache/pandoc/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+    - apt-get install -y ./.cache/pandoc/pandoc.deb
     # prodockit.bibliography's citation style - not vendored (see
     # CONTRIBUTING.md's "Getting set up" and prodockit-userguide#97) - so
     # every build, including this one, fetches it fresh.
