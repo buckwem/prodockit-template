@@ -26,7 +26,6 @@ tools/mathjax/node_modules
 # Artifacts
 /target
 __pycache__
-.pytest_cache
 *.dll
 *.so
 

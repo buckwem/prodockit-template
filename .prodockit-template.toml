@@ -58,7 +58,7 @@ ignore = [".vscode/"]
 
 [shared]
 # Neither, wholly. Each needs its own rule below.
-files = ["zensical.toml", "requirements.txt", "testrequirements.txt", ".gitignore", "README.md"]
+files = ["zensical.toml", "requirements.txt", ".gitignore", "README.md"]
 
 [shared.zensical_toml]
 # Key-level merge against the working tree, not HEAD - a project's copy is
@@ -110,13 +110,6 @@ paths = [
   # project, so a copy in a generated project would be stale by
   # definition and used by nothing.
   ".prodockit-template.toml",
-  # The template's own regression suite. It tests the template's sample
-  # document - a Mermaid diagram in section4.md, a word count of its
-  # prose - so it cannot pass once that content is replaced by a real
-  # report, which is what it is for. The reusable half already ships in
-  # `prodockit.testing`, which is what prodockit-userguide consumes
-  # instead of vendoring a copy (prodockit-template#194).
-  "test/**",
   "CONTRIBUTING.md",
   ".github/CODEOWNERS",
   ".github/ISSUE_TEMPLATE/**",

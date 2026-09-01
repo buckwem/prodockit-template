@@ -9,6 +9,12 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- Removed the template's pytest suite and testing-only dependencies. Project,
+  environment, dependency, configuration and renderer integrity is now checked
+  before each build by the read-only, content-neutral `pdk diag` command.
+
 ## 0.0.35 (2026-08-24)
 
 - Dependency-drift automation has been removed from both GitHub Actions and

@@ -164,11 +164,7 @@ jobs:
         # in step with requirements.txt, and with the identical line in
         # .gitlab-ci.yml. 0.51.0 is the coordinated release floor for the
         # current renderer, authoring components and shared stylesheets.
-      - run: pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
-      # Offline and non-writing: keeps every declaration consistent and also
-      # checks manifest-managed files against this installed Prodockit
-      # release. A failure names the drift and prints its recovery command.
-      - run: prodockit pins --check --offline
+      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
@@ -182,10 +178,11 @@ jobs:
       # PATH, so this runs after the pip install above, not with the other
       # npm ci step it pairs with.
       - run: prodockit init-mathjax
-      # Validate the resolved Prodockit settings and every local input they
-      # reference before spending time on either published output. Generated
-      # MathJax inputs must exist first.
-      - run: prodockit config --check
+      # Diagnose the active environment, dependencies, resolved settings,
+      # project inputs, managed files and configured renderers before spending
+      # time on either published output. Generated MathJax inputs must exist
+      # first. The default diagnostic is deterministic, offline and read-only.
+      - run: pdk diag
       # Keeps repo_url/repo_name/edit_uri/brand icon and the README badge
       # row matching whichever remote this checkout is published from.
       # Was sync_repo_icon.py; now provided by prodockit itself, which
@@ -203,10 +200,6 @@ jobs:
       # Reads the completed reusable website, then atomically adds the PDF to
       # public/. It does not invoke Zensical or clean its output.
       - run: prodockit pdf
-      # These checks cover project integrity and rendering failures without
-      # depending on report content, so generated projects can enforce them.
-      - name: Project integrity and built-output checks
-        run: python -m pytest
       # This repository is both the reusable starter and a published example.
       # Keep the committed site_url generic and its configuration analytics-
       # free. Only the upstream GitHub build receives the custom domain and

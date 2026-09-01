@@ -84,11 +84,7 @@ pages:
     # `prodockit pins` (see CONTRIBUTING.md). 0.51.0 is the coordinated
     # release floor for the current renderer, authoring components and
     # shared stylesheets.
-    - pip install -r requirements.txt -r testrequirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
-    # Keep version declarations consistent and manifest-managed files
-    # byte-identical to this installed Prodockit release. The check is local,
-    # offline and non-writing; its failure prints the recovery command.
-    - prodockit pins --check --offline
+    - pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.51.0"
     # MathJax for the website, from the npm install above - see the
     # identical step's comment in .github/workflows/docs.yml. This job
     # never had this step at all until now (issue #167 found it missing
@@ -97,8 +93,9 @@ pages:
     # javascripts/mathjax.js/vendor/mathjax/tex-svg-full.js, so every page
     # built here had a dangling script reference and showed raw TeX.
     - prodockit init-mathjax
-    # Validate resolved settings after generating their MathJax inputs.
-    - prodockit config --check
+    # Diagnose the environment and project after generating the MathJax inputs
+    # required by this configuration. Offline, read-only and content-neutral.
+    - pdk diag
     # Was sync_repo_icon.py; now provided by prodockit itself (#128).
     - prodockit sync-repo
     # Write the separate source download before the clean website build.
@@ -107,10 +104,6 @@ pages:
     # Consume the completed website and atomically add the finished PDF to
     # public/ without another Zensical build.
     - prodockit pdf
-    # Project-integrity and rendering checks do not depend on report content,
-    # so generated projects can enforce them without inheriting assertions
-    # about the template's disposable examples.
-    - python -m pytest
   pages:
     publish: public
   rules:
