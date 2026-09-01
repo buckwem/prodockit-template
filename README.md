@@ -52,11 +52,20 @@ Full, step-by-step instructions for all of this - installing tools, editing and 
 
 ## Building the PDF
 
+Create the local environment with the same Python version used by CI, then
+install through that active interpreter:
+
 ```bash
-pip install -r requirements.txt
+python3.14 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 zensical build --clean
 prodockit pdf
 ```
+
+If a Python or Homebrew upgrade leaves `.venv` referring to an interpreter
+that no longer exists, recreate the disposable environment with the same
+commands. See `.python-version` for the current required major/minor version.
 
 This produces `docs/site_documentation.pdf` and atomically adds the same file
 to the completed website. `prodockit pdf` does not run Zensical itself, so the

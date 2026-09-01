@@ -11,6 +11,10 @@ Newest first.
 
 ## Unreleased
 
+- Documented creation, activation and recovery of the Python 3.14 `.venv`, so
+  local builds use the same `.python-version` baseline as CI and a Homebrew
+  interpreter upgrade has an explicit recovery path
+  ([#193](https://github.com/buckwem/prodockit-template/issues/193)).
 - Refreshed the committed Mermaid tool scaffold from ProDockit 0.54.0. The
   resolved Mermaid 11.17.2 and DOMPurify 3.4.14 dependency graph passes
   `npm audit`, so local setup, CI and template-synced projects no longer
