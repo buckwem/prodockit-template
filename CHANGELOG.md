@@ -11,6 +11,14 @@ Newest first.
 
 ## Unreleased
 
+- Refreshed the committed Mermaid tool scaffold from ProDockit 0.54.0. The
+  resolved Mermaid 11.17.2 and DOMPurify 3.4.14 dependency graph passes
+  `npm audit`, so local setup, CI and template-synced projects no longer
+  install the vulnerable lockfile reported in
+  [#242](https://github.com/buckwem/prodockit-template/issues/242).
+
+## 0.0.43 (2026-09-01)
+
 - Restored the automated cover-page word count on both the website and PDF by
   rendering the shared ProDockit `word_count` macro directly instead of hiding
   a PDF-only marker from the website.
