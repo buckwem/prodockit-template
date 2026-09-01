@@ -91,11 +91,10 @@ Author: Insert Name Here
 Date: Submission Date
 </p>
 
-<!-- Automated word count of the PDF body content, filled in at PDF build
-     time by `prodockit pdf` itself (see prodockit.pdf's own "Cover page
-     markers" docs). Delete this line if you don't want a word count shown
-     on the cover page. -->
-<p class="pdf-only">Word count: {WORDCOUNT}</p>
+<!-- Automated body-content word count, calculated by ProDockit's shared
+     Zensical macro so the website and PDF display the same value. Delete
+     this line if you don't want a word count shown on the cover page. -->
+<p>Word count: {{ word_count }}</p>
 
 <!-- Automated repository URL, filled in at PDF build time by
      `prodockit pdf`. Delete this line if you don't want the repository

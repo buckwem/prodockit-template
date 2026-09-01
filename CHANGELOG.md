@@ -9,6 +9,12 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- Restored the automated cover-page word count on both the website and PDF by
+  rendering the shared ProDockit `word_count` macro directly instead of hiding
+  a PDF-only marker from the website.
+
 ## 0.0.42 (2026-09-01)
 
 - Removed the template's pytest suite and testing-only dependencies. ProDockit
