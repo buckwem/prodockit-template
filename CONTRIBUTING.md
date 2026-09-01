@@ -14,15 +14,30 @@ For anything beyond a small fix (typos, broken links), please open an issue firs
 ## Getting set up
 
 1. Fork the repository and clone your fork.
-2. Install the Python prerequisites: `pip install -r requirements.txt`.
-3. Install [Pandoc](https://pandoc.org/installing.html) (e.g. `brew install pandoc`) - required even to preview the site locally, not just to build the PDF: `prodockit.bibliography`'s citations/references (see `docs/references.md`) are formatted via `pandoc --citeproc` on every build.
-4. Fetch the citation style `prodockit.bibliography` formats references with - not vendored in the repo, so every build (including `zensical serve`) needs it present locally:
+2. Install Python 3.14, the version named by `.python-version` and used by CI.
+   Create and activate a repository-local environment with that interpreter:
+
+   ```bash
+   python3.14 -m venv .venv
+   source .venv/bin/activate
+   python --version
+   ```
+
+   The reported major/minor version must match `.python-version`. A virtual
+   environment contains an absolute path to its interpreter; do not copy or
+   move `.venv`. If a Python or Homebrew upgrade removes that interpreter,
+   delete the disposable `.venv` directory and recreate it with the commands
+   above.
+3. Install the Python prerequisites through the active interpreter:
+   `python -m pip install -r requirements.txt`.
+4. Install [Pandoc](https://pandoc.org/installing.html) (e.g. `brew install pandoc`) - required even to preview the site locally, not just to build the PDF: `prodockit.bibliography`'s citations/references (see `docs/references.md`) are formatted via `pandoc --citeproc` on every build.
+5. Fetch the citation style `prodockit.bibliography` formats references with - not vendored in the repo, so every build (including `zensical serve`) needs it present locally:
 
    ```bash
    curl -fsSL -o harvard-cite-them-right.csl "https://www.zotero.org/styles/harvard-cite-them-right"
    ```
-5. Preview the site locally: `zensical serve`.
-6. Make a clean website build with `zensical build --clean`. If your change touches PDF generation, Mermaid diagrams, or MathJax equations, also install the Node tooling (`npm ci` in `tools/mermaid/` and `tools/mathjax/`) and run `prodockit pdf` afterwards. The PDF command reads the completed site rather than building it itself. See [Install tooling](https://buckwem.github.io/prodockit-userguide/installtooling/) in the User Guide for the full setup.
+6. Preview the site locally: `zensical serve`.
+7. Make a clean website build with `zensical build --clean`. If your change touches PDF generation, Mermaid diagrams, or MathJax equations, also install the Node tooling (`npm ci` in `tools/mermaid/` and `tools/mathjax/`) and run `prodockit pdf` afterwards. The PDF command reads the completed site rather than building it itself. See [Install tooling](https://buckwem.github.io/prodockit-userguide/installtooling/) in the User Guide for the full setup.
 
 ## Making a change
 
@@ -40,13 +55,23 @@ For anything beyond a small fix (typos, broken links), please open an issue firs
 Run the read-only, offline diagnostic before building. Its checks remain valid as authors replace the template's sample content with their own report.
 
 ```bash
-pip install -r requirements.txt
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 pdk diag
 zensical build --clean --strict
 prodockit pdf
 ```
 
-`pdk diag` checks the running Python and selected commands, package metadata and dependency conflicts, resolved project configuration and source inputs, version pins and shared files, configured renderers, Git and template metadata. It changes nothing and exits non-zero only for an actionable failure. Use `pdk diag --verbose` for evidence behind passing checks, `pdk diag --online` to include package and template updates, or `pdk diag --json` when attaching a report to a support issue. See [Diagnose an environment and project](https://prodockit.org/command-line/#diagnose-an-environment-and-project) for the command guide.
+`pdk diag` checks the running Python, whether `VIRTUAL_ENV` selects that
+interpreter, selected commands, package metadata and dependency conflicts,
+resolved project configuration and source inputs, version pins and shared
+files, configured renderers, Git and template metadata. The pin check keeps
+`.python-version` and the CI declarations consistent; the setup step above
+ensures the local environment was created with that version. The diagnostic
+changes nothing and exits non-zero only for an actionable failure. Use
+`pdk diag --verbose` for evidence behind passing checks, `pdk diag --online`
+to include package and template updates, or `pdk diag --json` when attaching a
+report to a support issue. See [Diagnose an environment and project](https://prodockit.org/command-line/#diagnose-an-environment-and-project) for the command guide.
 
 Run `prodockit template-sync` when the online diagnostic reports that the upstream template has changed and you want to preview the actual file updates.
 
