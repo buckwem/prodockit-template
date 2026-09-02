@@ -11,8 +11,17 @@ Newest first.
 
 ## Unreleased
 
-- Raised the ProDockit requirement floor from 0.54.0 to 0.54.1 consistently
-  across local installation, GitHub Actions and GitLab CI using `pdk pins`.
+- Replaced the cover's legacy `site_name` and `release` macro aliases with
+  Zensical's native `config.site_name` expression and ProDockit's dedicated
+  `applied_release` variable, displaying the configured title and applied
+  template release consistently on both website and PDF cover pages. Generated
+  projects retain that applied version independently of their own later tags;
+  canonical GitHub and Surrey deployments record the template tag only in
+  their disposable CI checkout
+  ([#248](https://github.com/buckwem/prodockit-template/issues/248)).
+- Raised the ProDockit requirement floor from 0.54.1 to 0.55.0 consistently
+  across local installation, GitHub Actions and GitLab CI using `pdk pins`,
+  providing the new `applied_release` cover variable.
 - Cached the pinned Pandoc package and Python downloads used by CI, and allowed
   GitLab runners to reuse their locally held pinned Python image. Routine builds
   no longer depend on fresh Docker Hub, PyPI and Pandoc CDN responses

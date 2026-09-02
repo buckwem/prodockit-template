@@ -7,10 +7,10 @@ on:
     branches:
       - master
       - main
-  # The template PDF intentionally has no release marker: its consumers'
-  # documents must not expose the template repository's package version.
-  # A release therefore does not alter generated documentation and does not
-  # need its own deployment trigger.
+  # `applied_release` is persisted when a project is created or successfully
+  # synced. The resulting push to main refreshes both outputs; later releases
+  # of the project itself must not change the applied template version.
+  # release-redeploy.yml refreshes only this canonical template's own site.
   workflow_dispatch:
 
 # `cancel-in-progress: false` rather than true: a queued deploy should wait
@@ -174,9 +174,19 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.54.1 is the coordinated release floor; 0.54.0
-        # introduced the read-only `pdk diag` gate used below.
-      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.54.1"
+        # .gitlab-ci.yml. 0.55.0 is the coordinated release floor and provides
+        # the `applied_release` cover variable; 0.54.0 introduced the read-only
+        # `pdk diag` gate used below.
+      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.55.0"
+      # A generated project already has an applied-release stamp, written on
+      # creation and changed only by a successful template-sync. The canonical
+      # template repository is the pristine source rather than a generated
+      # project, so record its reachable template tag in this disposable CI
+      # checkout before rendering. Never do this in a consumer repository:
+      # its own later tags are deliberately unrelated to applied_release.
+      - name: Record canonical template release
+        if: github.repository == 'buckwem/prodockit-template'
+        run: pdk _record-template-release
       # MathJax for the *website*, from the npm install above. Neither file
       # is committed - the bundle is third-party code, and both are
       # written by `prodockit bootstrap` on a developer's machine - so CI
