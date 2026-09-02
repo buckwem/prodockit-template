@@ -54,7 +54,10 @@ pages:
     # lines above `npm ci`, and reordering the script would have quietly
     # reintroduced the problem.
     PUPPETEER_SKIP_DOWNLOAD: "true"
-    PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
+    # The job runs as root in its container. Route Puppeteer through a wrapper
+    # created below so Chrome receives the flags it requires in that context;
+    # this covers both `pdk diag` and the subsequent PDF build.
+    PUPPETEER_EXECUTABLE_PATH: /usr/local/bin/prodockit-chrome
   cache:
     # CI_JOB_IMAGE is the resolved image name (`python:3.14` today), so both
     # managed version pins participate in invalidating this cache.
@@ -92,6 +95,8 @@ pages:
     - echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
     - apt-get update
     - apt-get install -y google-chrome-stable
+    - printf '%s\n' '#!/bin/sh' 'exec /usr/bin/google-chrome-stable --no-sandbox --disable-setuid-sandbox "$@"' > /usr/local/bin/prodockit-chrome
+    - chmod +x /usr/local/bin/prodockit-chrome
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # zensical and weasyprint pinned exactly here; prodockit to a floor.
