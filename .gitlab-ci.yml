@@ -5,12 +5,17 @@ pages:
   stage: deploy
   image:
     name: python:3.14
-    # Reuse the pinned image already held by the runner. A missing image is
-    # still pulled normally; an unrelated Docker Hub outage no longer breaks
-    # a build whose exact image is already present (issue #174).
-    pull_policy: if-not-present
+    # GitLab.com hosted runners permit only `always`, while the Surrey runner
+    # can reuse its cached copy when Docker Hub is unavailable (issue #174).
+    # GitLab Runner selects the first policy here that its configuration
+    # permits, so this ordered fallback works in both environments.
+    pull_policy:
+      - always
+      - if-not-present
   tags:
-    - pages
+    # Set by the matching rule below: GitLab.com needs a hosted-runner tag,
+    # while Surrey retains its existing project-runner tag.
+    - $PDK_RUNNER_TAG
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
   # only one instance of this job runs at a time, so two pushes started close
   # together can't both be publishing at once and leave the older build live.
@@ -125,4 +130,9 @@ pages:
   pages:
     publish: public
   rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST == "gitlab.com"'
+      variables:
+        PDK_RUNNER_TAG: saas-linux-small-amd64
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      variables:
+        PDK_RUNNER_TAG: pages
