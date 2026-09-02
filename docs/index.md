@@ -98,15 +98,9 @@ Date: Submission Date
      this line if you don't want a word count shown on the cover page. -->
 <p>Word count: {{ word_count }}</p>
 
-<!-- ProDockit supplies the release of the template applied to this project.
-     Keep it with the generated cover metadata so both cover variants show the
-     same release on the website and in the PDF. -->
-{% if applied_release %}
-<p>Template release: {{ applied_release }}</p>
-{% endif %}
-
-<!-- ProDockit derives the repository URL from this checkout's origin remote,
-     converting SSH syntax to a browser link and removing CI credentials. -->
-{% if repo_url %}
-<p>Repo: <a href="{{ repo_url }}">{{ repo_url }}</a></p>
+<!-- ProDockit supplies the applied template release and derives the repository
+     URL from this checkout's origin remote. Keep both in one paragraph so the
+     URL follows the release without a full paragraph gap. -->
+{% if applied_release or repo_url %}
+<p>{% if applied_release %}Template release: {{ applied_release }}{% endif %}{% if applied_release and repo_url %}<br>{% endif %}{% if repo_url %}Repo: <a href="{{ repo_url }}">{{ repo_url }}</a>{% endif %}</p>
 {% endif %}

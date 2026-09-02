@@ -13,7 +13,9 @@ Newest first.
 
 - Moved the applied template release below the cover word count and added the
   checkout's Git repository URL to both website and PDF covers. ProDockit
-  converts SSH remotes to browser links and removes embedded CI credentials.
+  converts SSH remotes to browser links and removes embedded CI credentials;
+  the release and repository share one compact paragraph separated by a line
+  break.
 - Replaced the cover's legacy `site_name` and `release` macro aliases with
   Zensical's native `config.site_name` expression and ProDockit's dedicated
   `applied_release` variable, displaying the configured title and applied
