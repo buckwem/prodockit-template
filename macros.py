@@ -3,10 +3,15 @@
 
 """This project's own Zensical macros - institution branding (Surrey vs.
 default). Everything else a professional/academic report commonly needs
-(word count, repo URL, site name, chapter/appendix numbering,
+(word count, repo URL, chapter/appendix numbering,
 reference/acronym/glossary spacing) comes from prodockit.zensical_macros
 instead (see prodockit-extensions#96, formerly zendoc-extensions#96 before
 #16's rename) - not duplicated here.
+
+The cover reads the configured site name from Zensical's native
+``config.site_name`` variable. Release output likewise belongs to Zensical's
+native ``git.short_tag`` variable when a project chooses to display it; neither
+needs a project macro alias (prodockit-template#248).
 
 prodockit.zensical_macros.define_env() is called directly below rather than
 via zensical.toml's documented `modules = [...]` extension option: that

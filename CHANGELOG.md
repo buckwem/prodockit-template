@@ -11,6 +11,10 @@ Newest first.
 
 ## Unreleased
 
+- Replaced the cover's legacy ProDockit `site_name` macro alias with Zensical's
+  native `config.site_name` expression, keeping the configured title as the
+  single source for website and PDF output
+  ([#248](https://github.com/buckwem/prodockit-template/issues/248)).
 - Raised the ProDockit requirement floor from 0.54.0 to 0.54.1 consistently
   across local installation, GitHub Actions and GitLab CI using `pdk pins`.
 - Cached the pinned Pandoc package and Python downloads used by CI, and allowed

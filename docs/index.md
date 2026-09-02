@@ -49,7 +49,10 @@ School of Computer Science and Electronic Engineering
 
 <p class="title-ctr-b4">module_id - module_name</p>
 
-<p class="title-ctr-b4">{{ site_name }}</p>
+<!-- Zensical's native config variable keeps the configured site name as the
+     one source for the website and, with ProDockit's cover preprocessing, the
+     PDF. -->
+<p class="title-ctr-b4">{{ config.site_name }}</p>
 
 <!--
 /*================== TITLE PAGE GITHUB OR OTHER GITLAB ==================*/
@@ -72,7 +75,8 @@ University of the World</p>
 <p class="title-ctr-4">
 Research programmes in Cyber Security</p>
 
-<p class="title-ctr-b4">{{ site_name }}</p>
+<!-- Keep this expression in step with the Surrey cover above. -->
+<p class="title-ctr-b4">{{ config.site_name }}</p>
 {% endif %}
 
 <br>
