@@ -77,13 +77,6 @@ Research programmes in Cyber Security</p>
      cover preprocessing renders the same expression for the PDF. -->
 <p class="title-ctr-b4">{{ config.site_name }}</p>
 
-<!-- ProDockit supplies the release of the template applied to this project.
-     Keep it beside the shared site title so both cover variants show the same
-     release on the website and in the PDF. -->
-{% if applied_release %}
-<p class="title-ctr-b4">Template release: {{ applied_release }}</p>
-{% endif %}
-
 <br>
 <br>
 <br>
@@ -105,7 +98,9 @@ Date: Submission Date
      this line if you don't want a word count shown on the cover page. -->
 <p>Word count: {{ word_count }}</p>
 
-<!-- Automated repository URL, filled in at PDF build time by
-     `prodockit pdf`. Delete this line if you don't want the repository
-     link shown on the cover page. -->
-<p class="pdf-only">Repo: {REPOURL}</p>
+<!-- ProDockit supplies the applied template release and derives the repository
+     URL from this checkout's origin remote. Keep both in one paragraph so the
+     URL follows the release without a full paragraph gap. -->
+{% if applied_release or repo_url %}
+<p>{% if applied_release %}Template release: {{ applied_release }}{% endif %}{% if applied_release and repo_url %}<br>{% endif %}{% if repo_url %}Repo: <a href="{{ repo_url }}">{{ repo_url }}</a>{% endif %}</p>
+{% endif %}
