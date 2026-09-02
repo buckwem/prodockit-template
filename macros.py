@@ -10,8 +10,9 @@ instead (see prodockit-extensions#96, formerly zendoc-extensions#96 before
 
 The cover reads the configured site name from Zensical's native
 ``config.site_name`` variable and the applied template version from
-ProDockit's ``applied_release`` variable. Neither needs a project-local macro
-alias (prodockit-template#248).
+ProDockit's ``applied_release`` variable. The repository link comes from
+ProDockit's ``repo_url`` variable, which follows the checkout's own remote.
+None needs a project-local alias (prodockit-template#248).
 
 prodockit.zensical_macros.define_env() is called directly below rather than
 via zensical.toml's documented `modules = [...]` extension option: that
