@@ -1,16 +1,17 @@
 # Copyright (c) 2025-2026 Mark Buckwell, Zensical and contributors
 # SPDX-License-Identifier: MIT
 
-pages:
+.pages:
   stage: deploy
   image:
     name: python:3.14
-    # Reuse the pinned image already held by the runner. A missing image is
-    # still pulled normally; an unrelated Docker Hub outage no longer breaks
-    # a build whose exact image is already present (issue #174).
-    pull_policy: if-not-present
-  tags:
-    - pages
+    # GitLab.com hosted runners permit only `always`, while the Surrey runner
+    # can reuse its cached copy when Docker Hub is unavailable (issue #174).
+    # GitLab Runner selects the first policy here that its configuration
+    # permits, so this ordered fallback works in both environments.
+    pull_policy:
+      - always
+      - if-not-present
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
   # only one instance of this job runs at a time, so two pushes started close
   # together can't both be publishing at once and leave the older build live.
@@ -49,7 +50,10 @@ pages:
     # lines above `npm ci`, and reordering the script would have quietly
     # reintroduced the problem.
     PUPPETEER_SKIP_DOWNLOAD: "true"
-    PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome-stable
+    # The job runs as root in its container. Route Puppeteer through a wrapper
+    # created below so Chrome receives the flags it requires in that context;
+    # this covers both `pdk diag` and the subsequent PDF build.
+    PUPPETEER_EXECUTABLE_PATH: /usr/local/bin/prodockit-chrome
   cache:
     # CI_JOB_IMAGE is the resolved image name (`python:3.14` today), so both
     # managed version pins participate in invalidating this cache.
@@ -87,6 +91,8 @@ pages:
     - echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
     - apt-get update
     - apt-get install -y google-chrome-stable
+    - printf '%s\n' '#!/bin/sh' 'exec /usr/bin/google-chrome-stable --no-sandbox --disable-setuid-sandbox "$@"' > /usr/local/bin/prodockit-chrome
+    - chmod +x /usr/local/bin/prodockit-chrome
     - npm ci --prefix tools/mermaid
     - npm ci --prefix tools/mathjax
     # zensical and weasyprint pinned exactly here; prodockit to a floor.
@@ -124,5 +130,20 @@ pages:
     - prodockit pdf
   pages:
     publish: public
+
+# Runner tags must be known before a job is assigned. Defining the tag through
+# `rules:variables` leaves it as the literal `$PDK_RUNNER_TAG` at scheduling
+# time, so select between two small concrete jobs instead.
+pages:
+  extends: .pages
+  tags:
+    - pages
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST != "gitlab.com"'
+
+pages-gitlab-com:
+  extends: .pages
+  tags:
+    - saas-linux-small-amd64
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST == "gitlab.com"'
