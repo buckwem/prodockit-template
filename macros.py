@@ -9,9 +9,9 @@ instead (see prodockit-extensions#96, formerly zendoc-extensions#96 before
 #16's rename) - not duplicated here.
 
 The cover reads the configured site name from Zensical's native
-``config.site_name`` variable. Release output likewise belongs to Zensical's
-native ``git.short_tag`` variable, now displayed on the shared cover; neither
-needs a project macro alias (prodockit-template#248).
+``config.site_name`` variable and the applied template version from
+ProDockit's ``applied_release`` variable. Neither needs a project-local macro
+alias (prodockit-template#248).
 
 prodockit.zensical_macros.define_env() is called directly below rather than
 via zensical.toml's documented `modules = [...]` extension option: that

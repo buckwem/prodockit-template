@@ -9,8 +9,8 @@ on:
       - main
   # release-redeploy.yml dispatches this workflow against main after a release
   # is published. Building from the branch ref keeps GitHub Pages deployment
-  # working while its full-history checkout exposes the new tag to
-  # Zensical's native git.short_tag value.
+  # working while its full-history checkout exposes the new tag to ProDockit's
+  # applied_release variable.
   workflow_dispatch:
 
 # `cancel-in-progress: false` rather than true: a queued deploy should wait

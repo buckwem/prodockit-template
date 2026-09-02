@@ -11,7 +11,7 @@ on:
 
 # The documentation workflow must run against a branch ref for GitHub Pages.
 # Dispatch it after tagging so its full-history checkout still sees the newly
-# published tag and Zensical's git.short_tag updates both cover formats.
+# published tag and ProDockit's applied_release updates both cover formats.
 permissions:
   actions: write
 

@@ -11,10 +11,10 @@ Newest first.
 
 ## Unreleased
 
-- Replaced the cover's legacy ProDockit `site_name` and `release` macro aliases
-  with Zensical's native `config.site_name` and `git.short_tag` expressions,
-  displaying the configured title and current template release consistently on
-  both website and PDF cover pages
+- Replaced the cover's legacy `site_name` and `release` macro aliases with
+  Zensical's native `config.site_name` expression and ProDockit's dedicated
+  `applied_release` variable, displaying the configured title and applied
+  template release consistently on both website and PDF cover pages
   ([#248](https://github.com/buckwem/prodockit-template/issues/248)).
 - Raised the ProDockit requirement floor from 0.54.0 to 0.54.1 consistently
   across local installation, GitHub Actions and GitLab CI using `pdk pins`.
