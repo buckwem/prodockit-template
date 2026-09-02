@@ -41,8 +41,9 @@ Built on [Zensical](https://zensical.org/), a static site generator, with a comp
   button on the website.
 * **CI/CD ready** - GitLab CI and GitHub Actions workflows are included,
   publishing the website (and the PDF alongside it) to GitLab Pages or GitHub
-  Pages on every push to `main` and refreshing its release number after each
-  published release.
+  Pages on every push to `main`. The canonical template site is also refreshed
+  when a template release is published, without coupling generated projects to
+  their own later release tags.
 
 ## Getting started
 

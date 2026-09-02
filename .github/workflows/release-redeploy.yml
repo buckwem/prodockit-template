@@ -1,7 +1,7 @@
 # Copyright (c) 2025-2026 Mark Buckwell, Zensical and contributors
 # SPDX-License-Identifier: MIT
 
-name: Redeploy documentation after release
+name: Redeploy canonical documentation after release
 
 on:
   release:
@@ -9,14 +9,16 @@ on:
       - published
   workflow_dispatch:
 
-# The documentation workflow must run against a branch ref for GitHub Pages.
-# Dispatch it after tagging so its full-history checkout still sees the newly
-# published tag and ProDockit's applied_release updates both cover formats.
+# This workflow is inherited by generated projects, but their own release tags
+# must not change applied_release. Only the canonical template needs a rebuild
+# after tagging so its disposable docs checkout can record the new template
+# release before rendering.
 permissions:
   actions: write
 
 jobs:
   redeploy:
+    if: github.repository == 'buckwem/prodockit-template'
     runs-on: ubuntu-24.04
     steps:
       - name: Dispatch documentation workflow against main

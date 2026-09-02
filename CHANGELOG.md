@@ -14,7 +14,10 @@ Newest first.
 - Replaced the cover's legacy `site_name` and `release` macro aliases with
   Zensical's native `config.site_name` expression and ProDockit's dedicated
   `applied_release` variable, displaying the configured title and applied
-  template release consistently on both website and PDF cover pages
+  template release consistently on both website and PDF cover pages. Generated
+  projects retain that applied version independently of their own later tags;
+  canonical GitHub and Surrey deployments record the template tag only in
+  their disposable CI checkout
   ([#248](https://github.com/buckwem/prodockit-template/issues/248)).
 - Raised the ProDockit requirement floor from 0.54.1 to 0.55.0 consistently
   across local installation, GitHub Actions and GitLab CI using `pdk pins`,

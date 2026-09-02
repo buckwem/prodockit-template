@@ -110,6 +110,11 @@
     # floor and provides the `applied_release` cover variable; 0.54.0 introduced
     # the read-only `pdk diag` gate used below.
     - pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.55.0"
+    # The Surrey mirror is the canonical template's own deployment, not a
+    # generated project. Record its reachable template tag in this disposable
+    # checkout before rendering. Consumer projects retain the stamp written on
+    # creation/template-sync and must never derive it from their own later tags.
+    - if [ "$CI_PROJECT_PATH" = "mb0105/prodockit-template" ]; then pdk _record-template-release; fi
     # MathJax for the website, from the npm install above - see the
     # identical step's comment in .github/workflows/docs.yml. This job
     # never had this step at all until now (issue #167 found it missing
@@ -140,7 +145,7 @@ pages:
   tags:
     - pages
   rules:
-    - if: '$CI_COMMIT_TAG && $CI_SERVER_HOST != "gitlab.com"'
+    - if: '$CI_COMMIT_TAG && $CI_SERVER_HOST != "gitlab.com" && $CI_PROJECT_PATH == "mb0105/prodockit-template"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST != "gitlab.com"'
 
 pages-gitlab-com:
@@ -148,5 +153,4 @@ pages-gitlab-com:
   tags:
     - saas-linux-small-amd64
   rules:
-    - if: '$CI_COMMIT_TAG && $CI_SERVER_HOST == "gitlab.com"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST == "gitlab.com"'
