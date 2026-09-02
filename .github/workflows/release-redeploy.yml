@@ -1,0 +1,26 @@
+# Copyright (c) 2025-2026 Mark Buckwell, Zensical and contributors
+# SPDX-License-Identifier: MIT
+
+name: Redeploy documentation after release
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+# The documentation workflow must run against a branch ref for GitHub Pages.
+# Dispatch it after tagging so its full-history checkout still sees the newly
+# published tag and Zensical's git.short_tag updates both cover formats.
+permissions:
+  actions: write
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Dispatch documentation workflow against main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run docs.yml --ref main

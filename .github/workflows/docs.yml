@@ -7,10 +7,10 @@ on:
     branches:
       - master
       - main
-  # The template PDF intentionally has no release marker: its consumers'
-  # documents must not expose the template repository's package version.
-  # A release therefore does not alter generated documentation and does not
-  # need its own deployment trigger.
+  # release-redeploy.yml dispatches this workflow against main after a release
+  # is published. Building from the branch ref keeps GitHub Pages deployment
+  # working while its full-history checkout exposes the new tag to
+  # Zensical's native git.short_tag value.
   workflow_dispatch:
 
 # `cancel-in-progress: false` rather than true: a queued deploy should wait

@@ -36,8 +36,13 @@ Built on [Zensical](https://zensical.org/), a static site generator, with a comp
 * **Automatic heading numbering** - chapters and sections (e.g. "7.2.1") are numbered consistently across the sidebar, the page content, and the PDF, and stay in sync as you add, remove, or reorder pages.
 * **University of Surrey branding, or your own** - the site logo and cover page automatically switch between Surrey branding and a generic default, detected from your Git remote or CI environment.
 * **Rich authoring** - admonitions, content tabs, grid cards, Mermaid diagrams, MathJax equations, and footnotes all work in both outputs.
-* **Cover page extras** - an optional automated word count and repository link, and a "Download PDF" button on the website.
-* **CI/CD ready** - GitLab CI and GitHub Actions workflows are included, publishing the website (and the PDF alongside it) to GitLab Pages or GitHub Pages on every push to `main`.
+* **Cover page extras** - the configured site name and current template release,
+  an optional automated word count and repository link, and a "Download PDF"
+  button on the website.
+* **CI/CD ready** - GitLab CI and GitHub Actions workflows are included,
+  publishing the website (and the PDF alongside it) to GitLab Pages or GitHub
+  Pages on every push to `main` and refreshing its release number after each
+  published release.
 
 ## Getting started
 

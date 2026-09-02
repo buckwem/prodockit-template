@@ -77,6 +77,13 @@ Research programmes in Cyber Security</p>
      cover preprocessing renders the same expression for the PDF. -->
 <p class="title-ctr-b4">{{ config.site_name }}</p>
 
+<!-- The nearest repository tag is supplied natively by Zensical. Keep this
+     beside the shared site title so both cover variants show the same release
+     on the website and in the PDF. It is omitted in an untagged repository. -->
+{% if git.short_tag %}
+<p class="title-ctr-b4">Template release: {{ git.short_tag }}</p>
+{% endif %}
+
 <br>
 <br>
 <br>
