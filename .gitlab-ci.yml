@@ -1,7 +1,7 @@
 # Copyright (c) 2025-2026 Mark Buckwell, Zensical and contributors
 # SPDX-License-Identifier: MIT
 
-pages:
+.pages:
   stage: deploy
   image:
     name: python:3.14
@@ -12,10 +12,6 @@ pages:
     pull_policy:
       - always
       - if-not-present
-  tags:
-    # Set by the matching rule below: GitLab.com needs a hosted-runner tag,
-    # while Surrey retains its existing project-runner tag.
-    - $PDK_RUNNER_TAG
   # GitLab's equivalent of the concurrency group in .github/workflows/docs.yml:
   # only one instance of this job runs at a time, so two pushes started close
   # together can't both be publishing at once and leave the older build live.
@@ -134,10 +130,20 @@ pages:
     - prodockit pdf
   pages:
     publish: public
+
+# Runner tags must be known before a job is assigned. Defining the tag through
+# `rules:variables` leaves it as the literal `$PDK_RUNNER_TAG` at scheduling
+# time, so select between two small concrete jobs instead.
+pages:
+  extends: .pages
+  tags:
+    - pages
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST != "gitlab.com"'
+
+pages-gitlab-com:
+  extends: .pages
+  tags:
+    - saas-linux-small-amd64
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST == "gitlab.com"'
-      variables:
-        PDK_RUNNER_TAG: saas-linux-small-amd64
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      variables:
-        PDK_RUNNER_TAG: pages
