@@ -2,11 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 # File to list prerequisites for the project. This file is used by the CI/CD pipeline to install dependencies before building the documentation.
-# >=0.0.57 was regression-tested against 0.0.55 across the template,
-# extensions manual and user guide. Authored HTML, search content and PDF
-# rendering were unchanged; Zensical's bundled assets have their expected
-# new hashes. Earlier floors were checked with the same output comparisons.
-zensical>=0.0.57
+# 0.0.59 is the coordinated Zensical floor used by Prodockit and its
+# documentation projects. Earlier floors were checked with website and PDF
+# output comparisons before being adopted.
+zensical>=0.0.59
 # A floor here and everywhere in CI: a project should receive compatible
 # prodockit fixes without waiting for the template to be updated and synced.
 # >=0.13.0 would be the true functional minimum (`prodockit
@@ -43,8 +42,10 @@ zensical>=0.0.57
 # >=0.54.0 adds the read-only `pdk diag` environment and project gate used by
 # both publishing workflows instead of a template-owned test suite.
 # >=0.55.0 provides the `applied_release` cover variable and is the coordinated
-# floor for this template release.
-prodockit>=0.55.0
+# floor for the template release that introduced it.
+# >=0.59.0 makes template-sync install the exact paired Prodockit release,
+# continue in a fresh process, and run Adopt before changing template files.
+prodockit>=0.59.0
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.

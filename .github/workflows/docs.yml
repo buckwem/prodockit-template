@@ -174,10 +174,10 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.55.0 is the coordinated release floor and provides
-        # the `applied_release` cover variable; 0.54.0 introduced the read-only
-        # `pdk diag` gate used below.
-      - run: pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.55.0"
+        # .gitlab-ci.yml. 0.59.0 is the coordinated release floor and aligns
+        # Prodockit plus the supported toolchain before template-sync applies
+        # files; 0.54.0 introduced the read-only `pdk diag` gate used below.
+      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.59.0"
       # A generated project already has an applied-release stamp, written on
       # creation and changed only by a successful template-sync. The canonical
       # template repository is the pristine source rather than a generated

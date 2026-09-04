@@ -106,10 +106,11 @@
     #
     # See the identical line and its fuller comment in
     # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md). 0.55.0 is the coordinated release
-    # floor and provides the `applied_release` cover variable; 0.54.0 introduced
-    # the read-only `pdk diag` gate used below.
-    - pip install -r requirements.txt "zensical==0.0.57" "weasyprint==69.0" "prodockit>=0.55.0"
+    # `prodockit pins` (see CONTRIBUTING.md). 0.59.0 is the coordinated release
+    # floor and aligns Prodockit plus the supported toolchain before
+    # template-sync applies files; 0.54.0 introduced the read-only `pdk diag`
+    # gate used below.
+    - pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.59.0"
     # The Surrey mirror is the canonical template's own deployment, not a
     # generated project. Record its reachable template tag in this disposable
     # checkout before rendering. Consumer projects retain the stamp written on
