@@ -177,7 +177,7 @@ jobs:
         # .gitlab-ci.yml. 0.59.0 is the coordinated release floor and aligns
         # Prodockit plus the supported toolchain before template-sync applies
         # files; 0.54.0 introduced the read-only `pdk diag` gate used below.
-      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.60.0"
+      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.60.1"
       # A generated project already has an applied-release stamp, written on
       # creation and changed only by a successful template-sync. The canonical
       # template repository is the pristine source rather than a generated
