@@ -7,6 +7,7 @@
 
 # Environments
 .venv
+.prodockit-quarantine/
 
 # -----------------------------------------------------------------------------
 # Node (mermaid-cli, used by `prodockit pdf` to pre-render mermaid diagrams)
