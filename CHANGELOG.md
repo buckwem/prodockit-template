@@ -11,6 +11,12 @@ Newest first.
 
 ## Unreleased
 
+- Raised the ProDockit floor to 0.60.0. Bootstrap now records the selected
+  Mermaid and maths components for later Adopt repairs, configures the VS Code
+  command path automatically on macOS, keeps browser health checks headless,
+  and has resilient VS Code extension and Windows Pango repair paths.
+- Corrected the Governance chapter filename after the numbered-file
+  reorganisation so it resolves from the navigation again.
 - Raised the coordinated Zensical floor to 0.0.59 and the ProDockit floor to
   0.59.0. Template updates can now install the exact paired ProDockit release,
   continue safely in a fresh process, and use Adopt to align the supported

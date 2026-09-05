@@ -45,7 +45,10 @@ zensical>=0.0.59
 # floor for the template release that introduced it.
 # >=0.59.0 makes template-sync install the exact paired Prodockit release,
 # continue in a fresh process, and run Adopt before changing template files.
-prodockit>=0.59.0
+# >=0.60.0 adds resilient editor-extension downloads, architecture-aware
+# Windows Pango repair, reusable Bootstrap component choices, and automatic
+# macOS configuration of the VS Code command path.
+prodockit>=0.60.0
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.
