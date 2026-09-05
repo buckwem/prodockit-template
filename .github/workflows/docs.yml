@@ -174,10 +174,10 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.60.2 is the coordinated release floor and keeps
-        # the read-only `pdk diag` gate compatible with setup-python CI
-        # environments that do not declare VIRTUAL_ENV.
-      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.60.2"
+        # .gitlab-ci.yml. 0.60.3 is the coordinated release floor and keeps
+        # Adopt, Diagnostics and Template Sync aligned while preserving the
+        # project's chosen citation implementation.
+      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.60.3"
       # A generated project already has an applied-release stamp, written on
       # creation and changed only by a successful template-sync. The canonical
       # template repository is the pristine source rather than a generated
