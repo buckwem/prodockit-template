@@ -50,7 +50,9 @@ zensical>=0.0.59
 # macOS configuration of the VS Code command path.
 # >=0.60.1 detects and repairs mixed-Python project environments and preserves
 # inferred renderer choices in older projects during Adopt and Template Sync.
-prodockit>=0.60.1
+# >=0.60.2 keeps the read-only diagnostic gate compatible with CI Python
+# environments that do not declare VIRTUAL_ENV.
+prodockit>=0.60.2
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.
