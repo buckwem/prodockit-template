@@ -11,6 +11,13 @@ Newest first.
 
 ## Unreleased
 
+- Raised the coordinated Zensical floor to 0.0.59 and the ProDockit floor to
+  0.59.0. Template updates can now install the exact paired ProDockit release,
+  continue safely in a fresh process, and use Adopt to align the supported
+  toolchain before changing template files.
+- Updated the managed website and PDF styles to the ProDockit 0.59.0 versions,
+  including clearer content tabs and copy controls, refined code presentation,
+  and aligned, more readable PDF contents entries.
 - Moved the applied template release below the cover word count and added the
   checkout's Git repository URL to both website and PDF covers. ProDockit
   converts SSH remotes to browser links and removes embedded CI credentials;
