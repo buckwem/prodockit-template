@@ -60,15 +60,15 @@ nav = [
     "index.md",
   ]},
   {"Originality" = [
-    {"1. Originality & AI Use" = "originality.md"}
+    {"1. Originality & AI Use" = "1-originality.md"}
   ]},
   {"Assignment" = [
-    {"2. Executive Summary" = "section1.md"},
-    {"3. Requirements" = "section2.md"},
-    {"4. Solution Architecture" = "section3.md"},
-    {"5. Governance" = "section4.md"},
-    {"5. Operations" = "section5.md"},
-    {"6. Examples DELETE" = "section6.md"}
+    {"2. Executive Summary" = "2-executive-summary.md"},
+    {"3. Requirements" = "3-requirements.md"},
+    {"4. Solution Architecture" = "4-solution-architecture.md"},
+    {"5. Governance" = "5-governance.md"},
+    {"5. Operations" = "6-operations.md"},
+    {"6. Examples DELETE" = "7-examples.md"}
   ]},
   {"Appendixes" = [
     {"Appendix A. Acronyms" = "acronyms.md"},
