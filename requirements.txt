@@ -52,9 +52,9 @@ zensical>=0.0.59
 # inferred renderer choices in older projects during Adopt and Template Sync.
 # >=0.60.3 preserves an existing bibliography or inline-citation choice and
 # reports saved component choices separately from extension/style readiness.
-# >=0.60.4 selects Windows Pango libraries for the active Python architecture,
-# reuses valid MSYS2 installs and makes template conflict review safer.
-prodockit>=0.60.4
+# >=0.61.0 adds consistent lifecycle command options, review-all for protected
+# template files, and non-interactive HTTPS fetching of the public template.
+prodockit>=0.61.0
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.

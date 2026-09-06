@@ -174,10 +174,9 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.60.4 is the coordinated release floor and adds
-        # architecture-aware Windows Pango repair plus safer, clearer
-        # Template Sync conflict decisions.
-      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.60.4"
+        # .gitlab-ci.yml. 0.61.0 is the coordinated release floor and adds
+        # consistent lifecycle options, review-all, and HTTPS template fetches.
+      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.61.0"
       # A generated project already has an applied-release stamp, written on
       # creation and changed only by a successful template-sync. The canonical
       # template repository is the pristine source rather than a generated
