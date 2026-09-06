@@ -54,7 +54,9 @@ zensical>=0.0.59
 # reports saved component choices separately from extension/style readiness.
 # >=0.61.0 adds consistent lifecycle command options, review-all for protected
 # template files, and non-interactive HTTPS fetching of the public template.
-prodockit>=0.61.0
+# >=0.61.1 keeps project maintenance inside the intended environment, pins
+# Bootstrap's project Pandoc to 3.10.1, and ignores CRLF-only stylesheet drift.
+prodockit>=0.61.1
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.
