@@ -11,6 +11,11 @@ Newest first.
 
 ## Unreleased
 
+- Raised the coordinated ProDockit floor to 0.61.1. Project maintenance now
+  guards against the wrong active environment, Bootstrap installs the tested
+  Pandoc 3.10.1 release into project environments, Windows explains when a new
+  terminal is required, and CRLF-only managed stylesheet differences no longer
+  produce false drift warnings.
 - Raised the ProDockit floor to 0.60.0. Bootstrap now records the selected
   Mermaid and maths components for later Adopt repairs, configures the VS Code
   command path automatically on macOS, keeps browser health checks headless,
