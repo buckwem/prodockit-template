@@ -77,6 +77,12 @@ Run `prodockit template-sync` when the online diagnostic reports that the upstre
 
 ## Version pinning
 
+The committed `.prodockit-toolchain.toml` records the supported combination,
+including Markdown's explicit declaration in `requirements.txt`. Keep the
+manifest aligned with requirements and CI declarations during every release
+cascade so new projects do not need an Adopt alignment immediately after
+Bootstrap.
+
 `.github/workflows/docs.yml` and `.gitlab-ci.yml` pin `zensical` and `weasyprint` exactly, on top of their floors in `requirements.txt`. Those renderers decide the published appearance and pagination, so they move only after review. `prodockit` is a floor (`prodockit>=...`) everywhere: a project receives compatible fixes without waiting for a template update and sync.
 
 The same version ends up written in several places at once, so move them together rather than by hand:

@@ -69,3 +69,4 @@ types-toml
 weasyprint>=69.0
 beautifulsoup4
 emoji
+markdown==3.10.3
