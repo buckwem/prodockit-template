@@ -106,10 +106,10 @@
     #
     # See the identical line and its fuller comment in
     # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md). 0.61.1 is the coordinated release
-    # floor and keeps project maintenance in the intended environment, pins
-    # Bootstrap's project Pandoc, and ignores CRLF-only stylesheet drift.
-    - pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.61.1"
+    # `prodockit pins` (see CONTRIBUTING.md). 0.61.2 is the coordinated release
+    # floor and stops Diagnostics after a wrong-environment failure while
+    # rejecting a workspace parent before project maintenance starts.
+    - pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.61.2"
     # The Surrey mirror is the canonical template's own deployment, not a
     # generated project. Record its reachable template tag in this disposable
     # checkout before rendering. Consumer projects retain the stamp written on
