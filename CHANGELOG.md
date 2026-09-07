@@ -11,6 +11,10 @@ Newest first.
 
 ## Unreleased
 
+- Raised the coordinated ProDockit floor to 0.61.2. Diagnostics now stops after
+  finding the wrong active virtual environment and prints the platform's
+  activation command; Diagnostics and Adopt also reject a directory containing
+  project repositories before inspecting or changing the wrong project.
 - Raised the coordinated ProDockit floor to 0.61.1. Project maintenance now
   guards against the wrong active environment, Bootstrap installs the tested
   Pandoc 3.10.1 release into project environments, Windows explains when a new
