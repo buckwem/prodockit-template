@@ -11,6 +11,11 @@ Newest first.
 
 ## Unreleased
 
+- Raised the coordinated ProDockit floor to 0.61.3. Bootstrap now keeps its
+  preserved template history in a sibling backup directory, and Adopt reports
+  missing project environments, Node.js, or npm before renderer work can leave
+  an installation half-finished. Lifecycle output now consistently uses phases
+  containing activities.
 - Raised the coordinated ProDockit floor to 0.61.2. Diagnostics now stops after
   finding the wrong active virtual environment and prints the platform's
   activation command; Diagnostics and Adopt also reject a directory containing
