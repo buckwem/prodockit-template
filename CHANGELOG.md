@@ -11,6 +11,12 @@ Newest first.
 
 ## Unreleased
 
+- Raised the coordinated ProDockit floor to 0.61.6. Adopt now installs and
+  registers the complete managed stylesheet and JavaScript cascade, including
+  `pdk.js`, while preserving cache-versioned MathJax entries and author-owned
+  `extra.css`, `print.css`, and `extra.js`. The template ownership manifest now
+  keeps those author files out of later Template Sync replacements
+  ([#267](https://github.com/buckwem/prodockit-template/issues/267)).
 - Raised the coordinated ProDockit floor to 0.61.3. Bootstrap now keeps its
   preserved template history in a sibling backup directory, and Adopt reports
   missing project environments, Node.js, or npm before renderer work can leave

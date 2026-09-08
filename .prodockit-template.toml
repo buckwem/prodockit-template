@@ -14,7 +14,7 @@ owns = [
   ".gitlab-ci.yml",
   ".prodockit-shared-files.toml",
   ".python-version",
-  "docs/javascripts/**",
+  "docs/javascripts/pdk.js",
   "docs/stylesheets/pdk.css",
   "docs/stylesheets/pdk-pdf.css",
   "docs/stylesheets/template.css",
@@ -33,6 +33,8 @@ owns = [
   # Managed defaults live in the two pdk*.css files above.
   "docs/stylesheets/extra.css",
   "docs/stylesheets/print.css",
+  # Author-owned JavaScript overrides are never replaced by template-sync.
+  "docs/javascripts/extra.js",
   "*.bib",
   "LICENSE.md",
   "sample.md",
@@ -47,7 +49,7 @@ owns = [
 
 # Project-owned, but written once at generation rather than left to the
 # reader to invent. Never updated afterwards.
-seed = ["LICENSE.md", ".vale.ini"]
+seed = ["LICENSE.md", ".vale.ini", "docs/javascripts/extra.js"]
 
 # Ignored, and not shipped at all: `prodockit bootstrap` writes
 # `.vscode/settings.json` itself at stage 19, merging into whatever the
