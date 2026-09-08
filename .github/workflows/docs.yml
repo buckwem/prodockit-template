@@ -174,10 +174,10 @@ jobs:
         # On top of requirements.txt's own floors. Managed together with
         # `prodockit pins` (see CONTRIBUTING.md) rather than by hand - keep this
         # in step with requirements.txt, and with the identical line in
-        # .gitlab-ci.yml. 0.61.2 is the coordinated release floor and stops
-        # Diagnostics after a wrong-environment failure while rejecting a
-        # workspace parent before project maintenance starts.
-      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.61.2"
+        # .gitlab-ci.yml. 0.61.3 is the coordinated release floor and keeps
+        # Bootstrap history outside the project while detecting missing
+        # environments and renderer prerequisites before Adopt starts work.
+      - run: pip install -r requirements.txt "zensical==0.0.59" "weasyprint==69.0" "prodockit>=0.61.3"
       # A generated project already has an applied-release stamp, written on
       # creation and changed only by a successful template-sync. The canonical
       # template repository is the pristine source rather than a generated
