@@ -93,3 +93,7 @@ fonts/
 
 # Your own answers to `prodockit bootstrap`.
 .pdk-bootstrap.toml
+
+# Installed by `prodockit adopt`
+tools/mermaid/node_modules/
+tools/mathjax/node_modules/

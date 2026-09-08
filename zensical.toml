@@ -112,6 +112,7 @@ extra_css = [
 # `prodockit bootstrap --apply` (or see the User Guide) before building the
 # site for the first time.
 extra_javascript = [
+  "javascripts/pdk.js",
   # Cache keys are intentional. A browser that saw the old config kept
   # serving raw TeX even after the corrected generated file was deployed;
   # these revisions make that change visible without asking every reader to

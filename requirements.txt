@@ -54,10 +54,9 @@ zensical>=0.0.59
 # reports saved component choices separately from extension/style readiness.
 # >=0.61.0 adds consistent lifecycle command options, review-all for protected
 # template files, and non-interactive HTTPS fetching of the public template.
-# >=0.61.3 keeps Bootstrap's preserved template history outside the project
-# and makes Adopt report missing project environments, Node.js, or npm before
-# a renderer activity can leave installation half-finished.
-prodockit>=0.61.3
+# >=0.61.6 installs the complete managed stylesheet and JavaScript cascade,
+# preserving cache-versioned registrations and the project's author files.
+prodockit>=0.61.6
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.

@@ -1,0 +1,6 @@
+# Selected by `prodockit adopt`; safe to commit.
+schema = 1
+
+[components]
+mermaid = true
+maths = true
