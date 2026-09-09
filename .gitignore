@@ -100,3 +100,13 @@ tools/mathjax/node_modules/
 
 # Installed by `prodockit adopt`
 /.prodockit-adopt-backups/
+
+# Local environments and generated output — added by prodockit adopt
+.venv/
+__pycache__/
+*.py[cod]
+/site/
+/public/
+/docs/site_documentation.pdf
+/docs/source_bundle.pdf
+/docs/.prodockit-pdf-mermaid/
