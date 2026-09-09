@@ -9,6 +9,17 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.60 (2026-09-09)
+
+- Raise the coordinated Prodockit floor to 0.63.0 in requirements, both CI
+  providers and the supported-toolchain manifest.
+- Deliver safer installer recovery, PDF font verification and editor-free
+  repository configuration. Shared stylesheets, JavaScript and renderer pins
+  are unchanged; Mermaid and maths remain enabled.
+- Apply Adopt's baseline ignore rules for local environments and generated
+  files. Keep the settings-review ledger local rather than pre-approving it
+  for projects created from the template.
+
 ## 0.0.59 (2026-09-09)
 
 - Raised the coordinated Prodockit floor to 0.62.0 in requirements, both CI
