@@ -481,6 +481,14 @@ pdf_copyright = 'Author: Mark Buckwell and contributors. Licensed under the MIT 
 # rather than a setting here - see CONTRIBUTING.md and the CI workflow
 # files. Requires prodockit>=0.21.0.
 
+# Explicit Prodockit website and PDF defaults, maintained by Adopt.
+website_heading_numbering = true
+pdf_double_sided = false
+pdf_margin_inner = "2cm"
+pdf_margin_outer = "2cm"
+pdf_include_table_of_contents = true
+pdf_table_of_contents_title = "Table of Contents"
+
 # ----------------------------------------------------------------------------
 # Python Extensions
 #

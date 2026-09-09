@@ -9,7 +9,20 @@ from the template (issue #184).
 
 Newest first.
 
-## Unreleased
+## 0.0.59 (2026-09-09)
+
+- Raised the coordinated Prodockit floor to 0.62.0 in requirements, both CI
+  providers and the supported-toolchain manifest.
+- Applied Adopt 0.62.0 to align the Mermaid and MathJax manifests and lockfiles,
+  and add the missing website-heading and PDF layout/table-of-contents defaults.
+  Both optional renderers remain explicitly enabled for template projects.
+- Ignore local Adopt recovery backups; template-settings caches remain ignored. The review
+  ledger remains project-specific and is created by Adopt, not shipped as a
+  pre-completed review for new projects.
+- Retained the template stylesheet, cache-versioned MathJax registrations and
+  author-owned CSS/JavaScript without replacement.
+
+## Earlier updates (through 0.0.58)
 
 - Raised the coordinated ProDockit floor to 0.61.6. Adopt now installs and
   registers the complete managed stylesheet and JavaScript cascade, including
