@@ -97,3 +97,6 @@ fonts/
 # Installed by `prodockit adopt`
 tools/mermaid/node_modules/
 tools/mathjax/node_modules/
+
+# Installed by `prodockit adopt`
+/.prodockit-adopt-backups/

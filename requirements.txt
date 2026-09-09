@@ -56,7 +56,8 @@ zensical>=0.0.59
 # template files, and non-interactive HTTPS fetching of the public template.
 # >=0.61.6 installs the complete managed stylesheet and JavaScript cascade,
 # preserving cache-versioned registrations and the project's author files.
-prodockit>=0.61.6
+# >=0.62.0 provisions and aligns the document-building runtime through Adopt.
+prodockit>=0.62.0
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported floor explicit even though
 # ProDockit also brings the package in transitively.
