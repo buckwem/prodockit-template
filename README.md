@@ -107,3 +107,14 @@ Contributions to the template itself are welcome - see [`CONTRIBUTING.md`](CONTR
 ## License
 
 MIT - see [`LICENSE.md`](LICENSE.md).
+
+
+### Zensical 0.0.61 compatibility
+
+This template pairs Zensical 0.0.61 with Prodockit 0.65.2. Keep requirements,
+publishing pins and `.prodockit-toolchain.toml` aligned when upgrading.
+Custom plugin options now receive stricter validation; table-reader data paths
+must remain inside the project. Website redirects are optional and do not
+implicitly create aliases in generated PDFs. Zensical 0.0.61 rejects Mike's
+`version_selector` option; projects using it need to retain their previous
+working version until that upstream limitation is resolved.
