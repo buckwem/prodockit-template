@@ -11,7 +11,7 @@ icon: lucide/book-open
 
 # Executive Summary {: #executive-summary }
 
-This template is used for teaching architecture concepts and best practices in a structured manner using the book [Security Architecture for Hybrid Cloud](https://securityarchitecture.cloud). Content is included in the template to show some of the different capabilities of [prodockit](https://prodockit.com). Have a look to see how to use capabilities like captions, cross-references, landscape pages, and more.
+This template is used for teaching architecture concepts and best practices in a structured manner using the book [Security Architecture for Hybrid Cloud](https://securityarchitecture.cloud). Content is included in the template to show some of the different capabilities of [prodockit](https://prodockit.org/). Have a look to see how to use capabilities like captions, cross-references, landscape pages, and more.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
