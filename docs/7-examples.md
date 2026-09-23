@@ -57,10 +57,10 @@ Above is an example of a captioned figure. The caption is automatically numbered
 | Figure captions | `/// figure-caption` | this section |
 | Table captions | `/// table-caption` | this table |
 | Cell shading {: shade="8%" } | `shade="8%"` or `shade="off"` | this table |
-{% if not is_surrey %}
+{% if not is_surrey -%}
 | Diagrams | ` ```mermaid ` fence | this section |
 | Maths | `$$...$$` | this section |
-{% endif %}
+{% endif -%}
 | Directory trees | `/// tree` | this section |
 | Numbered steps | `/// steps` | this section |
 /// table-caption | <
