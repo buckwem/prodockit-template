@@ -3,9 +3,9 @@
 schema = 1
 
 [versions]
-zensical = "0.0.63"
+zensical = "0.0.64"
 weasyprint = "70.0"
-prodockit = "0.72.0"
+prodockit = "0.73.0"
 markdown = "3.10.3"
 pymdown-extensions = "12.0.1"
 pandoc = "3.10.1"
