@@ -119,6 +119,6 @@ MIT - see [`LICENSE.md`](LICENSE.md).
 
 ### Supported renderer versions
 
-This template pairs Prodockit 0.72.0 with Zensical 0.0.63, WeasyPrint 70.0
+This template pairs Prodockit 0.73.0 with Zensical 0.0.64, WeasyPrint 70.0
 and PyMdown Extensions 12.0.1. Keep `requirements.txt`,
 `pdf-requirements.txt` and `.prodockit-toolchain.toml` aligned when upgrading.

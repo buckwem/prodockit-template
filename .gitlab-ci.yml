@@ -29,7 +29,7 @@
     # Prodockit validates cached runtime metadata before use. Include the
     # committed PDF policies so either kind of rendering change refreshes it.
     key:
-      prefix: "${CI_JOB_IMAGE}-pdk-pdf-0.72.0"
+      prefix: "${CI_JOB_IMAGE}-pdk-pdf-0.73.0"
       files:
         - pdk-pdf.toml
         - pdf-requirements.txt
@@ -57,7 +57,7 @@
     #
     # See the identical line and its fuller comment in
     # .github/workflows/docs.yml. Keep both in step; managed together with
-    # `prodockit pins` (see CONTRIBUTING.md). 0.72.0 is the coordinated floor.
+    # `prodockit pins` (see CONTRIBUTING.md). 0.73.0 is the coordinated floor.
     - pip install -r requirements.txt
     # The Surrey mirror is the canonical template's own deployment, not a
     # generated project. Record its reachable template tag in this disposable
