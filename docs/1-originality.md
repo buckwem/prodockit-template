@@ -8,7 +8,7 @@ exclude_from_word_count: true
 # SPDX-License-Identifier: MIT
 -->
 
-{{ heading_counter_reset(page) }}
+{{ pdk_heading_counter_reset(page) }}
 
 # Originality & AI Use
 

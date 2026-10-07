@@ -27,7 +27,7 @@ zensical==0.0.64
 # and print.css available for project-specific overrides.
 # >=0.54.0 adds the read-only `pdk diag` environment and project gate used by
 # both publishing workflows instead of a template-owned test suite.
-# >=0.55.0 provides the `applied_release` cover variable and is the coordinated
+# >=0.55.0 provides the template-release cover variable and is the coordinated
 # floor for the template release that introduced it.
 # >=0.59.0 makes template-sync install the exact paired Prodockit release,
 # continue in a fresh process, and run Adopt before changing template files.
@@ -50,7 +50,8 @@ zensical==0.0.64
 # >=0.72.0 prepares PDF project files on first `pdk pdf` use and keeps
 # compact PDF table text inside its cells.
 # >=0.73.0 qualifies Zensical 0.0.64 and avoids Bootstrap downgrades.
-prodockit>=0.73.0
+# >=0.74.0 provides collision-safe pdk_ website macros and cover variables.
+prodockit>=0.74.0
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported version explicit even though
 # ProDockit also brings the package in transitively.
