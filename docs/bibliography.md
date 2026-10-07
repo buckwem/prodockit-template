@@ -9,8 +9,8 @@ is_appendix: true
 # SPDX-License-Identifier: MIT
 -->
 
-{{ heading_counter_reset(page) }}
-{{ reference_style() }}
+{{ pdk_heading_counter_reset(page) }}
+{{ pdk_reference_style() }}
 
 # Bibliography
 

@@ -96,11 +96,11 @@ Date: Submission Date
 <!-- Automated body-content word count, calculated by ProDockit's shared
      Zensical macro so the website and PDF display the same value. Delete
      this line if you don't want a word count shown on the cover page. -->
-<p>Word count: {{ word_count }}</p>
+<p>Word count: {{ pdk_word_count }}</p>
 
 <!-- ProDockit supplies the applied template release and derives the repository
      URL from this checkout's origin remote. Keep both in one paragraph so the
      URL follows the release without a full paragraph gap. -->
-{% if applied_release or repo_url %}
-<p>{% if applied_release %}Template release: {{ applied_release }}{% endif %}{% if applied_release and repo_url %}<br>{% endif %}{% if repo_url %}Repo: <a href="{{ repo_url }}">{{ repo_url }}</a>{% endif %}</p>
+{% if pdk_applied_release or pdk_repo_url %}
+<p>{% if pdk_applied_release %}Template release: {{ pdk_applied_release }}{% endif %}{% if pdk_applied_release and pdk_repo_url %}<br>{% endif %}{% if pdk_repo_url %}Repo: <a href="{{ pdk_repo_url }}">{{ pdk_repo_url }}</a>{% endif %}</p>
 {% endif %}
