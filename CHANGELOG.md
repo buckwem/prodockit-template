@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.71 (2026-10-07)
+
+- Use collision-safe `pdk_` macros and cover variables with Prodockit 0.74.0 while retaining the existing reference-style setting.
+
 ## 0.0.70 (2026-09-24)
 
 - Cascade Prodockit 0.73.0 and qualified Zensical 0.0.64 for website and PDF builds.
