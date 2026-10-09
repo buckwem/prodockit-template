@@ -51,7 +51,7 @@ zensical==0.0.64
 # compact PDF table text inside its cells.
 # >=0.73.0 qualifies Zensical 0.0.64 and avoids Bootstrap downgrades.
 # >=0.74.0 provides collision-safe pdk_ website macros and cover variables.
-prodockit>=0.74.0
+prodockit>=0.74.3
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported version explicit even though
 # ProDockit also brings the package in transitively.
