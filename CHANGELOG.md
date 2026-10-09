@@ -9,6 +9,11 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.72 (2026-10-09)
+
+- Cascade Prodockit 0.74.3 and keep the supported toolchain metadata, documentation and CI cache namespace aligned.
+- Align the CSEE GitLab mirror with its moved project path and actual Pages URL, leaving its Pages job untagged for the subgroup runner.
+
 ## 0.0.71 (2026-10-07)
 
 - Use collision-safe `pdk_` macros and cover variables with Prodockit 0.74.0 while retaining the existing reference-style setting.
