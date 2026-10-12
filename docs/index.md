@@ -47,7 +47,7 @@ School of Computer Science and Electronic Engineering
 <p class="title-ctr-4"> MSc programmes in Computer Science</p>
 
 
-<p class="title-ctr-b4">module_id - module_name</p>
+<p class="title-ctr-b4">module_id - {{ config.site_name }}/p>
 
 <!--
 /*================== TITLE PAGE GITHUB OR OTHER GITLAB ==================*/
@@ -70,12 +70,9 @@ University of the World</p>
 <p class="title-ctr-4">
 Research programmes in Cyber Security</p>
 
-{% endif %}
-
-<!-- Outside the institution conditional so both cover variants use the same
-     configured title. Zensical renders it for the website and ProDockit's
-     cover preprocessing renders the same expression for the PDF. -->
 <p class="title-ctr-b4">{{ config.site_name }}</p>
+
+{% endif %}
 
 <br>
 <br>
