@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.73 (2026-10-13)
+
+- Show the configured site name once in the Surrey cover title and correct its paragraph markup in website and PDF output.
+
 ## 0.0.72 (2026-10-09)
 
 - Cascade Prodockit 0.74.3 and keep the supported toolchain metadata, documentation and CI cache namespace aligned.
