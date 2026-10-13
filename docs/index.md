@@ -47,7 +47,7 @@ School of Computer Science and Electronic Engineering
 <p class="title-ctr-4"> MSc programmes in Computer Science</p>
 
 
-<p class="title-ctr-b4">module_id - {{ config.site_name }}/p>
+<p class="title-ctr-b4">module_id - {{ config.site_name }}</p>
 
 <!--
 /*================== TITLE PAGE GITHUB OR OTHER GITLAB ==================*/
