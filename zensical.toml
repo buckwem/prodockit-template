@@ -87,6 +87,14 @@ nav = [
 # Read more: https://zensical.org/docs/customization/#additional-css
 #
 extra_css = [
+  # Zensical 0.0.64 loads this stylesheet dynamically, then removes it when
+  # instant navigation replaces the document head. GLightbox's JavaScript
+  # remains loaded, so its next gallery is appended unstyled below the footer.
+  # Registering the version-matched local stylesheet in every generated page
+  # keeps it through navigation until the lifecycle defect tracked in
+  # prodockit-extensions#1039 is fixed upstream. Keep it local because the PDF
+  # renderer resolves extra_css entries as project inputs.
+  "stylesheets/glightbox.min.css",
   "stylesheets/pdk.css",
   "stylesheets/template.css",
   "stylesheets/extra.css",
@@ -547,6 +555,9 @@ types = [
   { name = "table-caption", prefix = "{}.", classes = "prodockit-table-caption" },
 ]
 [project.markdown_extensions.zensical.extensions.glightbox]
+# Website and PDF variants can share an image source, but only the visible
+# website variant belongs in the interactive gallery.
+skip_classes = ["pdf-only"]
 
 
 [project.markdown_extensions.zensical.extensions.macros]
