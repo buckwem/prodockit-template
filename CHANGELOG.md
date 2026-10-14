@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.74 (2026-10-14)
+
+- Keep Lightbox styled after instant navigation and exclude PDF-only image variants from website galleries.
+
 ## 0.0.73 (2026-10-13)
 
 - Show the configured site name once in the Surrey cover title and correct its paragraph markup in website and PDF output.
