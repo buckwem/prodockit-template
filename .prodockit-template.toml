@@ -16,6 +16,8 @@ owns = [
   ".python-version",
   "docs/javascripts/pdk.js",
   "docs/javascripts/mathjax.js",
+  "docs/stylesheets/glightbox.LICENSE.md",
+  "docs/stylesheets/glightbox.min.css",
   "docs/stylesheets/pdk.css",
   "docs/stylesheets/pdk-pdf.css",
   "docs/stylesheets/template.css",
