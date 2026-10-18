@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.75 (2026-10-17)
+
+- Cascade Prodockit 0.74.4 for Windows PDF diagnostic decoding, preserving genuine renderer errors and the existing renderer pins.
+
 ## 0.0.74 (2026-10-14)
 
 - Keep Lightbox styled after instant navigation and exclude PDF-only image variants from website galleries.
