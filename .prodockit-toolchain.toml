@@ -3,7 +3,7 @@
 schema = 1
 
 [versions]
-zensical = "0.0.64"
+zensical = "0.0.73"
 weasyprint = "70.0"
 prodockit = "0.74.4"
 markdown = "3.10.3"
