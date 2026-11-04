@@ -87,7 +87,7 @@ nav = [
 # Read more: https://zensical.org/docs/customization/#additional-css
 #
 extra_css = [
-  # Zensical 0.0.64 loads this stylesheet dynamically, then removes it when
+  # Zensical loads this stylesheet dynamically, then removes it when
   # instant navigation replaces the document head. GLightbox's JavaScript
   # remains loaded, so its next gallery is appended unstyled below the footer.
   # Registering the version-matched local stylesheet in every generated page
