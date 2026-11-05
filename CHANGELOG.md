@@ -9,6 +9,11 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.76 (2026-11-05)
+
+- Pair Prodockit 0.76.0 with qualified Zensical 0.1.0 for website and PDF builds.
+- Align the supported-version guidance and GitLab PDF cache with the new toolchain.
+
 ## 0.0.75 (2026-10-17)
 
 - Cascade Prodockit 0.74.4 for Windows PDF diagnostic decoding, preserving genuine renderer errors and the existing renderer pins.
