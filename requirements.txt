@@ -54,7 +54,8 @@ zensical==0.1.0
 # >=0.74.4 handles Windows PDF diagnostic bytes without masking renderer failures.
 # >=0.75.0 qualifies Zensical 0.0.73 and requires Python 3.11 or newer.
 # >=0.76.0 qualifies Zensical 0.1.0 for website and PDF builds.
-prodockit>=0.76.0
+# >=0.78.0 provides the managed carousel styles, script, badges and finite navigation.
+prodockit>=0.78.0
 # PyMdown Extensions is a direct template build input: zensical.toml enables
 # its Markdown extensions. Keep the supported version explicit even though
 # ProDockit also brings the package in transitively.

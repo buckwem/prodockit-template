@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- Cascade Prodockit 0.78.0 and its managed carousel styles, script and finite navigation.
+
 ## 0.0.76 (2026-11-05)
 
 - Pair Prodockit 0.76.0 with qualified Zensical 0.1.0 for website and PDF builds.
