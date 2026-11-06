@@ -11,7 +11,7 @@ Newest first.
 
 ## Unreleased
 
-- Cascade Prodockit 0.77.0 and its managed carousel styles and script.
+- Cascade Prodockit 0.78.0 and its managed carousel styles, script and finite navigation.
 
 ## 0.0.76 (2026-11-05)
 
