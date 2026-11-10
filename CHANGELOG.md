@@ -9,7 +9,7 @@ from the template (issue #184).
 
 Newest first.
 
-## Unreleased
+## 0.0.78 (2026-11-10)
 
 - Upgrade to Prodockit 0.80.0 for image hotspots on the web and in PDFs, and improved page bibliography navigation.
 
