@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## Unreleased
+
+- Upgrade to Prodockit 0.80.0 for image hotspots on the web and in PDFs, and improved page bibliography navigation.
+
 ## 0.0.77 (2026-11-06)
 
 - Cascade Prodockit 0.78.0 and its managed carousel styles, script and finite navigation.
