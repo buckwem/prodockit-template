@@ -9,6 +9,10 @@ from the template (issue #184).
 
 Newest first.
 
+## 0.0.79 (2026-11-21)
+
+- Pair Prodockit 0.81.0 with Zensical 0.1.3 and include its optional festive website assets.
+
 ## 0.0.78 (2026-11-10)
 
 - Upgrade to Prodockit 0.80.0 for image hotspots on the web and in PDFs, and improved page bibliography navigation.
