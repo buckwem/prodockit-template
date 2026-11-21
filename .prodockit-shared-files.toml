@@ -13,5 +13,9 @@ source = "pdk.js"
 target = "docs/javascripts/pdk.js"
 
 [[files]]
+source = "pdk-sleigh.png"
+target = "docs/javascripts/pdk-sleigh.png"
+
+[[files]]
 source = "mathjax.js"
 target = "docs/javascripts/mathjax.js"
