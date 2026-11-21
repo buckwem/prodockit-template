@@ -15,6 +15,7 @@ owns = [
   ".prodockit-shared-files.toml",
   ".python-version",
   "docs/javascripts/pdk.js",
+  "docs/javascripts/pdk-sleigh.png",
   "docs/javascripts/mathjax.js",
   "docs/stylesheets/glightbox.LICENSE.md",
   "docs/stylesheets/glightbox.min.css",
